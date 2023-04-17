@@ -12,10 +12,15 @@
 	<!-- root-context.xml에서 bean으로 등록하면 스프링의 bean이 된다. -->
 	<!-- Hikari로 JDBC 설정 -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property> 
+			<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE"></property> -->
+		
+		<!-- mybatis sql 로그 처리가 가능하도록 수정한다.(preparedStatement의 ?인 바인딩 변수가 대입되는 로그 처리가 가능해진다.) -->
 		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver"></property>
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
-			value="jdbc:oracle:thin:@localhost:1521:XE"></property>
+			value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"></property>
+
 		<property name="username" value="scott"></property>
 		<property name="password" value="tiger"></property>
 	</bean>
@@ -30,10 +35,11 @@
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	
+
 	<!-- mybatis 사용시 별도로 scan을 해야한다. -->
-	<mybatis-spring:scan base-package="com.kook.ex00.mapper"/>
-	
+	<mybatis-spring:scan
+		base-package="com.kook.ex00.mapper" />
+
 	<context:component-scan
 		base-package="com.kook.ex00"></context:component-scan>
 </beans>

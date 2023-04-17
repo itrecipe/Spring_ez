@@ -1,1 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kook.ex00.mapper.TimeMapper">
+<!-- TimeMapper 인터페이스의 경로, root 태그는 mapper
+     interface의 추상메서드를 mybatis의(어노테이션) 문법으로 구현한다.
+-->
+	<!-- id는 추상메서드명, resultType은 추상메서드의 반환 타입이 된다. -->
+	<!-- 태그의 내용 부분에 SQL문을 작성한다. --> 
+	<select id="getTime2" resultType="string">
+		select sysdate from dual
+	</select>
+</mapper>
