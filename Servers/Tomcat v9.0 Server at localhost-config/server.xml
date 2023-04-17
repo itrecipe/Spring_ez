@@ -160,7 +160,7 @@
 	
 	
 	
-	<Context docBase="ex00" path="/ex00" reloadable="true" source="org.eclipse.jst.jee.server:ex00"/><Context docBase="firstSpring" path="/firstSP" reloadable="true" source="org.eclipse.jst.jee.server:firstSpring"/></Host>
+	<Context docBase="ex01" path="/ex01" reloadable="true" source="org.eclipse.jst.jee.server:ex01"/></Host>
     </Engine>
   </Service>
 </Server>
