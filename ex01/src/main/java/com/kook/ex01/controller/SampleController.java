@@ -1,20 +1,22 @@
 package com.kook.ex01.controller;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.apache.catalina.tribes.util.Arrays;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kook.ex01.domain.SampleDTO;
@@ -163,4 +165,50 @@ public class SampleController {
 		return "sample/model01";
 	}
 	//테스트 URL : http://localhost:8181/ex01/sample/model01
-}
+
+	//객체를 리턴타입으로 사용시 @ResponseBody와 함께 사용한다.
+	//jackson-databind가 반환시 객체를 json으로 반환
+	@GetMapping("/ex06")
+	public @ResponseBody SampleDTO ex06() {
+		log.info("/ex06.......");
+		
+		SampleDTO dto = new SampleDTO();
+		dto.setAge(10);
+		dto.setName("홍길동");
+		
+		return dto; //객체형 반환
+		//출력은 json문자열 형태인 {"name":"홍길동", "age":10}
+	}
+	
+	@GetMapping("/ex07")
+	public ResponseEntity<String> ex07() {
+		log.info("/ex07.......");
+		
+		//"{\"name\":\"홍길동\"}" json 문자열 형태
+		String msg = "{\"name\":\"홍길동\"}"; //이스케이프 시퀀스를 사용해서 내부에서 "사용
+		
+		HttpHeaders header = new HttpHeaders();
+		header.add("content-Type","application/json;charset=UTF-8");
+		
+		return new ResponseEntity<>(msg, header, HttpStatus.OK);
+		//파라미터는 (body, 헤더정보, 상태정보 
+	}
+	
+	@GetMapping("/exUpload")
+	public void exUpload() {
+		log.info("/exUpload.........");
+		//리턴이 void이므로 jsp는 sample/exUpload.jsp
+	}
+	
+	//클라이언트에서 post로 보낼시
+	@PostMapping("/exUploadPost")
+	public void exUploadPost(ArrayList<MultipartFile> files) {
+		//파라미터로 배열이나 collection 사용 가능
+		//파일 업로드시 MultipartFile로 처리한다.
+		files.forEach(file -> {
+			log.info("--------------------------------------");
+			log.info("name : " + file.getOriginalFilename()); //원래 파일명
+			log.info("size : " + file.getSize());
+		});
+	}
+} 
