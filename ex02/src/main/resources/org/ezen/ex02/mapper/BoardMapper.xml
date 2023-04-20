@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="org.ezen.ex02.mapper.BoardMapper">
+ <!-- namespace="org.ezen.ex02.mapper.BoardMapper"는 
+      메퍼 인터페이스의 주소를 가리킨다. 
+      namespace는 BoardMapper의 인터페이스 URL -->
+      
+<!-- resultType="org.ezen.ex02.domain.BoardVO"은 
+     반환 타입이 객체형일떄 사용한다. -->
+<select id="getList" resultType="org.ezen.ex02.domain.BoardVO">
+<!-- CDATA는 sql문 안에서 키워드나 부호 등...을 사용할 수 있도록 처리 해준다. -->
+	<![CDATA[select * from tbl_board where bno > 0 ]]>
+	
+</select>      
+ </mapper>
