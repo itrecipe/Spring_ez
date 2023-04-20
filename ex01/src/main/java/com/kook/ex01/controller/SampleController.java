@@ -191,7 +191,7 @@ public class SampleController {
 		header.add("content-Type","application/json;charset=UTF-8");
 		
 		return new ResponseEntity<>(msg, header, HttpStatus.OK);
-		//파라미터는 (body, 헤더정보, 상태정보 
+		//파라미터는 (body, 헤더정보, 상태정보
 	}
 	
 	@GetMapping("/exUpload")
