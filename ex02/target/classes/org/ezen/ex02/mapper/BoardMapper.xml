@@ -13,6 +13,50 @@
 <select id="getList" resultType="org.ezen.ex02.domain.BoardVO">
 <!-- CDATA는 sql문 안에서 키워드나 부호 등...을 사용할 수 있도록 처리 해준다. -->
 	<![CDATA[select * from tbl_board where bno > 0 ]]>
-	
-</select>      
- </mapper>
+</select>
+
+<!-- PreparedStatement를 사용하고 ? 바인딩 변수 대신 #{변수명}을 사용한다. 
+     parameterType은 기본형, 문자열, 객체형일시 생략 가능하다. 
+-->
+<insert id="insert">
+	insert into tbl_board (bno, title, content, writer)
+	values (seq_board.nextval, #{title}, #{content}, #{writer})
+</insert>
+
+<!-- PK인 bno값을 사전에 알 필요가 있는 경우
+	 selectKey 마이바티스 어노테이션(태그)를 사용하여 bno값을
+	 select하여 BoardVO의 bno 속성에 매핑 해준다.
+ -->
+<insert id="insertSelectKey">
+	<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+		select seq_board.nextval from dual
+	</selectKey>
+
+	insert into tbl_board (bno, title, content, writer)
+	values (#{bno}, #{title}, #{content}, #{writer})
+</insert> 
+
+<select id="read" resultType="org.ezen.ex02.domain.BoardVO">
+	select * from tbl_board where bno = #{bno}
+</select>
+
+<delete id="delete">
+	delete tbl_board where bno = #{bno}
+</delete>
+<!-- 
+	 bean클래스형인 객체는 parameterType 생략 가능하다.
+     파라미터로 전달되는 BoardVO의 멤버 변수를 바인딩
+     변수명으로 사용한다.
+     
+     update시 default값이 적용이 안되므로 updateDate도
+     변경 처리를 해준다.
+-->
+<update id="update">
+	update tbl_board 
+	set title = #{title},
+	content = #{content},
+	writer = #{writer},
+	updateDate = sysdate
+	where bno = #{bno}
+</update>
+</mapper>
