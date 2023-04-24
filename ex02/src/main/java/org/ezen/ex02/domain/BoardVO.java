@@ -12,6 +12,6 @@ public class BoardVO {
 	private String title; //varchar2형
 	private String content;
 	private String writer;
-	private Date regdate; //Date형
+	private Date regDate; //Date형
 	private Date updateDate;
 }
