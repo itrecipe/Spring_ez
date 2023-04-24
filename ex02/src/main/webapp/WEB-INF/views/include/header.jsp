@@ -31,7 +31,6 @@
 	<a class="navbar-brand" href="#">
 		<img src="../images/bird.jpg" alt="logo" style="width: 40px;">
 	</a>
-</nav>
 <!-- 콜랩스용 버튼 -->
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 	<span class="navbar-toggler-icon"></span>
@@ -48,6 +47,6 @@
 		</li>
 	</ul>
 </div>
-
+</nav>
 </body>
 </html>
