@@ -29,7 +29,7 @@
 
 <nav class="navbar navbar-expand-md bg-dark navbar-dark container">
 	<a class="navbar-brand" href="#">
-		<img src="../images/bird.jpg" alt="logo" style="width: 40px;">
+		<img src="../images/beach.png" alt="logo" style="width: 40px;">
 	</a>
 <!-- 콜랩스용 버튼 -->
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
