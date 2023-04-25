@@ -37,7 +37,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">게시물 등록</a>
+							<a class="nav-link" href="register">게시물 등록</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">리스트</a>
@@ -53,6 +53,11 @@
 		<div class="col-md-10">
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시판</h4>
+				
+				<div>
+					<button type="button" class="btn btn-primary float-right" id="regBtn">게시물 등록</button>
+				</div>
+				
 				<div class="table-responsive-md">
 					<table id="boardTable" class="table table-bordered table-hover">
 						<thead>
@@ -87,6 +92,38 @@
 	</div>
 </div>
 
+<%@ include file="../include/messageModal.jsp" %>
 <%@ include file="../include/footer.jsp" %>
+<script>
+$(document).ready(function(){
+	let result = '<c:out value="${result}"></c:out>';
+	//result는 redirect: 로 URL이동시 RedirectAttributes에 저장한 속성값
+	console.log("result : " + result);
+	checkModal(result);
+	
+	history.replaceState({}, null, null);
+	//모달창이 활성화 된 뒤에 현재 히스트로리 전부를 비운다.
+
+	$("#regBtn").on("click", function(){
+		self.location = "register";
+	});
+	
+	function checkModal(result) {
+		if(result == ""){
+			return;
+		}
+		if(parseInt(result) > 0) {
+			$(".modal-body #mbody").html("게시글 : " + parseInt(result) + "번이 등록 되었습니다");
+		}
+		else if(result == "success"){
+			$(".modal-body #mbody").html("게시글 수정/삭제 처리가 되었습니다.");
+		}
+		else{
+			return;
+		}
+		$("#messageModal").modal("show");
+	}
+});
+</script>
 </body>
 </html>

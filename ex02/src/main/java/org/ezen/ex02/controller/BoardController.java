@@ -34,7 +34,13 @@ public class BoardController {
 		//return type이 void이면 mapping의 url과 동일한 이름의 jsp(list.jsp)로 반환한다.
 	}
 	
-	@PostMapping("register")
+	@GetMapping("/register")
+	public void register() {
+		log.info("----registerForm");
+		//return은 register.jsp
+	}
+	
+	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 		log.info("register : " + board);
 		
@@ -43,12 +49,14 @@ public class BoardController {
 		rttr.addFlashAttribute("result", board.getBno());
 		//1회용 데이터 처리
 		
-		return "redirect:board/list";
+		return "redirect:list";
 		//sendRedirect()로 브라우저에서 전달하는 경로로 요청한다.
 		//return값이 redirect:나 jsp 페이지 이름일시 반환형을 String으로 줘야한다.7
 	}
 	
-	@GetMapping("/get")
+	//상세보기(조회)는 get으로 처리한다.
+	@GetMapping({"/get", "/modify"})
+	//요청의 파라미터도 동일하고, 리턴값도 동일하며, Model에 실어주는 데이터도 동일할때 배열 형태로 Mapping 해준다.
 	public void get(@RequestParam("bno") Long bno, Model model) {
 		log.info("get");
 		model.addAttribute("board", service.get(bno));
@@ -60,8 +68,8 @@ public class BoardController {
 		if (service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/board/list";
-		//return값이 redirect:나 jsp 페이지 이름일시 반환형을 String으로 줘야한다.7
+		return "redirect:list";
+		//return값이 redirect:나 jsp 페이지 이름일시 반환형을 String으로 줘야한다.
 	}
 	
 	@PostMapping("/remove")
@@ -70,6 +78,6 @@ public class BoardController {
 		if(service.remove(bno)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/board/list";
+		return "redirect:list";
 	}
 }
