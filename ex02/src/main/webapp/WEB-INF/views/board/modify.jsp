@@ -74,9 +74,9 @@
 						<input type="text" class="form-control" id="updateDate" name="updateDate"
 						 	value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${board.updateDate}" />' readonly/>
 					</div>
-					<button type="submit" data-oper="modify" class="btn btn-info">Modify</button>&nbsp;&nbsp;
-					<button type="submit" data-oper="remove" class="btn btn-danger">Remove</button>&nbsp;&nbsp;
-					<button type="submit" data-oper="list" class="btn btn-success">List</button>
+					<button type="submit" data-oper="modify" class="btn btn-info">수정</button>&nbsp;&nbsp;
+					<button type="submit" data-oper="remove" class="btn btn-danger">삭제</button>&nbsp;&nbsp;
+					<button type="submit" data-oper="list" class="btn btn-success">목록</button>
 				</form>
 			</div>
 		</div>
@@ -87,17 +87,18 @@
 <script>
 $(function(){
 	let formObj = ${"#mform"};
-	$("button").on("click", function(e){
+	
+	$("button").on("click", function(e) {
 		e.preventDefault(); //이벤트가 일어난 버튼의 기본 동작을 제거한다.
 		let operation = $(this).data("oper");
 		//data(data-의 뒷이름) 메서드는 속성이 html5에서 새롭게 추가된 data-속성값을 참조하여 값을 반환한다.
 		console.log("operation : " + operation);
-		if(operation == "remove"){
+		if(operation == "remove") {
 			formObj.attr("action", "remove");
 		}
-		else if(operation == "list"){
-			self.location = "list";
-			return;
+		else if(operation == "list") {
+			formObj.attr("action", "list").attr("method", "get");
+			formObj.empty(); //formObj의 자식 엘리먼트를 모두 제거한다.
 		}
 		formObj.submit();
 	});

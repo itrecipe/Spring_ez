@@ -3,6 +3,7 @@ package org.ezen.ex02.service;
 import java.util.List;
 
 import org.ezen.ex02.domain.BoardVO;
+import org.ezen.ex02.domain.Criteria;
 
 //비즈니스 계층의 인터페이스 (서비스용)
 public interface BoardService {
@@ -15,5 +16,7 @@ public interface BoardService {
 
 	public boolean remove(Long bno); //Delete
 	
-	public List<BoardVO> getList(); //목록 Select
+	//public List<BoardVO> getList(); //목록 Select
+	
+	public List<BoardVO> getList(Criteria cri);
 }

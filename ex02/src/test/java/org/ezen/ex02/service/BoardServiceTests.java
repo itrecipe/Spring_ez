@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import org.ezen.ex02.domain.BoardVO;
+import org.ezen.ex02.domain.Criteria;
 import org.ezen.ex02.mapper.BoardMapperTests;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,7 @@ public class BoardServiceTests {
 
 	@Setter(onMethod_= {@Autowired})
 	private BoardService service; //느슨한 결합을 위해 인터페이스로 주입한다.
+	
 	/*
 	@Test
 	public void testExist() {
@@ -47,14 +49,13 @@ public class BoardServiceTests {
 	}
 	*/
 
-	/*
 	@Test
 	//BoardService의 public List<BoardVO> getList() 메서드 테스트
 	public void testGetList() {
 
-		service.getList().forEach(board -> log.info(board));
+		//service.getList().forEach(board -> log.info(board));
+		service.getList(new Criteria(2, 10)).forEach(board -> log.info(board + "입니다."));
 	}
-	*/
 	
 	/*
 	@Test
@@ -81,6 +82,7 @@ public class BoardServiceTests {
 	}
 	*/
 	
+	/*
 	@Test
 	//remove메서드 테스트
 	public void testDelete() {
@@ -88,4 +90,7 @@ public class BoardServiceTests {
 		//게시물 번호의 존재 여부를 확인 후 테스트 진행할것
 		log.info("REMOVE RESULT : " + service.remove(2L));
 	}
+	*/
+	
+	
 }

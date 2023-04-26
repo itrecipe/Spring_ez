@@ -69,8 +69,14 @@
 						<input type="text" class="form-control" id="writer" name="writer" readonly value='<c:out value="${board.writer}"/>'/>
 					</div>
 				</form>
-				<button type="button" data-oper="modify" class="btn btn-info">수정</button>&nbsp;&nbsp;
-				<button data-oper="list" class="btn btn-danger" onclick="location.href='list'">게시판 목록</button>				
+				<button type="button" data-oper="modify" class="btn btn-info">수정</button>
+				&nbsp;&nbsp;
+				<button data-oper="list" class="btn btn-danger">게시판 목록</button>
+				<!-- 버튼 클릭을 처리하기 위한 form, 보이지 않는 창 -->
+				<form id='operForm' action="modify" method="get">
+					<input type='hidden' id='bno' name='bno'
+						value='<c:out value="${board.bno}"/>'>
+				</form>				
 			</div>
 		</div>
 	</div>
@@ -79,9 +85,17 @@
 <%@ include file="../include/footer.jsp" %>
 
 <script>
-$(document).ready(function(){
-	$("button[data-oper='modify']").on("click", function(e){
-		location.href='modify?bno=<c:out value="${board.bno}"/>';
+$(document).ready(function() {
+	let operForm = $('#operForm');
+	$("button[data-oper='modify']").on("click", function(e) {
+		//location.href='modify?bn0o=<c:out value="${board.bno}"/>';
+		operForm.attr("action", "modify").submit();
+	});
+	$("button[data-oper='list']").on("click", function(e) {
+		operForm.find('#bno').remove();
+		//id가 bno인 DOM 객체를 찾아서 제거한다.
+		operForm.attr("action", "list").submit();
+		operForm.submit();
 	});
 });
 </script>

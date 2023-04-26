@@ -42,7 +42,8 @@ public class BoardControllerTests {
 				 .getModelMap());
 				//웹 클라이언트 없이 서버상에서 get방식으로 요청을 테스트한다.
 	}
-	
+	*/
+	/*
 	@Test
 	public void testRegister() throws Exception {
 		String resultPage = mockMvc
@@ -54,6 +55,8 @@ public class BoardControllerTests {
 		
 		log.info(resultPage);
 	}
+	*/
+	/*
 	//조회
 	@Test
 	  public void testGet() throws Exception {
@@ -63,8 +66,9 @@ public class BoardControllerTests {
 	        .andReturn()
 	        .getModelAndView().getModelMap());
 	  }
-	
-	  @Test
+	*/
+	/*
+	@Test
 	  public void testModify() throws Exception {
 	    String resultPage = mockMvc
 	        .perform(MockMvcRequestBuilders.post("/board/modify")
@@ -77,7 +81,7 @@ public class BoardControllerTests {
 	    log.info(resultPage);
 	  }
 	 */
-	  
+	  /*
 	  @Test
 	  public void testRemove()throws Exception {
 	    //삭제전 데이터베이스에 게시물 번호 확인할 것 
@@ -88,4 +92,14 @@ public class BoardControllerTests {
 	    
 	    log.info(resultPage);    
 	  }
+	  */
+	
+	@Test
+	public void testListPaging() throws Exception {
+		log.info(mockMvc.perform(
+				MockMvcRequestBuilders.get("/board/list")
+				.param("pageNum", "2")
+				.param("amount", "10"))
+				.andReturn().getModelAndView().getModelMap());
+	}
 }

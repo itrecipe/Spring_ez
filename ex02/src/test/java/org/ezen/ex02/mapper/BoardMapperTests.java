@@ -1,6 +1,9 @@
 package org.ezen.ex02.mapper;
 
+import java.util.List;
+
 import org.ezen.ex02.domain.BoardVO;
+import org.ezen.ex02.domain.Criteria;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +30,9 @@ public class BoardMapperTests {
 		  //mapper는 추상메서드(interface) 객체로서 참조 변수로 인터페이스를 구현을 안한다. 
 		  //(즉, spring 또는 mybatis가 대신 자동으로 처리한다.)
 		  //List<BoardVO)로 반환
-		
 	}
-	
+	*/
+	/*
 	@Test
 	//BoardMapper 인터페이스의 insert(BoardVO vo)테스트
 	public void testInsert() {
@@ -43,7 +46,8 @@ public class BoardMapperTests {
 		
 		log.info(board);
 	}
-	
+	*/
+	/*
 	@Test
 	//BoardMapper 인터페이스의 InsertSelectKey(BoardVO vo) 테스트
 	public void testInsertSelectKey() {
@@ -57,7 +61,7 @@ public class BoardMapperTests {
 		log.info(board);
 	}
 	*/
-/*
+	/*
 	@Test
 	//BoardMapper 인터페이스의 public BoardVO Read(Long bno) 테스트
 	public void testRead() {
@@ -67,7 +71,7 @@ public class BoardMapperTests {
 		
 		log.info(board);
 	}
-*/	
+	 */	
 	/*
 	@Test
 	//BoardMapper 인터페이스의 public int delete(Long bno) 테스트
@@ -77,6 +81,7 @@ public class BoardMapperTests {
 	}
 	*/
 
+	/*
 	@Test
 	//BoardMapper 인터페이스의 public int update(BoardVO board) 테스트
 	public void testUpdate() {
@@ -92,5 +97,21 @@ public class BoardMapperTests {
 		int count = mapper.update(board);
 		
 		log.info("UPDATE COUNT : " + count);
+	}
+	*/
+	
+	@Test
+	public void testPaging() {
+		Criteria cri = new Criteria();
+		
+		//10개씩 3페이지
+		cri.setPageNum(3);
+		cri.setAmount(10);
+		
+		List<BoardVO> list = mapper.getListwithPaging(cri);
+		
+		list.forEach(board -> log.info(board));
+		
+		System.out.println("boardPage : " + list);
 	}
 }

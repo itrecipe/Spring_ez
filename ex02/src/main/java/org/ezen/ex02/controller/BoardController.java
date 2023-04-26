@@ -1,6 +1,8 @@
 package org.ezen.ex02.controller;
 
 import org.ezen.ex02.domain.BoardVO;
+import org.ezen.ex02.domain.Criteria;
+import org.ezen.ex02.domain.PageDTO;
 import org.ezen.ex02.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,7 @@ import lombok.extern.log4j.Log4j;
 @Controller //컨트롤러 클래스로 스프링 bean으로 등록한다. 
 //컨트롤러는 꼭 컨터롤러 어노테이션을 추가하여 알릴것
 @Log4j //로그를 찍기 위한 어노테이션
-@RequestMapping("/board") 
+@RequestMapping("/board")
 //요청 경로를 처리하기 위한 어노테이션
 //요청을 해당 메서드로 연결하나, 클래스에 지정시 공통 경로가 된다.
 @AllArgsConstructor
@@ -27,11 +29,21 @@ public class BoardController {
 	//서버스의 메서드를 사용하기 위해 주입받기 위한 멤버변수
 	//멤버변수가 하나인 생성자가 존재시 자동 주입되어 @Autowired생략(스프링 4.3부터)
 	
+	/*
 	@GetMapping("/list")
 	public void list(Model model) {
 		log.info("list");
 		model.addAttribute("list", service.getList());
 		//return type이 void이면 mapping의 url과 동일한 이름의 jsp(list.jsp)로 반환한다.
+	}
+	*/
+	
+	@GetMapping("/list")
+	public void list(Criteria cri, Model model) {
+		//cri를 자동 수집 하므로 cri가 없을시 기본형 생성자가 설정하는 값으로 수집한다.
+		log.info("list : " + cri);
+		model.addAttribute("list", service.getList(cri));
+		model.addAttribute("pageMaker", new PageDTO(cri, 123));
 	}
 	
 	@GetMapping("/register")
