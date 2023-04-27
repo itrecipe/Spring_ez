@@ -66,16 +66,27 @@
 					</div>
 					<div class="form-group">
 						<label for="writer">작성자 : </label>
-						<input type="text" class="form-control" id="writer" name="writer" readonly value='<c:out value="${board.writer}"/>'/>
+						<input type="text" class="form-control" id="writer" name="writer" 
+							readonly value='<c:out value="${board.writer}"/>'/>
 					</div>
 				</form>
-				<button type="button" data-oper="modify" class="btn btn-info">수정</button>
+				<button type="button" data-oper='modify' class="btn btn-info">수정</button>
 				&nbsp;&nbsp;
-				<button data-oper="list" class="btn btn-danger">게시판 목록</button>
+				<button data-oper='list' class="btn btn-danger">게시판 목록</button>
 				<!-- 버튼 클릭을 처리하기 위한 form, 보이지 않는 창 -->
 				<form id='operForm' action="modify" method="get">
+				
 					<input type='hidden' id='bno' name='bno'
 						value='<c:out value="${board.bno}"/>'>
+				<!-- 페이지 정보 추가 -->	
+					<input 
+					type='hidden' name='pageNum' 
+					value='<c:out value="${cri.pageNum}"/>'>
+
+					<input 
+					type='hidden' name='amount' 
+					value='<c:out value="${cri.amount}"/>'>
+
 				</form>				
 			</div>
 		</div>

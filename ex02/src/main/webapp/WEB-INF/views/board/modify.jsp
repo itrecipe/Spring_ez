@@ -46,23 +46,26 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시글 수정</h4>
 				<form id="mform" name="mform" action="modify" method="post">
+					<!-- 페이지 관련 정보 추가 -->
+					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+					<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
 					<div class="form-group">
 						<label for="bno">번호 : </label>
 						<input type="text" class="form-control" id="bno" name="bno" readonly value='<c:out value="${board.bno}"/>'/>
 					</div>
 					<div class="form-group">
 						<label for="title">제목 : </label>
-						<input type="text" class="form-control" id="title" name="title" value='<c:out value="${board.title}"/>'/>
+						<input type="text" class="form-control" id="title" name="title" required="required" value='<c:out value="${board.title}"/>'/>
 					</div>
 					<div class="form-group">
 						<label for="content">내용 : </label>
-						<textarea class="form-control" id="content" name="content" rows="10">
+						<textarea class="form-control" id="content" name="content" rows="10" required="required">
 							<c:out value="${board.content}"/>
 						</textarea>
 					</div>
 					<div class="form-group">
 						<label for="writer">작성자 : </label>
-						<input type="text" class="form-control" id="writer" name="writer" value='<c:out value="${board.writer}"/>'/>
+						<input type="text" class="form-control" id="writer" name="writer" required="required" value='<c:out value="${board.writer}"/>'/>
 					</div>
 					<div class="form-group">
 						<label for="regDate">게시일 : </label>
@@ -86,7 +89,7 @@
 
 <script>
 $(function(){
-	let formObj = ${"#mform"};
+	let formObj = $("#mform");
 	
 	$("button").on("click", function(e) {
 		e.preventDefault(); //이벤트가 일어난 버튼의 기본 동작을 제거한다.
@@ -98,7 +101,12 @@ $(function(){
 		}
 		else if(operation == "list") {
 			formObj.attr("action", "list").attr("method", "get");
+			let pageNumTag = $("input[name='pageNum']").clone(); //복사 해둔다.
+			let amountTag = $("input[name='amount']").clone(); //복사 해둔다.
 			formObj.empty(); //formObj의 자식 엘리먼트를 모두 제거한다.
+			//복사해둔 페이지 관련 정보를 다시 추가한다.		
+			formObj.append(pageNumTag); //자식으로 붙여쓰기 한다.
+			formObj.append(amountTag);
 		}
 		formObj.submit();
 	});

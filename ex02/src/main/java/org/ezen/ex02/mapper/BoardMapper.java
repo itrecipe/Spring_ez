@@ -28,4 +28,7 @@ public interface BoardMapper {
 	
 	//클라이언트에서 수정한 내용을 BoardVO로 수집해서 파라미터로 사용한다.
 	public int update(BoardVO board);
+	
+	//게시글의 총 갯수를 반환한다.
+	public int getTotalCount(Criteria cri);
 }
