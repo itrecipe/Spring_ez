@@ -118,8 +118,13 @@ public class BoardController {
 		if(service.modify(board)) {
 			rttr.addFlashAttribute("result", "success");
 		}
+	
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		
+		//list로 검색조건을 넘겨준다.
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		
 		return "redirect:list";
 	}
@@ -137,16 +142,25 @@ public class BoardController {
 	
 	//페이지 정보를 고려하고 만든 경우 (삭제기능)
 	@PostMapping("/remove")
-	public String modify(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+	public String remove(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		
 		log.info("remove... : " + bno);
 		
 		if(service.remove(bno)) {
 			rttr.addFlashAttribute("result", "success");
 		}
+		/*
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		
-		return "redirect:list";
+		//list로 검색조건을 넘겨준다.
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+		*/
+		
+		System.out.println("쿼리 스트링 : " + cri.getListLink());
+		return "redirect:list" + cri.getListLink(); 
+		//query문자열 이므로 ?을 붙일 필요가 없고, 한줄로 보내자는 의미인다.
+		//위 코드처럼 처리 해주면 한글깨짐 현상을 염려할 필요가 없다.
 	}
 }

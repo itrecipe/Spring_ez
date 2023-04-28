@@ -86,6 +86,9 @@
 					<input 
 					type='hidden' name='amount' 
 					value='<c:out value="${cri.amount}"/>'>
+					<!-- 검색 기능 적용 및 추가 -->
+					<input type="hidden" name="keyword" value='<c:out value="${cri.keyword}"/>'>
+					<input type="hidden" name="type" value='<c:out value="${cri.type}"/>'>
 
 				</form>				
 			</div>

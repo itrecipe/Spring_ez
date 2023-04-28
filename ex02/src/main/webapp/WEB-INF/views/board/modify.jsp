@@ -49,6 +49,9 @@
 					<!-- 페이지 관련 정보 추가 -->
 					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 					<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+					<!-- 검색 기능 적용 -->
+					<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>
+					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
 					<div class="form-group">
 						<label for="bno">번호 : </label>
 						<input type="text" class="form-control" id="bno" name="bno" readonly value='<c:out value="${board.bno}"/>'/>
@@ -101,12 +104,19 @@ $(function(){
 		}
 		else if(operation == "list") {
 			formObj.attr("action", "list").attr("method", "get");
+			//페이지 정보
 			let pageNumTag = $("input[name='pageNum']").clone(); //복사 해둔다.
-			let amountTag = $("input[name='amount']").clone(); //복사 해둔다.
-			formObj.empty(); //formObj의 자식 엘리먼트를 모두 제거한다.
+			let amountTag = $("input[name='amount']").clone(); 
+			//검색 정보
+			let keywordTag = $("input[name='keyword']").clone(); 
+			let typeTag = $("input[name='type']").clone();
+			
+			formObj.empty(); //formObj의 자식 엘리먼트를 모두 제거한다. (4개 포함 게시판 컬럼)
 			//복사해둔 페이지 관련 정보를 다시 추가한다.		
 			formObj.append(pageNumTag); //자식으로 붙여쓰기 한다.
 			formObj.append(amountTag);
+			formObj.append(keywordTag);
+			formObj.append(typeTag);
 		}
 		formObj.submit();
 	});
