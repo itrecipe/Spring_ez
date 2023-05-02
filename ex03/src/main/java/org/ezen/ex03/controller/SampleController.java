@@ -35,21 +35,22 @@ public class SampleController {
 		return "안녕?";
 	}
 	
-	@GetMapping(value = "/getSample",
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE,
+	@GetMapping(value = "/getSample", 
+			produces = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE })
-	//SampleVO 객체를 반환시 json이나 xml로 반환(기본은 xml)
+	//produces속성은 생략해도 됨
+	//SampleVO객체를 반환시에 json이나 xml로 번환(기본은 xml)
 	public SampleVO getSample() {
-		
+
 		return new SampleVO(112, "스타", "로드");
+
 	}
 	
-	@GetMapping(value = "/getSample2")
-	//produces 속성은 생략가능
+	@GetMapping(value = "/getSample2",produces = {MediaType.APPLICATION_JSON_VALUE})
+	//5.3.26버젼에서는 .json은 동작 안하므로 produces로 조정
 	public SampleVO getSample2() {
-	
-		return new SampleVO(112, "로켓", "라쿤");
-	}
+		return new SampleVO(113, "로켓", "라쿤");
+	}	
 	
 	@GetMapping(value = "/getList")
 	//JSON 배열 형태로 반환
