@@ -89,22 +89,78 @@
 					<!-- 검색 기능 적용 및 추가 -->
 					<input type="hidden" name="keyword" value='<c:out value="${cri.keyword}"/>'>
 					<input type="hidden" name="type" value='<c:out value="${cri.type}"/>'>
-
 				</form>				
 			</div>
 		</div>
 	</div>
 </div>
 
+<!-- 댓글 처리 창 -->
+
 <%@ include file="../include/footer.jsp" %>
+
+<%-- 외부 js파일 import --%>
+<script src="../js/reply.js"></script>
+
+<%-- 테스트용 script --%>
+<!-- 테스트 종료 후 주석 처리 --> 
+<script>
+	console.log("JS TEST");
+	console.log(replyService);
+	
+	let bnoValue = '<c:out value="${board.bno}"/>'
+	
+	replyService.add(    
+		{reply:"JS Test", replyer:"tester", bno:bnoValue},
+			function(result){ 
+			   alert("JS_TEST_RESULT: " + result);
+			}
+		);
+	
+	replyService.getList({bno:bnoValue, page:1}, function(list){
+		//list는 getList에서 받는 성공시 데이터
+		for(let i=0, len = list.length||0; i < len; i++){
+			console.log(list[i]);
+		}
+	});
+	
+	replyService.remove(23, function(count){ //count는 성공시 서버에서 오는 데이터, 콜백 구현은 여기서 한다. 
+		
+			console.log(count);
+		
+			if(count === "success") {
+				alert("REMOVED!");
+			}
+		}, function(err) {
+			alert('REMOVE_ERROR...');
+	});
+		
+		replyService.update({
+			rno : 11,
+			bno : bnoValue,
+			reply : "Modified Reply..."
+		
+		}, 
+		function(result) {
+			alert("UPDATE_SUCCESS!");
+	});
+	
+	 replyService.get(10, function(data){
+		    console.log(data);
+		    alert("LIST_SELECT_SUCCESS!");
+	});
+	
+</script>
 
 <script>
 $(document).ready(function() {
 	let operForm = $('#operForm');
+	
 	$("button[data-oper='modify']").on("click", function(e) {
 		//location.href='modify?bn0o=<c:out value="${board.bno}"/>';
 		operForm.attr("action", "modify").submit();
 	});
+	
 	$("button[data-oper='list']").on("click", function(e) {
 		operForm.find('#bno').remove();
 		//id가 bno인 DOM 객체를 찾아서 제거한다.

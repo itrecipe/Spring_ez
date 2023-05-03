@@ -80,6 +80,7 @@ public class ReplyController {
 	
 	@RequestMapping(method = {RequestMethod.PUT,RequestMethod.PATCH }, value = "/{rno}",
 			consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+	//rno값과 json으로 된 ReplyVO멤버변수 값이 옴 
 	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
 		
 		vo.setRno(rno);
