@@ -25,8 +25,10 @@
  		<!-- update시 default가 적용 안되므로 수정 일자 적용 -->
  	</update>
  	
- 	<!--  
- 	<select id="getListWithPaging" resultType="ore.ezen.ex02.domain.ReplyVO">
+ 	<!-- 댓글에 페이지 적용하기 -->
+ 	 	
+ 	<select id="getListWithPaging" resultType="org.ezen.ex02.domain.ReplyVO">
+ 		
  		<![CDATA[
  			select rno, bno, reply, replyer, replydate, updatedate
  			from
@@ -35,13 +37,17 @@
  				from tbl_reply
  				where bno = #{bno}
  				and rno > 0
- 				and rewnum <= ${cri.pageNum} * ${cri.amount}
- 				)
- 				where rn > (#{cri.pageNum} -1) * ${cri.amount}
+ 				and rownum <= ${cri.pageNum} * ${cri.amount}
+ 				) where rn > (#{cri.pageNum} -1) * ${cri.amount}
  		]]>
+ 	
  	</select>
- 	 -->
  	 
+ 	 
+ 	 
+ 	 
+ 	 <!-- 게시글 하나의 대한 여러 댓글 -->
+ 	 <!-- 댓글에 페이지 적용을 안하고 작성한 경우  
  	 <select id="getListWithPaging"
  	 	resultType="org.ezen.ex02.domain.ReplyVO">
  	 	
@@ -49,7 +55,6 @@
  	 	from tbl_reply
  	 	where bno = #{bno}
  	 	order by rno asc
- 	 	<!-- 게시글 하나의 대한 여러 댓글 -->
  	 </select>
- 	 
+	--> 	  
 </mapper>

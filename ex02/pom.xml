@@ -244,6 +244,15 @@
 		    <version>2.9.0</version>
 		</dependency>
 		
+		<!-- AOP -->
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjweaver</artifactId>
+		    <version>${org.aspectj-version}</version>
+		    <scope>runtime</scope>
+		</dependency>
+		
 	</dependencies>
     <build>
         <plugins>

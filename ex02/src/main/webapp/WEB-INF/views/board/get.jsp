@@ -89,13 +89,31 @@
 					<!-- 검색 기능 적용 및 추가 -->
 					<input type="hidden" name="keyword" value='<c:out value="${cri.keyword}"/>'>
 					<input type="hidden" name="type" value='<c:out value="${cri.type}"/>'>
-				</form>				
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- 댓글 처리 창 -->
+				</form>			
+				<!-- 댓글 처리 창 -->
+				<div class="row mt-4">
+					<div class="col-md-12 clearfix">
+						<i class="fas fa-reply fa-2x"></i> Reply
+						<button id="addReplyBtn" class="btn btn-outline-primary float-right">
+							New Reply
+						</button>
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-md-12">
+					<ul class="char list-group">
+						<li class='list-group-item clearfix' data-rno="12">
+							<strong class="text-primary">user00</strong>
+							<small class="float-right text-mute">2023-05-03</small>						
+							<p>댓글 내용!</p>
+						</li>
+					</ul>
+					</div>
+				</div>
+			</div> <!-- submain -->
+		</div> <!-- 우측 col-md-10 -->
+	</div> <!-- row -->
+</div> <!-- mainContent -->
 
 <%@ include file="../include/footer.jsp" %>
 
@@ -104,6 +122,7 @@
 
 <%-- 테스트용 script --%>
 <!-- 테스트 종료 후 주석 처리 --> 
+<!--  
 <script>
 	console.log("JS TEST");
 	console.log(replyService);
@@ -151,13 +170,142 @@
 	});
 	
 </script>
+-->
 
+<!-- 댓글 처리, spript 엘리먼트는 필요한 위치에서 여러개 사용해도 무방하다. -->
+<script>
+	$(document).ready(function(){
+		let bnoValue = '<c:out value="${board.bno}"/>';
+		let replyUL = $(".chat");
+		
+		showList(1);
+		
+		function showList(page) {
+			console.log("show list " + page);
+			replyService.getList({bno:bnoValue, page: page || 1},
+					function(list){ //list는 서버에서 ArrayList(배열형태, 요소는 reply객체의 JSON 배열);
+				//자바스크립트에서는 JS객체 처럼 사용
+				var str="";
+				
+				if(list == null || list.length == 0) {
+					replyUL.html("");
+					return;
+				}
+				
+				for(let i=0, len = list.length || 0; i < len; i++) {
+					str += "<li class='list-group-item clearfix' data-rno='" + list[i].rno + "'>";
+					str += "<strong class='text-primary'>" + list[i].replyer + "</strong>";
+					//str += "<small class='float-right text-mute'>" + list[i].replyDate + "</small>";
+					str += "<small class='float-right text-muted'>" + replyService.displayTime(list[i].replyDate) + "</small>";
+					str += "<p>" + list[i].reply + "</p>";
+					str += "</li>";
+				}
+
+				//자바에서 Date객체는 ajax로 클라이언트에서 처리할시 posix로 처리한다.
+				replyUL.html(str);
+			});
+		}
+		
+		let modal = $("#myReplyModal");
+		let modalInputReply = modal.find("input[name='reply']"); //find는 후손중에서 선택한다.
+		let modalInputReplyer = modal.find("input[name='replyer']");
+		let modalInputReplyDate = modal.find("input[name='replyDate']");
+		
+		let modalModBtn = $("#modalModBtn");
+		let modalRemoveBtn = $("#modalModRemoveBtn");
+		let modalRegisterBtn = $("#modalRegisterBtn");
+		
+		$("#addReplyBtn").on("click", function(e){
+			
+			modal.find("input").val(""); //input 값 초기화
+			modalInputReplyDate.closert("div").hide(); //날짜 입력 DOM은 감춘다.
+			modal.find("button[id] != 'modalCloseBtn'}").hide();
+			
+			modalRegisterBtn.show(); //등록버튼 다시 보이게
+			
+			$(".modal").modal("show");
+		});
+
+		//댓글 등록 이벤트
+	   modalRegisterBtn.on("click",function(e){
+	      
+	      var reply = {
+	            reply: modalInputReply.val(),
+	            replyer:modalInputReplyer.val(),
+	            bno:bnoValue
+	          };
+	      replyService.add(reply, function(result){
+	        
+	        alert(result);
+	        
+	        modal.find("input").val("");
+	        modal.modal("hide");
+	        
+	        showList(1); //등록 후 댓글 목록 보이게 한다.
+	        //showList(-1);
+        
+      });
+    });
+	
+	//댓글 조회 이벤트
+	$(".chat").on("click", "li", function(e){ //li는 .chat의 자식(후손)
+	
+		let rno =$(this).data("rno"); 
+		//이벤트가 일어난 li는 this
+		//data(data-의 값)은 data-값으로 되어있는 DOM을 선택한다.
+		
+		replyService.get(rno, function(reply){
+		//reply는 서버에서 받은 ReplyVO의 JSON인데 바로 JS의 객체로 처리한다.
+			modalInputReply.val(reply.reply);
+			modalInputReplyer.val(reply.replyer);
+			modalInputReplyDate.val(replyService.displayTime( reply.replyDate))
+			.attr("readonly", "readonly");
+			modal.data("rno", reply.rno);
+			//data-rno속성을 reply.rno로 추가한다.
+			
+			modal.find("button[id != 'modalCloseBtn']").hide();
+			modalModBtn.show();
+			modalRemoveBtn.show();
+			
+			$(".modal").modal("show");
+		});
+	});
+	
+	//댓글 수정 이벤트
+	modalModBtn.on("click", function(e){
+		var reply = {rno:madal.data("rno"), reply: modalInputReply.val()};
+		
+		replyService.update(reply, function(Result){
+			
+			alert(result);
+			modal.modal("hide");
+			showList(1);
+		});
+	});
+	
+	//댓글 삭제 이벤트
+	modalRemovalBtn.on("click", function(e){
+		
+		var rno = modal.data("rno");
+		
+		replyService.remove(rno, function(result){
+			
+			alert(result);
+			modal.modal("hide");
+			showList(1);
+		});
+	});
+	
+	
+</script>
+
+<!-- 게시판 상세보기 창에서 이벤트 처리하기 -->
 <script>
 $(document).ready(function() {
 	let operForm = $('#operForm');
 	
 	$("button[data-oper='modify']").on("click", function(e) {
-		//location.href='modify?bn0o=<c:out value="${board.bno}"/>';
+		//location.href='modify?bno=<c:out value="${board.bno}"/>';
 		operForm.attr("action", "modify").submit();
 	});
 	

@@ -61,20 +61,20 @@ let replyService = (function(){
   
 	function remove(rno, callback, error) {
 		$.ajax({
-			type : 'delete', //REST방식
-			url : '../replies/' + rno,
+			type : 'delete',
+			url : '/replies/' + rno,
 			success : function(deleteResult, status, xhr) {
 				if (callback) {
 					callback(deleteResult);
 				}
 			},
 			error : function(xhr, status, er) {
-				if(error) {
+				if (error) {
 					error(er);
-  				}
-  			}
-  		});
-  	}
+				}
+			}
+		});
+	}
   	
   	function update(reply, callback, error) {
   	
@@ -99,8 +99,8 @@ let replyService = (function(){
   	}
 	
 	function get(rno, callback, error) {
- 
-    $.get("../replies/" + rno + ".json", function(result) {
+ 	alert("test");
+    $.get("../replies/" + rno, function(result) {
  
       if (callback) {
         callback(result);
@@ -112,12 +112,48 @@ let replyService = (function(){
       }
     });
   }
+  
+ 	function displayTime(timeValue) {
+ 	 //서버에서 오는 Date객체 값은 posix타임
+ 	 var today = new Date();
+ 	 
+ 	 //자바스크립트의 Date객체를 posix타임으로 변환하는 메서드 getTime()
+ 	 var gap = today.getTime() - timeValue;
+ 	 
+ 	 var dataObj = new Date(timeValue); //posix타임을 이용하여 지정된 Date 객체로 변환
+ 	 var str = "";
+ 	 
+ 	 if(gap < (1000 * 60 * 60 * 23)) {
+ 	 	 //gap이 하루 이하면 시간까지 표시
+	 	 var hh = dateObj.getHours();
+	 	 var mi = dateObj.getMinutes();
+	 	 var ss = dateObj.getSeconds();
+	 	 
+	 	 //두 자리로 시간 표시
+	 	 return [ (hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi,
+	 	 		':', (ss > 9 ? '' : '0') + ss ].join(''); 
+	 	 		//배열 요소를 문자열로 변환(문자열에 공백 없이 처리)
+	 	 		//join()은 문자열에 ,로 구분 처리 09:33:27
+ 	
+	 	} else {
+	 		var yy = dateObj.getFullYear();
+	 		var mm = dateObj.getMonth() + 1; //getMonth() is zero-based(0~11)
+	 		var dd = dateObj.getDate();
+	 		
+	 		return [yy, '/', (mm > 9 ? '' : '0' ) + mm, '/',
+	 				(dd > 9 ? '' : '0') + dd ].join('');
+	 				//2023/03/05
+		}
+	};
 	
 	return {
 		add : add,
 		getList : getList,
 		remove : remove,
 		update : update,
-		get : get
+		get : get,
+		displayTime : displayTime
+		
 	};
+	
 })();
