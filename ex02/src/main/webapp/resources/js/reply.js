@@ -46,7 +46,7 @@ let replyService = (function(){
     var bno = param.bno;
     var page = param.page || 1; //1은 default값으로 값이 없을시 1로 설정한다.
  
-    $.getJSON("../replies/pages/" + bno + "/" + page + ".json", //요청경로
+    $.getJSON("../replies/pages/" + bno + "/" + page, //요청경로
         function(data) { //data는 성공시 얻는 데이터(JSON(문자열)), callback함수
           if (callback) {
             callback(data);
@@ -62,7 +62,7 @@ let replyService = (function(){
 	function remove(rno, callback, error) {
 		$.ajax({
 			type : 'delete',
-			url : '/replies/' + rno,
+			url : '../replies/' + rno,
 			success : function(deleteResult, status, xhr) {
 				if (callback) {
 					callback(deleteResult);
@@ -99,7 +99,7 @@ let replyService = (function(){
   	}
 	
 	function get(rno, callback, error) {
- 	alert("test");
+ 		alert("test");
     $.get("../replies/" + rno, function(result) {
  
       if (callback) {
@@ -114,7 +114,7 @@ let replyService = (function(){
   }
   
  	function displayTime(timeValue) {
- 	 //서버에서 오는 Date객체 값은 posix타임
+ 	 //서버에서 오는 Date객체 값은 posix타임이다.(밀리세컨드)
  	 var today = new Date();
  	 
  	 //자바스크립트의 Date객체를 posix타임으로 변환하는 메서드 getTime()
