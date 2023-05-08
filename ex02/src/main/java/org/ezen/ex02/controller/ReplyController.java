@@ -3,6 +3,7 @@ package org.ezen.ex02.controller;
 import java.util.List;
 
 import org.ezen.ex02.domain.Criteria;
+import org.ezen.ex02.domain.ReplyPageDTO;
 import org.ezen.ex02.domain.ReplyVO;
 import org.ezen.ex02.service.ReplyService;
 import org.springframework.http.HttpStatus;
@@ -47,6 +48,7 @@ public class ReplyController {
 		// ResponseEntity<>객체를 반환(생성자가 성공시와 실패시 파라메터가 다름)
 	}
 
+	/* 댓글 페이징 처리 전
 	@GetMapping(value = "/pages/{bno}/{page}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	// {bno}/{page}는 경로 아닌 값 @PathVariable로 매핑
 	// 게시글 하나에 대한 댓글들
@@ -59,6 +61,22 @@ public class ReplyController {
 		log.info("cri:" + cri);
 
 		return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
+	}
+	*/
+	
+	//댓글 페이징 처리 후
+	@GetMapping(value = "/pages/{bno}/{page}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	// {bno}/{page}는 경로 아닌 값 @PathVariable로 매핑
+	// 게시글 하나에 대한 댓글들과 페이징 처리
+	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
+
+		Criteria cri = new Criteria(page, 10);
+
+		log.info("get Reply List bno: " + bno);
+
+		log.info("cri : " + cri);
+
+		return new ResponseEntity<>(service.getListPage(cri, bno), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{rno}", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -93,6 +111,5 @@ public class ReplyController {
 
 		return service.modify(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
 	}
 }

@@ -3,6 +3,7 @@ package org.ezen.ex02.service;
 import java.util.List;
 
 import org.ezen.ex02.domain.Criteria;
+import org.ezen.ex02.domain.ReplyPageDTO;
 import org.ezen.ex02.domain.ReplyVO;
 
 public interface ReplyService {
@@ -21,4 +22,7 @@ public interface ReplyService {
 
     //mapper의 getListWithPaging
 	public List<ReplyVO> getList(Criteria cri, Long bno);
+	
+	//list와 페이지 참조를 같이 보낸다.
+	public ReplyPageDTO getListPage(Criteria cri, Long bno);
 }

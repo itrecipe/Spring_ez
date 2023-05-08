@@ -47,4 +47,5 @@ public class Criteria {
 
 		return builder.toUriString();
 	}
+	
 }

@@ -3,6 +3,7 @@ package org.ezen.ex02.service;
 import java.util.List;
 
 import org.ezen.ex02.domain.Criteria;
+import org.ezen.ex02.domain.ReplyPageDTO;
 import org.ezen.ex02.domain.ReplyVO;
 import org.ezen.ex02.mapper.ReplyMapper;
 import org.springframework.stereotype.Service;
@@ -61,5 +62,13 @@ public class ReplyServiceImpl implements  ReplyService{
 
 	    return mapper.getListWithPaging(cri, bno);
 
+	  }
+	  
+	  @Override
+	  public ReplyPageDTO getListPage(Criteria cri, Long bno) {
+		  
+		  return new ReplyPageDTO(
+				  mapper.getCountByBno(bno),
+				  mapper.getListWithPaging(cri, bno));
 	  }
 }
