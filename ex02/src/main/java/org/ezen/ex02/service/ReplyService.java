@@ -7,19 +7,18 @@ import org.ezen.ex02.domain.ReplyVO;
 
 public interface ReplyService {
 	
-	//ReplyMapper의 insert와 연결
-	public int register(ReplyVO vo);
-
-	//ReplyMapper의 read와 연결
+	//mapper의 insert
+	public int register(ReplyVO vo);  
+    
+	//mapper의 read
 	public ReplyVO get(Long rno);
 	
-	//ReplyMapperr의 update와 연결
+	//mapper의 update
 	public int modify(ReplyVO vo);
 	
-	//ReplyMapper의 delete와 연결
+	//mapper의 delete
 	public int remove(Long rno);
 
-	//ReplyMapper의 getListWithPaging(페이징)과 연결
+    //mapper의 getListWithPaging
 	public List<ReplyVO> getList(Criteria cri, Long bno);
-
 }

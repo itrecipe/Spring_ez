@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,9 +10,8 @@
 <!-- RWD -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- MS -->
-<meta http-equiv="X-UA-Compatible" content="IE=chrome"/>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9"/>
-
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9"/> 
 </head>
 <body>
 
@@ -23,12 +22,11 @@
 		<form action="#" method="POST">
 			<div class="form-group">
 				<label for="email">&nbsp;&nbsp;주문 문의</label>
-				<input type="email" class="form-control" placeholder="Enter Email" id="email"/>
+			    <input type="email" class="form-control" placeholder="Enter email" id="email"/>
 			</div>
-			<button type="submit" class="btn btn-danger">SIGN UP</button>
+			<button type="submit" class="btn btn-danger">Sign Up</button>
 		</form>
 	</div>
-</footer> 
-
+</footer>
 </body>
 </html>

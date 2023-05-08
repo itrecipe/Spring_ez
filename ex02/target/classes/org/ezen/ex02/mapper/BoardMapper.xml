@@ -97,7 +97,7 @@
 	-->
 	
 	<!-- sql다이내믹 쿼리를 사용한 경우 -->
-	<select id="getListwithPaging"
+	<select id="getListWithPaging"
 		resultType="org.ezen.ex02.domain.BoardVO" parameterType ="org.ezen.ex02.domain.Criteria" >
 	    <![CDATA[
 	  	select 

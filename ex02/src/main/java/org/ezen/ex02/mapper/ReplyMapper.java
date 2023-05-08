@@ -8,10 +8,10 @@ import org.ezen.ex02.domain.ReplyVO;
 
 public interface ReplyMapper {
 
-	//댓글 등록(작성)
+	// 댓글 작성
 	public int insert(ReplyVO vo);
-	
-	//댓글 조회
+
+	// 댓글 조회
 	public ReplyVO read(Long rno);
 	
 	//댓글 삭제
@@ -21,8 +21,7 @@ public interface ReplyMapper {
 	public int update(ReplyVO reply);
 	
 	//페이지 처리를 한 list
-	//@Param은 2개 이상의 파라미터 사용시 사용 cri로 파라미터 Criteria cri 객체를 전달한다.
+	//@Param은 2개 이상의 파라메터 사용시 사용 cri이름으로 Criteria cri객체 전달
 	public List<ReplyVO> getListWithPaging(@Param("cri") Criteria cri, @Param("bno") Long bno);
-	
-	
+
 }

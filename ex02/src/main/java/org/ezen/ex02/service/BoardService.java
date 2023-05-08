@@ -5,20 +5,21 @@ import java.util.List;
 import org.ezen.ex02.domain.BoardVO;
 import org.ezen.ex02.domain.Criteria;
 
-//비즈니스 계층의 인터페이스 (서비스용)
+//비지니스 계층의 인터페이스
 public interface BoardService {
-
+	
 	public void register(BoardVO board); //Create
-	
+
 	public BoardVO get(Long bno); //Read
-	
+
 	public boolean modify(BoardVO board); //Update
 
-	public boolean remove(Long bno); //Delete
-	
-	//public List<BoardVO> getList(); //목록 Select
+	public boolean remove(Long bno); //delete
+
+	//public List<BoardVO> getList(); //목록 select
 	
 	public List<BoardVO> getList(Criteria cri);
 	
 	public int getTotal(Criteria cri);
+
 }
