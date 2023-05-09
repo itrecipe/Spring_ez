@@ -110,8 +110,12 @@
 										<a class="move" href='get?bno=<c:out value="${board.bno}"/>'>
 											<c:out value="${board.title}" />
 										</a>
-										--> <a class='move' href='<c:out value="${board.bno}"/>'>
+										--> 
+										<a class='move' href='<c:out value="${board.bno}"/>'>
 												<c:out value="${board.title}" />
+												<span class="badge badge-secondary badge-pill float-right">
+												<c:out value="${board.replyCnt}" />
+												</span>
 										</a>
 										</td>
 										<td><c:out value="${board.writer}" /></td>

@@ -101,11 +101,11 @@
 		resultType="org.ezen.ex02.domain.BoardVO" parameterType ="org.ezen.ex02.domain.Criteria" >
 	    <![CDATA[
 	  	select 
-	    	bno, title, content, writer, regdate, updatedate
+	    	bno, title, content, writer, regdate, updatedate,replyCnt
 	 	from 
 	    (
 	      select /*+INDEX_DESC(tbl_board pk_board) */
-	        rownum rn, bno, title, content, writer, regdate, updatedate 
+	        rownum rn, bno, title, content, writer, regdate, updatedate,replyCnt 
 	      from 
 	        tbl_board
 	      where 
@@ -176,6 +176,11 @@
 			<include refid="criteria"></include> 		
 		bno > 0		
 	</select>
+	
+	<!-- 댓글 추가 및 삭제시 댓글수 처리 -->
+	<update id="updateReplyCnt">
+	    update tbl_board set replycnt = replycnt + #{amount} where bno = #{bno}
+	</update>
 	
 	
 </mapper>  

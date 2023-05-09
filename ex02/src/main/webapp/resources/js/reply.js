@@ -37,21 +37,20 @@
 			}
 		});
  	}
-
+ 	
  	function getList(param, callback, error) {
 
 		var bno = param.bno;
 		var page = param.page || 1; //1은 디폴트값으로 값이 없을시 1로 설정
 		
-		$.getJSON("../replies/pages/" + bno + "/" + page + ".json", //요청경로
+		$.getJSON("../replies/pages/" + bno + "/" + page, //요청경로
 				function(data) { //성공으로 받은 데이터(JSON문자열)
 					if (callback) {
-						//callback(data); //댓글 목록만 가져오는 경우
-						callback(data.replyCnt, data.list); //댓글 숫자와 목록을 가져올 경우
+						callback(data);
 					}
-				}).fail(function(xhr, status, err) {
+				})
+		.fail(function(xhr, status, err) {
 			if (error) {
-				
 				error();
 			}
 		});
@@ -145,6 +144,8 @@
 		}
 	}
 	
+	
+	
  	return {
  		add : add,
  		getList : getList,
@@ -154,3 +155,5 @@
  		displayTime : displayTime
  	};
  })();
+ 
+ 

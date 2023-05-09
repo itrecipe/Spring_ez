@@ -99,7 +99,7 @@
 					<div class="row mt-2">
 						<div class="col-md-12">
 							<ul class="chat list-group">
-								<!-- 댓글 출력 형태를 참조하기 위해 사용  
+								<!--댓글 출력 형태를 참조 
 								<li class='list-group-item clearfix' data-rno='12'>
 									<strong class='text-primary'>user00</strong>
 									<small class='float-right text-mute'>2023-05-03</small>
@@ -108,13 +108,13 @@
 								-->
 							</ul>        
 						</div>
-					</div>
+					</div> 
 					
-					<!-- 댓글의 페이지 -->
+					<!-- 댓글의  페이지 --> 
 					<div id='replyPage'>
-					
+						
 					</div><!-- 댓글 페이지 -->
-					       
+					      
 				</div><!-- submain -->
 			</div><!-- 우측 col-md-10 -->
 		</div><!-- row -->		
@@ -183,6 +183,7 @@
 			
 			showList(1);
 			
+			
 			/*
 			function showList(page) {
 				console.log("show list " + page);
@@ -207,92 +208,94 @@
 					}
 					
 					//자바에서 Date객체는 ajax로 클라이언트에서 처리시는 posix로 처리됨
+					
 					replyUL.html(str);
 					
 				});
 			}
 			*/
-		
+			
 			//댓글의 페이지를 고려한 처리
-			function showList(page) {
+			function showList(page){
+				
 				console.log("show list " + page);
-				
-				replyService.getList({bno:bnoValue, page:page || 1}, function(rpDto){
-					let replyCnt = rpDto.replyCnt;
-					let list = rpDto.list;
-					console.log("replyCnt : " + replyCnt);
-					console.log("list : " + list);
-					
-					if(page == -1){
-						pageNum = Math.ceil(replyCnt/10.0);
-						showList(pageNum);
-						return;
-					}
-					
-					let str="";
-					
-					if(list == null || list.length == 0){ //특정 게시글에 댓글 없음
-						return;
-					}
-					
-					//댓글 리스트 출력(ajax처리시 화면 처리를 html 문자열로 처리, jsp에선 JSTL과 HTML로 처리한다.)
-					for (let i = 0, len = list.length || 0; i < len; i++) {
-						str += "<li class='list-group-item clearfix' data-rno='"+list[i].rno+"'>";
-						str += "<strong class='text-primary'>" + list[i].replyer + "</strong>";
-						//str += "<small class='float-right text-mute'>" + list[i].replyDate + "</small>";
-						str += "<small class='float-right text-mute'>" + replyService.displayTime(list[i].replyDate) + "</small>";						
-						str += "<p>" + list[i].reply + "</p>";
-						str += "</li>";
-						
-					}
-					replyUL.html(str);
-					
-					showReplyPage(replyCnt);
-				
-				}); //replyService.getList()
-			} //end showList()
+			    
+			    replyService.getList({bno:bnoValue,page: page|| 1 }, function(rpDto) {
+			    	let replyCnt = rpDto.replyCnt;
+			    	let list = rpDto.list;
+				    console.log("replyCnt: "+ replyCnt );
+				    console.log("list: " + list);
+				   
+				    
+				    if(page == -1){
+				      pageNum = Math.ceil(replyCnt/10.0);
+				      showList(pageNum);
+				      return;
+				    }
+				      
+				     let str="";
+				     
+				     if(list == null || list.length == 0){	//특정 게시글에 댓글 없음			    	 
+				       return;
+				     }
+				     
+				     //댓글 리스트 출력(ajax처리시는 화면 처리를 html문자열로 처리, jsp에서는 jSTL과 HTML로 처리)
+				     for (let i = 0, len = list.length || 0; i < len; i++) {
+							str += "<li class='list-group-item clearfix' data-rno='"+list[i].rno+"'>";
+							str += "<strong class='text-primary'>" + list[i].replyer + "</strong>";
+							//str += "<small class='float-right text-mute'>" + list[i].replyDate + "</small>";
+							str += "<small class='float-right text-mute'>" + replyService.displayTime(list[i].replyDate) + "</small>";						
+							str += "<p>" + list[i].reply + "</p>";
+							str += "</li>";
+					 }
+				     
+				     replyUL.html(str);				   
+				     
+				     showReplyPage(replyCnt);
+			 
+			   });//replyService.getList()
+			     
+			}//end showList()
 			
-			let PageNum = 1;
-			let replyPageFooter = $('#replyPage'); //페이지 표현 html 엘리먼트를 DOM(객체화) 시킨다.
+			let pageNum = 1;
+			let replyPageFooter = $("#replyPage"); //페이지 표현 html엘리먼트를 DOM
 			
-			//페이지를 그려주는 창
 			function showReplyPage(replyCnt) {
-				let endNum = Math.ceil(pageNum / 10.0) * 10;
-				let startNum = endNum - 9;
 				
-				let prev = startNum != 1; //false
-				let next = false;
+				let endNum = Math.ceil(pageNum / 10.0) * 10;  //페이지 초기화(10)
+				let startNum = endNum - 9;  //시작은 1페이지
 				
-				if(endNum * 10 >= replyCnt) { //댓글수가 100개 이하
-					endNum = Math.ceil(replyCnt/10.0); //마지막 페이지
-					
-				}
+				let prev = startNum != 1;  //false
+			    let next = false;
+			    
+			    if(endNum * 10 >= replyCnt) {  //댓글수가 100개 이하
+			    	endNum = Math.ceil(replyCnt/10.0); //마지막 페이지 
+			    }
+			    
+			    if(endNum * 10 < replyCnt) { //댓글수가 100보다 크면 다음으로 가기 표시 next true
+			    	next = true;
+			    }
+			    
+			    let str = "<ul class='pagination justify-content-center' style='margin: 20px 0'>";
+			    if(prev) {
+			    	str += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'>Previous</a></li>";
+			    }
+			    
+			    for(let i = startNum ; i <= endNum; i++) {
+			    	let active = pageNum == i ? "active": "";
+			    	str+= "<li class='page-item " +active+" '><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+			    }
+			    
+			    if(next) {
+			    	str += "<li class='page-item'><a class='page-link' href='"+(endNum + 1)+"'>Next</a></li>";
+			    }
 				
-				if(endNum * 10 < replyCnt){ //댓글수가 100보다 크면
-					next = true;
-				}
-				
-				let str = "<ul class='pagenation justify-content-center' style='margin: 20px 0'>";
-				
-				if(prev) {
-					str += "<li class='page-item'><a class='page-link' href='" + (startNum-1) + "'>Previous</a></li>";
-				}
-				
-				for(let i = startNum; i <= endNum; i++){
-					let active = pageNum == i ? "active" : "";
-					str += "<li class='page-item " + active + " '><a class='page-link' href='" + i + "'>"+ i + "</a></li>";
-				}
-				
-				if(next) {
-					str += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) + "'>Next</a></li>";
-				}
-				
-				str += "</ul>";
-				
-				console.log(str);
-				
-				replyPageFooter.html(str);
-			
+			    str += "</ul>";
+			    
+			    console.log(str);
+			    
+			    replyPageFooter.html(str);
+			    
 			} //showReplyPage(replyCnt)
 			
 			let modal = $("#myReplyModal");
@@ -380,7 +383,6 @@
 		          modal.modal("hide");
 		          //showList(1);
 		          showList(pageNum);
-		          
 		        });
 		        
 		    });
@@ -396,22 +398,26 @@
 		    	      modal.modal("hide");
 		    	      //showList(1);
 		    	      showList(pageNum);
+		    	      
 		    	  });
-		   }); 
+		    	  
+		    });
 		    
-		   //페이지 번호 클릭 이벤트
-		   replyPageFooter.on("click","li a", function(e){
-			  e.preventDefault();
-			  console.log("page click");
-			  
-			  var targetPageNum = $(this).attr("href");
-			  
-			  console.log("targetPageNum : " + targetPageNum);
-		   		
-			  pageNum = targetPageNum;
-			  
-			  showList(pageNum);
-		   });
+		    //페이지 번호 클릭 이벤트
+		    replyPageFooter.on("click","li a", function(e){
+		        e.preventDefault();
+		        console.log("page click");
+		        
+		        var targetPageNum = $(this).attr("href");
+		        
+		        console.log("targetPageNum: " + targetPageNum);
+		        
+		        pageNum = targetPageNum;
+		        
+		        showList(pageNum);
+		     });
+		    
+		    
 		});
 	</script>
 	
