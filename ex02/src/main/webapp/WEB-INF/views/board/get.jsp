@@ -397,6 +397,7 @@
 		    	      alert(result);
 		    	      modal.modal("hide");
 		    	      //showList(1);
+		    	      
 		    	      showList(pageNum);
 		    	      
 		    	  });
