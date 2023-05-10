@@ -236,7 +236,8 @@
 				     let str="";
 				     
 				     if(list == null || list.length == 0){	//특정 게시글에 댓글 없음			    	 
-				       return;
+				       	replyUL.html("");
+				    	 return;
 				     }
 				     
 				     //댓글 리스트 출력(ajax처리시는 화면 처리를 html문자열로 처리, jsp에서는 jSTL과 HTML로 처리)

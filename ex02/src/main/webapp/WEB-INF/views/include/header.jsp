@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>Insert title here</title>
+<title>header</title>
 <meta charset="UTF-8">
 <!-- RWD -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,11 +43,20 @@
 			 	</a>
 			 </li>
 			 <li class="nav-item">
-			 	<a class="nav-link" href="list">게시판</a>
+			 	<a class="nav-link" href="../board/list">게시판</a>
+			 </li>
+			 <li class="nav-item dropdown">
+			 	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			 		파일 업로드
+			 	</a>
+			 	<div class="dropdown-menu">
+			 		<a class="dropdown-item" href="../upload/uploadForm">Form방식</a>
+			 		<a class="dropdown-item" href="../upload/uploadAjax">Ajax방식</a>
+			 		<a class="dropdown-item" href="#">Q&amp;A</a>
+			 	</div>
 			 </li>
 		</ul>
 	</div>
-	
 </nav>
 </body>
 </html>
