@@ -95,7 +95,7 @@ public class UploadController {
 	@PostMapping("/uploadAjaxAction")
 	@ResponseBody
 	public String uploadAjaxPost(MultipartFile[] uploadFile) {
-		log.info("update ajax ㅔost...");
+		log.info("update ajax post...");
 		
 		String uploadFolder = "c:/upload";
 
