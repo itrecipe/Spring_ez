@@ -14,7 +14,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<!-- root-context.xml에서 bean으로 등록하면 스프링의 bean이 됨 -->
-	<!-- hikari로  JDBC설정 -->
+	<!-- hikari로 JDBC설정 -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<!-- 
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
