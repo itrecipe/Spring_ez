@@ -62,16 +62,67 @@
 					</p>
  
 					<!-- 업로드 결과 창 -->
-					<div class="uploadDiv">
+					<!-- 
+					<div class="uploadResult">
 						<input type="file" name="uploadFile" multiple/>
 					</div>
- 
-
+					 -->
+					 
 				</div> <!-- submain -->
 			</div> <!-- col-md-10 -->					
 		</div> <!-- row -->
 	</div> <!-- mainContent -->
 
 <%@include file="../include/footer.jsp"%>
+
+<script>
+$(document).ready(function(){
+	
+	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	//RegExp는 정규식 처리 코어 객체 exe, sh, zip, alz를 포함하고 있는 정규식 객체
+	let maxSize = 5242880; //5MB
+	
+	$("#uploadBtn").on("click", function(e){
+	let formData = new FormData();
+	//js가 제공하는 core객체 FormData, 비어있는 <form> 태그 엘리먼트의 DOM 객체
+	let inputFile = $("input[name='uploadFile']"); //attr속성 selector
+	let files = inputFile[0].files; //inputFile은 배열 이다. files는 배열의 요소로 배열 객체
+	console.log(files);
+	for(let i = 0; i < files.length; i++){
+		
+		if(!checkExtension(files[i].name, files[i].size)){
+			return false;
+		}
+		formData.append("uploadFile", files[i]);
+		//formData 객체가 제공하는 append(name속성명, value속성값)
+	}
+	//$.ajax 중괄호 안엔 객체형을 집어넣는다.
+	$.ajax({
+		url : 'uploadAjaxAction',
+		processData : false, //필수
+		contentType : false, //필수
+		data : formData,
+		type : 'POST', //필수
+		success : function(result) { //result는 성공시 서버로부터 받는 데이터
+			console.log(result);
+			alert(result);
+		}
+		});
+	});
+	
+	function checkExtension(fileName, fileSize) {
+		if(fileSize >= maxSize) {
+			alert("파일 사이즈 초과");
+			return flase;
+		}
+		if (regex.test(fileName)){
+			//test는 
+			alert("해당 종류의 파일은 업로드 할 수 없다.");
+			return false;
+		}
+		return true;
+	}
+});
+</script>
 </body>
 </html>
