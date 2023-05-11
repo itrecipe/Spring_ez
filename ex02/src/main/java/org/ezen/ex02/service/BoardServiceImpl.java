@@ -18,7 +18,7 @@ import lombok.extern.log4j.Log4j;
 public class BoardServiceImpl implements BoardService {
 	
 	//@Setter(onMethod_ = @Autowired) 
-	//4.3이상 부터는 멤버변수 하나를 사용하는 생성자가 있으면 선언만 해도 자동 주입 
+	//4.3이상 부터는 멤버변수 하나를 사용하는 생성자가 있으면 선언만 해도 자동 주입
 	private BoardMapper mapper;
 	
 	@Override
@@ -61,11 +61,11 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getList();
 	}
 	*/
+	
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
 
 		log.info("get List with criteria: " + cri);
-
 		return mapper.getListWithPaging(cri);
 	}
 	
@@ -75,6 +75,4 @@ public class BoardServiceImpl implements BoardService {
 		log.info("get total count");
 		return mapper.getTotalCount(cri);
 	}
-	
-
 }

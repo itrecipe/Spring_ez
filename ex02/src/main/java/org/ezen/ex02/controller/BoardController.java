@@ -152,7 +152,7 @@ public class BoardController {
 		rttr.addAttribute("keyword", cri.getKeyword());
 		*/
 		System.out.println("쿼리스트링 : " + cri.getListLink());
-		return "redirect:list" + cri.getListLink(); //query문자열 이므로 ?을 붙일 필요 없다,한글깨짐 염려 필요 없음		
+		return "redirect:list" + cri.getListLink(); //query문자열 이므로 ?을 붙일 필요 없다,한글깨짐 염려 필요 없음
 	}
 
 }
