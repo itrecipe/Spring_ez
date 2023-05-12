@@ -58,6 +58,7 @@
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
 		</dependency>
+		
 		<!-- up하고 lombok과 충돌 방지 하기 위해 주석 처리 -->
 		<!-- 
 		<dependency>
@@ -248,6 +249,14 @@
 		    <groupId>org.aspectj</groupId>
 		    <artifactId>aspectjweaver</artifactId>
 		    <version>${org.aspectj-version}</version>
+		</dependency>
+		
+		<!-- thumbnail 추가 -->
+		<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+		<dependency>
+		    <groupId>net.coobird</groupId>
+		    <artifactId>thumbnailator</artifactId>
+		    <version>0.4.17</version>
 		</dependency>
 		       
 	</dependencies>

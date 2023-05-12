@@ -81,6 +81,7 @@ $(document).ready(function(){
 	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 	//RegExp는 정규식 처리 코어 객체 exe, sh, zip, alz를 포함하고 있는 정규식 객체
 	let maxSize = 5242880; //5MB
+	let cloneObj = $(".uploadDiv").clone(); //입력하기 전 상태의 DOM을 복사한다.
 	
 	$("#uploadBtn").on("click", function(e){
 	let formData = new FormData();
@@ -105,10 +106,13 @@ $(document).ready(function(){
 		type : 'POST', //필수
 		success : function(result) { //result는 성공시 서버로부터 받는 데이터
 			console.log(result);
-			alert(result);
+			//alert(result);
+			showUploadedFile(result); //JSON객체 형식으로 넘어온 결과를 보여주는 함수를 호출한다.
+			
+			$(".uploadDiv").html(cloneObj.html()); //입력 성공 후 입력 전(초기) 상태로 되돌려 준다.
 		}
-		});
 	});
+});
 	
 	function checkExtension(fileName, fileSize) {
 		if(fileSize >= maxSize) {
@@ -116,11 +120,23 @@ $(document).ready(function(){
 			return flase;
 		}
 		if (regex.test(fileName)){
-			//test는 
+			//test는 RegExp코어 객체의 메서드로 정규식에 지정된 단어 포함 이후를 체크한다.
 			alert("해당 종류의 파일은 업로드 할 수 없다.");
 			return false;
 		}
 		return true;
+	}
+
+	function showUploadedFile(uploadResultArr) {
+		
+		//uploadResultArr는 서버로 부터 받은 JSON객체 타입의 result값
+		let str = ""; //HTML로 만들 문자열
+		
+		//J-QUERY의 each문
+		//i는 색인번호, Obj는 uploadResultArr을 구성하고 있는 원소
+		$(uploadResultArr).each(function(i, obj)) {
+			
+		}
 	}
 });
 </script>

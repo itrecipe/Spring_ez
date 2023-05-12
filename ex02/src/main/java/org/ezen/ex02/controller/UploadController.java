@@ -1,10 +1,18 @@
 package org.ezen.ex02.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import org.ezen.ex02.domain.AttachFileDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
+import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @RequestMapping("/upload")
@@ -90,7 +99,7 @@ public class UploadController {
 		return "success";
 	}
 */	
-	
+	/*
 	//날짜 형식으로 파일 업로드 하기
 	@PostMapping("/uploadAjaxAction")
 	@ResponseBody
@@ -128,15 +137,141 @@ public class UploadController {
 			File saveFile = new File(uploadPath, uploadFileName); //날짜 형식 경로
 			
 			try {
-				multipartFile.transferTo(saveFile);
+				multipartFile.transferTo(saveFile); //원본 파일 저장
 			}
 			catch (Exception e) {
 				log.error(e.getMessage());
 			}
-			
 		}
 		return "success";
 	}
+	*/
+	
+	/*
+	//썸네일 형식으로 파일 업로드 하기 (썸네일 만들기)
+	@PostMapping("/uploadAjaxAction")
+	@ResponseBody
+	public String uploadAjaxPost(MultipartFile[] uploadFile) {
+		log.info("update ajax post...");
+		
+		String uploadFolder = "c:/upload";
+
+		//날짜별로된 폴더를 이용한 경로
+		File uploadPath = new File(uploadFolder, getFolder());
+		
+		if(uploadPath.exists() == false) { 
+			uploadPath.mkdirs(); //File 객체의 경로를 이용해서 폴더를 생성한다.
+		}
+		
+		for (MultipartFile multipartFile : uploadFile) {
+			log.info("-----------");
+			log.info("Upload File Name : " + multipartFile.getOriginalFilename());
+			log.info("Upload File Size : " + multipartFile.getSize());
+			
+			String uploadFileName = multipartFile.getOriginalFilename();
+			
+			System.out.println("파일명 : " + uploadFileName);
+			
+			//순수 파일명
+			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
+			
+			log.info("only file name : " + uploadFileName);
+			
+			UUID uuid = UUID.randomUUID();
+			//임의의 UUID 객체 생성
+			uploadFileName = uuid.toString() + "_" + uploadFileName;
+			
+			//File saveFile = new File(uploadFolder, uploadFileName);
+			File saveFile = new File(uploadPath, uploadFileName); //날짜 형식 경로
+			
+			try {
+				multipartFile.transferTo(saveFile); //원본 파일 저장
+				
+				//이미지 파일인지 아닌지를 체크
+				if(checkImageType(saveFile)) {
+					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+					//섬네일 이름의 출력 스트림을 생성한다.
+					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+					//출력 스트림에 저장된 thumbnail로 부터 읽어와서 크기 100 * 100의 섬네일 파일을 생성한다.
+					thumbnail.close(); //끝나면 close 처리
+				}
+			}
+			catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		}
+		return "success";
+	}
+	*/
+	
+	//브라우저에서 업로드 결과를 보여주기 위한 JSON으로 첨부파일 관련 객체 보내기
+	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
+		
+		log.info("update ajax post...");
+		
+		List<AttachFileDTO> list = new ArrayList<AttachFileDTO>();		
+		String uploadFolder = "c:/upload";
+
+		String uploadFolderPath = getFolder();
+		// make folder --------
+		File uploadPath = new File(uploadFolder, uploadFolderPath);
+				
+		if(uploadPath.exists() == false) { 
+			uploadPath.mkdirs(); //File 객체의 경로를 이용해서 폴더를 생성한다.
+		}
+		
+		for (MultipartFile multipartFile : uploadFile) {
+			log.info("-----------");
+			log.info("Upload File Name : " + multipartFile.getOriginalFilename());
+			log.info("Upload File Size : " + multipartFile.getSize());
+			
+			AttachFileDTO attachDTO = new AttachFileDTO();
+			
+			String uploadFileName = multipartFile.getOriginalFilename();
+			
+			System.out.println("파일명 : " + uploadFileName);
+			
+			//순수 파일명
+			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
+			
+			log.info("only file name : " + uploadFileName);
+			attachDTO.setFileName(uploadFileName);
+			
+			UUID uuid = UUID.randomUUID();
+			//임의의 UUID 객체 생성
+			uploadFileName = uuid.toString() + "_" + uploadFileName;
+			
+			try {
+				//File saveFile = new File(uploadFolder, uploadFileName);
+				File saveFile = new File(uploadPath, uploadFileName); //날짜 형식 경로
+				
+				multipartFile.transferTo(saveFile); //원본 파일 저장
+				
+				attachDTO.setUuid(uuid.toString());
+				attachDTO.setUploadPath(uploadFolderPath);
+				
+				//이미지 파일인지 아닌지를 체크
+				if(checkImageType(saveFile)) {
+
+					attachDTO.setImage(true);
+					
+					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+					//섬네일 이름의 출력 스트림을 생성한다.
+					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+					//출력 스트림에 저장된 thumbnail로 부터 읽어와서 크기 100 * 100의 섬네일 파일을 생성한다.
+					thumbnail.close(); //끝나면 close 처리
+				}
+				list.add(attachDTO);
+			}
+			catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		}
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	};
+	
 	
 	private String getFolder() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -146,5 +281,19 @@ public class UploadController {
 		String str = sdf.format(date); //날짜를 yyyy-MM-dd형식의 문자열로 반환
 		
 		return str.replace("-", File.separator); //파일구분자로 -문자 변경
+	}
+	
+	private boolean checkImageType(File file) {
+		
+		try {
+			String contentType = Files.probeContentType(file.toPath());
+			//Path 객체를 이용해 파일의 content 형식 반환
+			
+			return contentType.startsWith("image");
+			//image일시 true를 반환
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
