@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.UUID;
 
 import org.ezen.ex02.domain.AttachFileDTO;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -295,5 +297,34 @@ public class UploadController {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	@GetMapping(value = "/display", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<byte[]> getFile(String fileName) { //실제 이미지 데이터를 바이트 배열로 보낸다.
+		
+		//실제 이미지 데이터를 바이트 배열로 보낸다(외부 경로에 있는 파일에는 직접 접근이 불가능하여 바이트 배열로 데이터를 보낸다.)
+		//fileName은 전체 경로로 보낸다(YYYY/MM/DD/S_UUID/이름)
+		log.info("fileName : " + fileName);
+		
+		File file = new File("c:/upload/" + fileName);
+		
+		log.info("file" + file);
+		
+		ResponseEntity<byte[]> result = null;
+		
+		try {
+			HttpHeaders header = new HttpHeaders();
+			
+			header.add("content-Type", Files.probeContentType(file.toPath()));
+			//header에 Content-Type에 MIME 추가 한다.
+			
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+			//file객체를 byte배열로 반환하여 JSON으로 반환한다.
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

@@ -62,11 +62,14 @@
 					</p>
  
 					<!-- 업로드 결과 창 -->
-					<!-- 
-					<div class="uploadResult">
-						<input type="file" name="uploadFile" multiple/>
+					 
+					<div class="uploadResult mt-3">
+						<!-- 카드 이미지로 생성 -->
+						<div class='row' id='card'>
+							<!-- class="card"로 만들것 -->
+						</div>
 					</div>
-					 -->
+					
 					 
 				</div> <!-- submain -->
 			</div> <!-- col-md-10 -->					
@@ -82,6 +85,8 @@ $(document).ready(function(){
 	//RegExp는 정규식 처리 코어 객체 exe, sh, zip, alz를 포함하고 있는 정규식 객체
 	let maxSize = 5242880; //5MB
 	let cloneObj = $(".uploadDiv").clone(); //입력하기 전 상태의 DOM을 복사한다.
+	
+	let uploadResult = $(".uploadResult #card");
 	
 	$("#uploadBtn").on("click", function(e){
 	let formData = new FormData();
@@ -109,7 +114,8 @@ $(document).ready(function(){
 			//alert(result);
 			showUploadedFile(result); //JSON객체 형식으로 넘어온 결과를 보여주는 함수를 호출한다.
 			
-			$(".uploadDiv").html(cloneObj.html()); //입력 성공 후 입력 전(초기) 상태로 되돌려 준다.
+			$(".uploadDiv").html(cloneObj.html()); //입력 성공 후 입력 전(초기) 상태로 되돌려 준다.(초기화를 하라는 의미)
+			alert("파일 첨부 완료!");
 		}
 	});
 });
@@ -134,11 +140,50 @@ $(document).ready(function(){
 		
 		//J-QUERY의 each문
 		//i는 색인번호, Obj는 uploadResultArr을 구성하고 있는 원소
-		$(uploadResultArr).each(function(i, obj)) {
-			
-		}
+		//
+		$(uploadResultArr).each(function(i, obj) {
+			//str += obj.fileName + "<br/>";
+			if(!obj.image) { //이미지가 아닌 경우
+				//한글이나 공백 등... URL에 포함되어 있을시를 해결한다. encodeURIComponent()
+				let filecallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
+				//BS4의 카드 방식으로 표시한다.
+				str += "<div class='card col-md-3'>";
+				str += "<div class='card-body'>";
+				str += "<p class='mr-2'>";
+				str += "<i class='fa fa-paperclip fa-2x' aria-hidden='true'></i>" + obj.fileName;
+				str += "</p>";
+				str += "</div>";
+				str += "</div>";
+			}
+			else { //이미지인 경우에는 섬네일 파일 경로를 사용 한다.
+				let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+				let originPath = obj.uploadPath + "\\" + obj.uuid + "_" + obj.fileName; //원본파일 경로
+				originPath = originPath.replace(new RegExp(/\\/g),"/") //\\를 /로 대체 한다.
+				
+				str += "<div class='card col-md-3'>";
+				str += "<div class='card-body'>";
+				str += "<p class='mr-2'>";
+				str += "<a href=\"javascript:showImage(\'" + originPath + "\')\">"; //원본 파일을 보기 위해 클릭 이벤트 처리
+				//"<a href="javascript:showImage('" + kkkk + ')" 문자열로 처리해야해서 작성(이건 국쌤이 안 적어도 된다 하셨는데 걍 적어둠)
+				str += "<img src='display?fileName=" + fileCallPath + "'></a>"; 
+				//a의 클릭 아이콘, 클릭 링크 이미지, 직접 자원에 접근하지 못한다.(그래서 서버에서 읽어와서 보내줘야 한다.)
+				str += "</p>";
+				str += "</div>";
+				str += "</div>";
+			}
+		});
+		
+		uploadResult.append(str);
 	}
 });
+
+function showImage(fileCallPath) {
+	//<a>태그에서 직접 호출시를 대비하여 J-Query밖에서 만든다.
+	alert("원본사진 보여주기");
+	/* $('.imageModal .modal-body').html("<img class='d-block w-75 mx-auto' src='display?fileName=" 
+			+ encodURI(fileCallPath) + "$size=1">") */
+	
+}
 </script>
 </body>
 </html>
