@@ -205,11 +205,9 @@ $(document).ready(function(){
 function showImage(fileCallPath) {
 	//<a>태그에서 직접 호출시를 대비하여 J-Query밖에서 만든다.
 	//alert("원본사진 보여주기");
-	$('.imageMocal .modal-body').html("<img class='d-block w-75 mx-auto' src='display?fileName="
+	$('.imageModal .modal-body').html("<img class='d-block w-75 mx-auto' src='display?fileName="
 			+ encodeURI(fileCallPath)+"&size=1' >");
-			$(".imageModal").modal("show");
-	/* $('.imageModal .modal-body').html("<img class='d-block w-75 mx-auto' src='display?fileName=" 
-			+ encodURI(fileCallPath) + "$size=1">") */
+	$(".imageModal").modal("show");
 	
 }
 </script>
