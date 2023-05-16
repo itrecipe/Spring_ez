@@ -1,6 +1,7 @@
 package org.ezen.ex02.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import lombok.Data;
 @Data
 public class BoardVO {
 
+	
 	private Long bno;  //tbl_board의 데이터형이 number(10,0)이므로 Long
 	private String title; //varchar2
 	private String content;
@@ -16,4 +18,6 @@ public class BoardVO {
 	private Date updateDate;
 	
 	private int replyCnt;
+
+	private List<BoardAttachVO> attachList; //게시판 특정 게시글에 첨부되는 첨부파일 리스트
 }

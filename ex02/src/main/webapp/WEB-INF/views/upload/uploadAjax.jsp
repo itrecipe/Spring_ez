@@ -76,6 +76,8 @@
 		</div> <!-- row -->
 	</div> <!-- mainContent -->
 
+<%@include file="../include/imageModal.jsp"%>
+
 <%@include file="../include/footer.jsp"%>
 
 <script>
@@ -140,18 +142,21 @@ $(document).ready(function(){
 		
 		//J-QUERY의 each문
 		//i는 색인번호, Obj는 uploadResultArr을 구성하고 있는 원소
-		//
 		$(uploadResultArr).each(function(i, obj) {
 			//str += obj.fileName + "<br/>";
 			if(!obj.image) { //이미지가 아닌 경우
 				//한글이나 공백 등... URL에 포함되어 있을시를 해결한다. encodeURIComponent()
-				let filecallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
+				let fileCallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
+				//YYYY/MM/DD/UUID_파일명
 				//BS4의 카드 방식으로 표시한다.
 				str += "<div class='card col-md-3'>";
 				str += "<div class='card-body'>";
 				str += "<p class='mr-2'>";
+				str += "<a href='download?fileName=" + fileCallPath + "'>";
 				str += "<i class='fa fa-paperclip fa-2x' aria-hidden='true'></i>" + obj.fileName;
+				str += "</a>";
 				str += "</p>";
+				str += "<h4 class='mr-2'><span data-file='" + fileCallPath + "' data-type='file'> &times; </span></h4>";
 				str += "</div>";
 				str += "</div>";
 			}
@@ -168,6 +173,7 @@ $(document).ready(function(){
 				str += "<img src='display?fileName=" + fileCallPath + "'></a>"; 
 				//a의 클릭 아이콘, 클릭 링크 이미지, 직접 자원에 접근하지 못한다.(그래서 서버에서 읽어와서 보내줘야 한다.)
 				str += "</p>";
+				str += "<h4 class='d-inline-block mr-2'><span data-file='" + fileCallPath + "' data-type='image'> &times; </span></h4>";
 				str += "</div>";
 				str += "</div>";
 			}
@@ -175,11 +181,33 @@ $(document).ready(function(){
 		
 		uploadResult.append(str);
 	}
+	//클릭 이벤트 처리
+	$(".uploadResult").on("click","span", function(e){
+		let targetFile = $(this).data("file"); //파일경로 (Ajax로 전송), this는 이벤트가 일어난 span
+		let type = $(this).data("type"); //파일 형태
+		console.log(targetFile);
+		
+		let targetLi = $(this).closest(".card"); //span소속 card엘리먼트
+		
+		$.ajax({
+			url : 'deleteFile',
+			data : {fileName : targetFile, type:type}, //객체형으로 보내고 서버는 각각의 속성으로 처리
+			dataType : 'text',
+			type : 'POST',
+			success : function(result) {
+				//alert(result);
+				targetLi.remnove(); //화면에서 지우기	
+			}
+		});
+	});
 });
 
 function showImage(fileCallPath) {
 	//<a>태그에서 직접 호출시를 대비하여 J-Query밖에서 만든다.
-	alert("원본사진 보여주기");
+	//alert("원본사진 보여주기");
+	$('.imageMocal .modal-body').html("<img class='d-block w-75 mx-auto' src='display?fileName="
+			+ encodeURI(fileCallPath)+"&size=1' >");
+			$(".imageModal").modal("show");
 	/* $('.imageModal .modal-body').html("<img class='d-block w-75 mx-auto' src='display?fileName=" 
 			+ encodURI(fileCallPath) + "$size=1">") */
 	

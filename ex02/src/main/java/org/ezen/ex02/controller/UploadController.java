@@ -2,6 +2,8 @@ package org.ezen.ex02.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.ezen.ex02.domain.AttachFileDTO;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -327,4 +331,77 @@ public class UploadController {
 		}
 		return result;
 	}
+	
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody //Ajax로 보내겠다는 의미
+	public ResponseEntity<Resource> downloadFile(String fileName) {
+
+		log.info("download file: " + fileName);
+
+		Resource resource = new FileSystemResource("c:/upload/" + fileName);
+
+		if (resource.exists() == false) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		log.info("resource: " + resource);
+
+		String resourceName = resource.getFilename();
+
+		// remove UUID
+		String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1);
+		
+		HttpHeaders headers = new HttpHeaders();
+
+		try {
+
+			String downloadName = null;
+
+			downloadName = new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+
+			// headers.add("Content-Disposition,attachment; filename=" + new
+			// String(resourceName.getBytes("UTF-8"), "ISO-8859-1"));
+			// UTF-8로된 문자열을 바이트배열로 변경후 ISO-8859-1로 인코딩된 문자열로 변경,파일이름을 지정
+
+			headers.add("Content-Disposition", "attachment; filename=" + downloadName);
+
+		} catch (UnsupportedEncodingException e) {
+
+			e.printStackTrace();
+		}
+
+		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+
+	}
+	
+	@ResponseBody
+	public ResponseEntity<String> deleteFile(String fileName, String type) {
+		//ajax로 객체형으로 보낸 데이터는 객체 속성명으로 받으면 된다.
+		log.info("deleteFile : " + fileName);
+		
+		File file = null;
+		
+		try {
+			file = new File("c:/upload/" + URLDecoder.decode(fileName, "UTF-8"));
+			//file = new File("c:/upload/" + fileName);
+			
+			file.delete(); //섬네일 이나 일반 파일을 지운다.
+			
+			if(type.equals("image")) {
+				String largeFileName = file.getAbsolutePath().replace("s_", "");
+				
+				log.info("largeFileName : " + largeFileName);
+				
+				file = new File(largeFileName);
+				
+				file.delete(); //원본 파일 삭제
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+	}
+
 }
