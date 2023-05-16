@@ -8,7 +8,6 @@ import lombok.Data;
 //빈클래스(DTO,VO)이므로 getter,setter를 가짐
 @Data
 public class BoardVO {
-
 	
 	private Long bno;  //tbl_board의 데이터형이 number(10,0)이므로 Long
 	private String title; //varchar2
