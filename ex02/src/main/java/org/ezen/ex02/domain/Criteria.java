@@ -34,7 +34,7 @@ public class Criteria {
 	public String[] getTypeArr() {
 
 		return type == null ? new String[] {} : type.split("");
-		// type은 문자열로 공백없이("TWC") 오는데 splity하면 배열 {T,W,C}
+		// type은 문자열로 공백없이("TWC") 오는데 split하면 배열 {T,W,C}
 
 	}
 	
