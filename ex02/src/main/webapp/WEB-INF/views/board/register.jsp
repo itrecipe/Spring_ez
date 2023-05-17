@@ -219,7 +219,7 @@ $(document).ready(function(){
 			let str ="";
 			if(obj.image) {
 				
-				let fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);				
+				let fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+ob.j.uuid +"_"+obj.fileName);				
 				str += "<div class='card col-md-3'>";
 				str += "<div class='card-body'>";
 				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName + "'" ;
