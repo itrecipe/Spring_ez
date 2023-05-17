@@ -1,5 +1,6 @@
 package org.ezen.ex02.controller;
 
+import org.ezen.ex02.domain.AttachFileDTO;
 import org.ezen.ex02.domain.BoardVO;
 import org.ezen.ex02.domain.Criteria;
 import org.ezen.ex02.domain.PageDTO;
@@ -63,6 +64,10 @@ public class BoardController {
 
 		log.info("register: " + board);
 
+		if(board.getAttachList() == null) {
+			board.getAttachList().forEach(attach -> log.info(attach));
+		}
+		
 		service.register(board);
 
 		rttr.addFlashAttribute("result", board.getBno());

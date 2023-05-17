@@ -64,6 +64,7 @@
 					<!-- 업로드 결과 창 -->
 					 
 					<div class="uploadResult mt-3">
+						<!-- 업로드 파일 결과를 보여주는 창 -->
 						<!-- 카드 이미지로 생성 -->
 						<div class='row' id='card'>
 							<!-- class="card"로 만들것 -->

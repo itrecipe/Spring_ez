@@ -7,9 +7,9 @@ import lombok.Data;
 public class BoardAttachVO {
 	
 	private String uuid;
-	private String uploadPath;	
+	private String uploadPath; //YYYY/MM/DD
 	private String fileName;	
-	private boolean fileType;	
+	private boolean fileType; //image는 true 아닌것은 false
 	
 	private Long bno;
 }
