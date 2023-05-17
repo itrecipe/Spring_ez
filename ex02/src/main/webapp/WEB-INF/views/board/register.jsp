@@ -71,7 +71,7 @@
 					<a id="listLink" href="list" class="btn btn-primary">목록보기</a>
 				</form>
 				
-				<!-- 파일 첨부 창, 첨부파일 부분 -->				
+				<!-- 파일 첨부 창 -->				
 				<div class="attach mt-4">
 					<h5 class="text-center wordArtEffect text-success mb-5">파일업로드(Ajax)</h5>
 					<div class="row">						
@@ -99,10 +99,7 @@
 $(document).ready(function(){
 	
 	let formObj = $("form[role='form']"); //게시글 작성 등록
-	
 	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$"); //확장자가 지정된 것은 업로드 제한
-	//정규식 코어 객체, 확장자가 지정된 것은 업로드를 제한하기 위해 사용
-	
 	let maxSize = 5242880; //5MB 파일 최대 크기
 	
 	let uploadUL = $(".uploadResult #card");
@@ -144,7 +141,7 @@ $(document).ready(function(){
 		//첫번째 inputFile DOM의 files들 type이 file인경우 선택한 파일들(value값)
 		console.log(files);
 			
-		for(let i = 0; i < files.length; i++)  {
+		for(var i = 0; i < files.length; i++)  {
 			if (!checkExtension(files[i].name, files[i].size)) {
 				return false;
 			}			
@@ -219,7 +216,7 @@ $(document).ready(function(){
 			let str ="";
 			if(obj.image) {
 				
-				let fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+ob.j.uuid +"_"+obj.fileName);				
+				let fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);				
 				str += "<div class='card col-md-3'>";
 				str += "<div class='card-body'>";
 				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName + "'" ;
