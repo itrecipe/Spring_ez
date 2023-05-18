@@ -2,10 +2,12 @@ package org.ezen.ex02.service;
 
 import java.util.List;
 
+import org.ezen.ex02.domain.BoardAttachVO;
 import org.ezen.ex02.domain.BoardVO;
 import org.ezen.ex02.domain.Criteria;
 import org.ezen.ex02.mapper.BoardAttachMapper;
 import org.ezen.ex02.mapper.BoardMapper;
+import org.ezen.ex02.mapper.ReplyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Setter(onMethod_ = @Autowired) 
 	private BoardAttachMapper attachMapper;
+	
+	@Setter(onMethod_ = @Autowired) 
+	private ReplyMapper replyMapper;
 	
 	/*
 	@Override
@@ -71,11 +76,27 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.update(board) == 1;
 	}
 
+	/* 삭제 : 한개만 삭제시 사용하던 코드
 	@Override
 	public boolean remove(Long bno) {
 
 		log.info("remove...." + bno);
 
+		return mapper.delete(bno) == 1;
+	}
+	*/
+
+	//게시물과 첨부물이 같이 삭제되도록 트랜잭션 처리
+	@Transactional
+	@Override
+	public boolean remove(Long bno) {
+		
+		log.info("remove : " + bno);
+		
+		replyMapper.deleteAll(bno);
+		
+		attachMapper.deleteAll(bno);
+		
 		return mapper.delete(bno) == 1;
 	}
 	
@@ -87,7 +108,7 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getList();
 	}
 	*/
-	
+
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
 
@@ -101,4 +122,14 @@ public class BoardServiceImpl implements BoardService {
 		log.info("get total count");
 		return mapper.getTotalCount(cri);
 	}
+	
+	@Override
+	public List<BoardAttachVO> getAttachList(Long bno) {
+		log.info("get Attach list by bno : " + bno);
+		
+		return attachMapper.findByBno(bno);
+		
+	}
+	
+	
 }

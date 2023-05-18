@@ -2,6 +2,7 @@ package org.ezen.ex02.service;
 
 import java.util.List;
 
+import org.ezen.ex02.domain.BoardAttachVO;
 import org.ezen.ex02.domain.BoardVO;
 import org.ezen.ex02.domain.Criteria;
 
@@ -21,5 +22,6 @@ public interface BoardService {
 	public List<BoardVO> getList(Criteria cri);
 	
 	public int getTotal(Criteria cri);
-
+	
+	public List<BoardAttachVO> getAttachList(Long bno);
 }

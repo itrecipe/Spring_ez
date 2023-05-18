@@ -17,8 +17,13 @@
 	delete from tbl_attach where uuid = #{uuid}
 </delete>
 
+<!-- tbl_attach 테이블의 컬럼을 bno를 기준으로 조회 -->
 <select id="findByBno" resultType="org.ezen.ex02.domain.BoardAttachVO">
 	select * from tbl_attach where bno = #{bno}
-</select> 
+</select>
+
+<delete id="deleteAll">
+	delete tbl_attach where bno = #{bno}
+</delete>
 
 </mapper>

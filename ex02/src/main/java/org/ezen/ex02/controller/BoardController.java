@@ -1,10 +1,18 @@
 package org.ezen.ex02.controller;
 
-import org.ezen.ex02.domain.AttachFileDTO;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
+import org.ezen.ex02.domain.BoardAttachVO;
 import org.ezen.ex02.domain.BoardVO;
 import org.ezen.ex02.domain.Criteria;
 import org.ezen.ex02.domain.PageDTO;
 import org.ezen.ex02.service.BoardService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +20,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller // 콘트롤라클래스로 스프링 빈으로 등록
 @Log4j
@@ -140,13 +150,19 @@ public class BoardController {
 	}
 	*/
 	
-	//페이지 정보 고려
+	//페이지 정보 고려, 첨부파일 삭제처리도 포함
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
 
 		log.info("remove..." + bno);		
 
+		List<BoardAttachVO> attachList = service.getAttachList(bno);
+		
 		if (service.remove(bno)) {
+			
+			//폴더에 있는 파일 삭제 처리
+			deleteFiles(attachList);
+			
 			rttr.addFlashAttribute("result", "success");
 		}
 		/*
@@ -157,7 +173,48 @@ public class BoardController {
 		rttr.addAttribute("keyword", cri.getKeyword());
 		*/
 		System.out.println("쿼리스트링 : " + cri.getListLink());
-		return "redirect:list" + cri.getListLink(); //query문자열 이므로 ?을 붙일 필요 없다,한글깨짐 염려 필요 없음
+		return "redirect:list" + cri.getListLink(); //query문자열 이므로 ?(바인딩변수)를 붙일 필요 없다, 한글깨짐 염려 필요 없음
 	}
-
-}
+	
+	//클라이언트에서 특정 게시물에 대한 첨부파일 정보를 요청한다.
+	@GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno){
+		
+		log.info("getAttachList : " + bno);
+		
+		return new ResponseEntity<>(service.getAttachList(bno),HttpStatus.OK);	
+	}
+	
+	//deleteFiles 함수 생성
+	private void deleteFiles(List<BoardAttachVO> attachList) {
+		
+		if(attachList == null || attachList.size() == 0) {
+			return;
+		}
+		
+		log.info("delete attach files....");
+		log.info(attachList);
+		
+		attachList.forEach(attach -> {
+			
+			try {
+				Path file = Paths.get(
+							"c:/upload/" + attach.getUploadPath() + "/" + attach.getUuid() + "_" + attach.getFileName());
+							
+				Files.deleteIfExists(file);
+							
+				if(Files.probeContentType(file).startsWith("image")) {
+					
+					Path thumbNail = Paths.get("c:/upload/" + attach.getUploadPath() + "/s_" + attach.getFileName());
+							
+					Files.delete(thumbNail);
+				} 
+				
+				} catch (Exception e) {
+					log.error("delete file error : " + e.getMessage());
+				}				
+		});
+	}
+}						
+		

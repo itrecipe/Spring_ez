@@ -14,7 +14,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9" />
 </head>
 <body>
-
 	<%@ include file="../include/header.jsp"%>
 
 	<div class="container mt-4 mb-4" id="mainContent">
@@ -87,6 +86,13 @@
 						<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
   						<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>	
 					</form>
+					
+					<!-- 첨부물 처리 창 -->
+					<div class='uploadResult mt-3'>
+						<div class='row' id='card'>
+						</div>
+					</div>
+					
 					<!-- 댓글 처리 창 -->
 					<div class="row mt-4">
 						<div class="col-md-12 clearfix">							
@@ -108,7 +114,7 @@
 								-->
 							</ul>        
 						</div>
-					</div> 
+					</div>
 					
 					<!-- 댓글의  페이지 --> 
 					<div id='replyPage'>
@@ -121,6 +127,7 @@
 	</div> <!-- mainContent -->	
 
 	<%@ include file="../include/replyModal.jsp"%>
+	<%@ include file="../include/imageModal.jsp"%>
 	<%@ include file="../include/footer.jsp"%>
 	
 	<%--외부 js파일 임포트 --%>
@@ -225,7 +232,6 @@
 			    	let list = rpDto.list;
 				    console.log("replyCnt: "+ replyCnt );
 				    console.log("list: " + list);
-				   
 				    
 				    if(page == -1){
 				      pageNum = Math.ceil(replyCnt/10.0);
@@ -402,7 +408,6 @@
 		    	      showList(pageNum);
 		    	      
 		    	  });
-		    	  
 		    });
 		    
 		    //페이지 번호 클릭 이벤트
@@ -418,11 +423,8 @@
 		        
 		        showList(pageNum);
 		     });
-		    
-		    
 		});
 	</script>
-	
 	
 	<!-- 게시판 상세보기 창에서 게시판 관련 이벤트 처리 -->
 	<script>
@@ -438,6 +440,67 @@
 				operForm.submit();
 			});
 		});
+	</script>
+	
+	<!-- 첨부파일 처리 JS -->
+	<script>
+	$(document).ready(function(){
+		//즉시 실행 함수를 만들어 줘야 함 (1회)
+		(function(){
+			let bno = '<c:out value="${board.bno}"/>';
+			$.getJSON("getAttachList", {bno:bno}, function(arr){
+				//JSON get방식으로
+				
+				console.log(arr);
+				let str = "";
+				
+				$(arr).each(function(i, obj){
+					
+					if(!obj.image) { //이미지가 아닌 경우
+						//한글이나 공백 등... URL에 포함되어 있을시를 해결한다. encodeURIComponent()
+						let fileCallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
+						//YYYY/MM/DD/UUID_파일명
+						//BS4의 카드 방식으로 표시한다.
+						str += "<div class='card col-md-3'>";
+						str += "<div class='card-body'>";
+						str += "<p class='mr-2'>";
+						str += "<a href='../upload/download?fileName=" + fileCallPath + "'>";
+						str += "<img class='mx-auto d-block' src='../images/attach.png'>";
+						str += "</a>";
+						str += "</p>";
+						str += "</div>";
+						str += "</div>";
+					}
+					else { //이미지인 경우에는 섬네일 파일 경로를 사용 한다.
+						let fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+						let originPath = obj.uploadPath + "\\" + obj.uuid + "_" + obj.fileName; //원본파일 경로
+						originPath = originPath.replace(new RegExp(/\\/g),"/") //\\를 /로 대체 한다.
+						
+						str += "<div class='card col-md-3'>";
+						str += "<div class='card-body'>";
+						str += "<p class='mr-2'>";
+						str += "<a href=\"javascript:showImage(\'" + originPath + "\')\">"; //원본 파일을 보기 위해 클릭 이벤트 처리
+						//"<a href="javascript:showImage('" + kkkk + ')" 문자열로 처리해야해서 작성(이건 국쌤이 안 적어도 된다 하셨는데 걍 적어둠)
+						str += "<img src='display?fileName=" + fileCallPath + "'></a>"; 
+						//a의 클릭 아이콘, 클릭 링크 이미지, 직접 자원에 접근하지 못한다.(그래서 서버에서 읽어와서 보내줘야 한다.)
+						str += "</p>";
+						str += "</div>";
+						str += "</div>";
+					}
+				});
+
+				$(".uploadResult #card").html(str);
+			});
+		})(); //();는 즉시 실행 연산자
+	});
+	
+	function showImage(fileCallPath) {
+		//<a>태그에서 직접 호출시를 대비하여 J-Query밖에서 만든다.
+		//alert("원본사진 보여주기");
+		$('.imageModal .modal-body').html("<img class='d-block w-75 mx-auto' src='display?fileName="+ encodeURI(fileCallPath)+"&size=1' >");
+
+		$(".imageModal").modal("show");
+	}
 	</script>
 </body>
 </html>

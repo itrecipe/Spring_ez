@@ -17,6 +17,9 @@ public interface ReplyMapper {
 	//댓글 삭제
 	public int delete(Long rno);
 	
+	//댓글 모두 삭제
+	public int deleteAll(Long bno);
+	
 	//댓글 수정
 	public int update(ReplyVO reply);
 	
