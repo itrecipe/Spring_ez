@@ -5,7 +5,9 @@
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+		http://www.springframework.org/schema/task https://www.springframework.org/schema/task/spring-task.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
@@ -50,7 +52,11 @@
 	
 	<context:component-scan
 		base-package="org.ezen.ex02"></context:component-scan>
-		
+	
+	<!-- aop를 사용하기 위해 추가 -->	
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+	<!-- task 어노테이션을 사용하겠다는 의미로 추가해줌 -->
+	<task:annotation-driven/>
 		
 </beans>

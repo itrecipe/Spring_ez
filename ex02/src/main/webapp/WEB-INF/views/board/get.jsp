@@ -105,6 +105,7 @@
 					<div class="row mt-2">
 						<div class="col-md-12">
 							<ul class="chat list-group">
+								
 								<!--댓글 출력 형태를 참조 
 								<li class='list-group-item clearfix' data-rno='12'>
 									<strong class='text-primary'>user00</strong>
@@ -112,6 +113,7 @@
 									<p>댓글 내용입니다</p>
 								</li>
 								-->
+								
 							</ul>        
 						</div>
 					</div>

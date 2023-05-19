@@ -120,7 +120,7 @@ public class BoardController {
 	}
 	*/
 	
-	//페이지 정보 고려
+	//페이지 정보 고려, 첨부물 고려
 	@PostMapping("/modify")
 	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
 		log.info("modify:" + board);
@@ -134,7 +134,7 @@ public class BoardController {
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 
-		return "redirect:list";		
+		return "redirect:list" + cri.getListLink();		
 	}
 
 	/*

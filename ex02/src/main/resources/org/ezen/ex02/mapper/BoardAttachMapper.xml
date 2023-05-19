@@ -26,4 +26,10 @@
 	delete tbl_attach where bno = #{bno}
 </delete>
 
+<select id="getOldFiles"
+	resultType="org.ezen.ex02.domain.BoardAttachVO">
+	select * from tbl_attach where uploadPath = to_char(sysdate -1, 'yyyy/mm/dd')
+	<!-- 경로가 어제 날짜로 된 첨부파일 데이터를 반환한다. -->
+</select>
+
 </mapper>

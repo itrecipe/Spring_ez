@@ -68,6 +68,7 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.read(bno);
 	}
 
+	/* 첨부파일을 고려하지 않은 전 수정 코드
 	@Override
 	public boolean modify(BoardVO board) {
 
@@ -75,8 +76,29 @@ public class BoardServiceImpl implements BoardService {
 
 		return mapper.update(board) == 1;
 	}
+	*/
+	
+	//첨부물을 고려하여 수정한 수정 코드
+	@Transactional
+	@Override
+	public boolean modify(BoardVO board) {
+		log.info("modify..." + board);
+		
+		attachMapper.deleteAll(board.getBno()); //기존 특정 게시물에 대한 첨부물은 모두 삭제한다.
+		
+		boolean modifyResult = mapper.update(board) == 1; //일반 게시물은 업데이트]
+		
+		if(modifyResult && board.getAttachList().size() > 0) {
+			
+			board.getAttachList().forEach(attach -> {
+				attach.setBno(board.getBno());
+				attachMapper.insert(attach);
+			});
+		}
+		return modifyResult;
+	}
 
-	/* 삭제 : 한개만 삭제시 사용하던 코드
+	/* 삭제 : 첨부파일 한개만 삭제시 사용하던 코드
 	@Override
 	public boolean remove(Long bno) {
 
