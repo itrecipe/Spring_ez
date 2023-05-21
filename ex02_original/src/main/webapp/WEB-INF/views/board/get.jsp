@@ -93,7 +93,8 @@
 						value='<c:out value="${cri.amount}"/>'>
 					<!--  검색 적용 -->	
 					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
- 						<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>	
+ 						
+ 					<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>	
 				</form>
 				
 				<!-- 첨부물 처리 창 -->					
