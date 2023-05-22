@@ -55,13 +55,13 @@
 			 		 <a class="dropdown-item" href="#">Q&amp;A</a>
 			 	</div>
 			 </li>
-			 <!-- 
+
 			 <li class="nav-item">
 			 	<a class="nav-link" href="../home/abouts">About</a>
 			 </li>
-			  -->
 		</ul>
-		
+
+		<!--  		
 		<ul class="navbar-nav ml-auto">
 			 <li class="nav-item">			
 			 	<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#homeModal">
@@ -69,8 +69,22 @@
 			 	</button> 		 	
 		 	</li>
 		</ul>
+		-->
+		
+		<ul class="navbar-nav ml-auto">
+			 <li class="nav-item">			
+			 	<!--  
+			 	<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#homeModal">
+			 		로그인
+			 	</button>
+			 	-->
+			 	<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a>		 	
+		 	</li>
+		 	<li class="nav-item">
+			 	<a id="customLogin" class="nav-link" href="../member/customLogout">로그아웃</a>		 	
+			</li>
+		</ul>
 	</div>
-	
 </nav>
 </body>
 </html>

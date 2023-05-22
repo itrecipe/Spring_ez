@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<security:http auto-config="true" use-expressions="true">
+	<!-- auto-config, use-expressiondms default가 모두 true라서 생략해도 된다고 한다. -->
+	<!-- use-expression true는 access속성값을 security 표현 언어인 EL을 사용한다. -->
+	<!-- pattern 속성은 요청 경로를 access는 권한을 표시한다. -->
+		
+		<security:intercept-url pattern="/member/all" access="permitAll"/>
+	
+		<security:intercept-url pattern="/member/member" access="hasAnyRole('ROLE_MEMBER', 'ROLE_MANAGER', 'ROLE_ADMIN')"/>
+		
+		<!-- 스프링 시큐리트 자체 제공 로그인 페이지 -->
+		<!--  
+		<security:form-login/>
+		-->
+		
+		<!-- 사용자가 만드는 로그인 페이지를 지정한다. -->
+		<security:form-login login-page="/member/customLogin"/>
+		
+		<security:csrf disabled="true"/>
+	</security:http>
+
+	<security:authentication-manager>
+	</security:authentication-manager>
+</beans>
