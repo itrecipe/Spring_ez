@@ -136,7 +136,7 @@ public class BoardController {
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 
-		return "redirect:list";		
+		return "redirect:list";
 	}
 	
 
