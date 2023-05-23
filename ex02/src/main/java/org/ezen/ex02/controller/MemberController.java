@@ -34,5 +34,10 @@ public class MemberController {
 		
 		model.addAttribute("msg", "Access Denied");
 	}
+	
+	@GetMapping("/customLogout")
+	public void logoutGET() {
+		
+		log.info("custom logout");
+	}
 }
-
