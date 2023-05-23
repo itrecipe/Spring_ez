@@ -1,5 +1,6 @@
 package org.ezen.ex02.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,4 +27,12 @@ public class MemberController {
 			model.addAttribute("logout", "LogOut!");
 		}
 	}
+	
+	@GetMapping("/accsssError")
+	public void accessDenied(Authentication auth, Model model) {
+		log.info("access Denied : " + auth);
+		
+		model.addAttribute("msg", "Access Denied");
+	}
 }
+
