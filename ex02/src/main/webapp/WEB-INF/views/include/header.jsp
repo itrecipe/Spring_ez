@@ -19,7 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <!--icon -->
 <!--fontawesome icon-->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" 
 	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 <!--google icon -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -55,36 +55,35 @@
 			 		 <a class="dropdown-item" href="#">Q&amp;A</a>
 			 	</div>
 			 </li>
-
+			  
 			 <li class="nav-item">
 			 	<a class="nav-link" href="../home/abouts">About</a>
 			 </li>
+			 			  			  
 		</ul>
-
-		<!--  		
+		
+		<!-- 
 		<ul class="navbar-nav ml-auto">
 			 <li class="nav-item">			
 			 	<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#homeModal">
 			 		로그인
 			 	</button> 		 	
 		 	</li>
-		</ul>
-		-->
-		
+		</ul>		
+		 -->
 		<ul class="navbar-nav ml-auto">
-			 <li class="nav-item">			
-			 	<!--  
-			 	<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#homeModal">
-			 		로그인
-			 	</button>
-			 	-->
-			 	<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a>		 	
+			 <li class="nav-item">			 			 	
+			 	<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a> 		 	
 		 	</li>
 		 	<li class="nav-item">
-			 	<a id="customLogin" class="nav-link" href="../member/customLogout">로그아웃</a>		 	
+					<a class="nav-link" href="../member/customLogout">로그아웃</a>	
+			</li>
+			<li class="nav-item">
+					<a id="memberJoin" class="nav-link" href="../member/memberJoin">회원가입</a>
 			</li>
 		</ul>
 	</div>
+	
 </nav>
 </body>
 </html>

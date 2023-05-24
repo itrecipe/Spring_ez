@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,12 +10,13 @@
 <!-- RWD -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- MS -->
-<meta http-equiv="X-UA-Compatible" content="IE=chrome"/>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9"/> 
 
 </head>
 <body>
-<%@ include file="../include/header.jsp" %>
+
+<%@include file="../include/header.jsp"%>
 
 <div class="container mt-4 mb-4" id="mainContent">
 	<div class="row">
@@ -47,30 +48,33 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">로그인</h4>
 				<h4><c:out value="${error}"/></h4>
-				<h4><c:out value="${logout}"/></h4>
-				<!-- action login이다. -->
-				<form method='post' action="../Login">
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-					<div class="form-group">
+  				<h4><c:out value="${logout}"/></h4>
+  				<!-- action은 login임 -->
+  				<form method='post' action="../login">
+  					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+  					<div class="form-group">
 						<label for="uId">아이디</label>
-						<input type="text" class="form-control" name="username" placeholder="ID 입력" id="uId" required="required"/>
+						<input type="text" class="form-control" name="username" placeholder="아이디 입력" 	id="uId" required/>			
 					</div>
 					<div class="form-group">
 						<label for="uPw">비밀번호</label>
-						<input type="password" class="form-control" name="password" placeholder="PW 입력" id="uId" required="required"/>
+						<input type="password" class="form-control" name="password" id="uPw" placeholder="비밀번호 입력" required/>
 					</div>
-				<!-- 로그아웃을 안하고 접속을 차단시킨 후 일정시간 로그인 없이 재접속한다. -->
-				<div class="form-group form-check">
-					<input type="checkbox" class="foro-check-input" id="rememberMe" name="remember-me" checked>
-					<label class="form-check-label" for="rememberMe" aria-describedby="rememberMeHelp">remember-me</label>
-				</div>
-				<button type="submit" class="btn btn-success">로그인</button>
-				</form>
-			</div> <!-- submain -->
+					<!-- 로그아웃 안하고 접속 단절후  일정시간 로그인 없이 재접속 -->
+					<div class="form-group form-check">
+						<input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me" checked>
+						<label class="form-check-label" for="rememberMe" aria-describedby="rememberMeHelp">remember-me</label>			
+					</div>
+					<button type="submit" class="btn btn-success">로그인</button>
+  				</form>
+				 
+			</div> <!-- submain -->	
 		</div> <!-- col-md-10 -->
-	</div> <!-- row -->
-</div> <!-- mainContent -->
+	</div>
+	<!-- row -->
+</div>
+<!-- mainContent -->
 
-<%@ include file="../include/footer.jsp" %>
+<%@include file="../include/footer.jsp"%>
 </body>
 </html>

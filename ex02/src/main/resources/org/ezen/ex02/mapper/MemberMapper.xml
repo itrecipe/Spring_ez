@@ -2,27 +2,43 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="org.ezen.ex02.mapper.MemberMapper">
- 
- 	<!-- 여러개 넘길때는 이렇게 사용함,
- 		id는 pk, property는 memberVO의 멤버변수, column은 테이블의 컬럼명 -->
- 	<resultMap type="org.ezen.ex02.domain.MemberVO" id="memberMap">
- 		<id property="userid" column="userid"/>
- 		<result property="userid" column="userid"/>
- 		<result property="userpw" column="userpw"/>
- 		<result property="username" column="username"/>
- 		<result property="regDate" column="regDate"/>
- 		<result property="updateDate" column="updateDate"/>
- 		<collection property="authList" resultMap="authMap">
- 		</collection>
- 	</resultMap>
- 
- 	<select id="read" resultMap="memberMap">
- 		SELECT
- 		mem.userid, userpw, username, enabled, regdcate, updatedate, auth
- 		from
- 		tbl_member mem left outer join tbl_member_auth auth on mem.userid = auto.userid
- 		where mem.userid = #{userid}
- 	</select>
- 
- </mapper>
+
+<mapper namespace="org.ezen.ex02.mapper.MemberMapper">
+	
+	<!-- id는 pK, property는 memberVO의 멤버변수,column는 테이블의 컬럼명 -->
+	<resultMap type="org.ezen.ex02.domain.MemberVO" id="memberMap">
+		<id property="userid" column="userid" />
+		<result property="userid" column="userid" />
+		<result property="userpw" column="userpw" />
+		<result property="userName" column="username" />
+		<result property="regDate" column="regdate" />
+		<result property="updateDate" column="updatedate" />
+		<collection property="authList" resultMap="authMap">
+		</collection>
+	</resultMap>
+	
+	<resultMap type="org.ezen.ex02.domain.AuthVO" id="authMap">
+		<result property="userid" column="userid" />
+		<result property="auth" column="auth" />
+	</resultMap>
+
+	<!-- resultMap을 반환시는 resultTyp이 아닌 resultMap을 사용 -->
+	<select id="read" resultMap="memberMap">
+		SELECT
+		mem.userid, userpw, username, enabled, regdate, updatedate, auth
+		FROM
+		tbl_member mem LEFT OUTER JOIN tbl_member_auth auth on mem.userid = auth.userid
+		WHERE mem.userid = #{userid}
+	</select>
+	
+	<insert id="memberJoin" parameterType="org.ezen.ex02.domain.MemberVO">
+  		INSERT INTO TBL_MEMBER(USERID,USERPW,USERNAME)
+  		VALUES(#{userid},#{userpw},#{userName})
+    </insert>
+  
+   <insert id="memberAuth" parameterType="org.ezen.ex02.domain.AuthVO">
+  		INSERT INTO TBL_MEMBER_AUTH(USERID,AUTH)
+  		VALUES(#{userid},#{auth})
+   </insert>
+   
+</mapper>
