@@ -14,6 +14,9 @@
 	<!-- 암호화처리 빈으로 등록해야 회원 강비에서도 사용 가능 -->
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	
+	<!-- 사용자 DB테이블을 이용하는 처리 방식의 클래스를 빈으로 등록 -->
+	<bean id="customUserDetailsService"	class="org.ezen.ex02.security.CustomUserDetailsService"></bean>
+	
 	<security:http auto-config="true" use-expressions = "true">		
 		<!-- auto-config,use-expression은 디폹트가 모두 true로 생략해도 됨 -->	
 		<!-- use-expression true는 access속성값을 security 표현언어인 EL을 사용 -->
@@ -50,9 +53,9 @@
 		
 		<!--로그인 상태 유지 기능 -->
 		
-		<!--   		
-		<security:remember-me  token-validity-seconds="3600" />
-		--> 
+		   		
+		<security:remember-me  data-source-ref="dataSource" token-validity-seconds="3600" />
+		
 		
 		<security:logout logout-url="/member/customLogout"	
 			invalidate-session="true" delete-cookies="remember-me,JSESSIONID"/>

@@ -29,7 +29,7 @@
         
         
         <property name="java-output-path" value="target/classes"/>
-        <property name="context-root" value="ex02_test1"/>
+        <property name="context-root" value="ex02"/>
                                 	
     
     
