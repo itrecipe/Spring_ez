@@ -11,7 +11,7 @@
 	<bean id="customAccessDenied" class="org.ezen.ex02.security.CustomAccessDeniedHandler"></bean>
 	
 	<!-- 암호화처리 빈으로 등록해야 회원 창에서 사용 가능 -->
-	<bean id="bcryptpasswordEncoder" class="org.springframework.security"></bean>
+	<!--  <bean id="bcryptpasswordEncoder" class="org.springframework.security"></bean> -->
 	
 	<security:http auto-config="true" use-expressions="true">
 	<!-- auto-config, use-expressiondms default가 모두 true라서 생략해도 된다고 한다. -->
