@@ -361,7 +361,6 @@ $(document).ready(function(){
 			uploadUL.append("");
 			return;
 		}
-					
 				
 		$(uploadResultArr).each(function(i, obj) {
 			let str ="";
