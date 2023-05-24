@@ -54,9 +54,11 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시글 수정</h4>
 				<form  id="mform" name="mform" action="modify" method="post">
+					
 					<!-- 페이지 관련 정보 추가 -->
 					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
         			<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+        			
         			<!-- 검색 적용 -->	
         			<input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
 					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>				
@@ -135,9 +137,11 @@ $(function(){
 		}
 		else if(operation == "list") {
 			formObj.attr("action", "list").attr("method","get");
+			
 			//페이지 정보
 			let pageNumTag = $("input[name='pageNum']").clone(); //복사해둠
 		    let amountTag = $("input[name='amount']").clone();
+			
 			//검색정보
 		    let keywordTag = $("input[name='keyword']").clone();
 		    let typeTag = $("input[name='type']").clone();
