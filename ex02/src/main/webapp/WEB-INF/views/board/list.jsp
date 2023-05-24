@@ -104,9 +104,25 @@
 						<tbody>
 							<c:forEach items="${list}" var="board">
 								<tr>
+<<<<<<< Updated upstream
 									<td class="bno"><c:out value="${board.bno}" /></td>
 									<td>
 										<!-- jquery로 페이지 이벤트 처리 전
+=======
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>수정일</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${list}" var="car">
+									<tr>
+										<td class="bno"><c:out value="${board.bno}" /></td>
+										<td>
+											<!-- jquery로 페이지 이벤트 처리 전
+>>>>>>> Stashed changes
 									<a class="move" href='get?bno=<c:out value="${board.bno}"/>'>
 										<c:out value="${board.title}" />
 									</a>
