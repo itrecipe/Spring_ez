@@ -77,8 +77,22 @@
 							value='<c:out value="${board.writer }"/>' />
 					</div>
 				</form>
+				<!-- security 적용 전 (수정 버튼 처리)-->
+				<!--  
 				<button type="button" data-oper='modify' class="btn btn-info">수정</button>
 				&nbsp;&nbsp;
+				-->
+				<!-- security 적용 이후 (수정 버튼 처리) -->
+				<sec:authentication property="principal" var="pinfo"/>
+				
+				<!-- pinfo는 EL안에서 변수로 사용하기 위해 principal을 지정한다 -->
+				<sec:authorize access="isAuthenticated()">
+					<c:if test="${pinfo.username eq board.writer}">
+					<button data-oper='moduify' class="btn btn-info">Modify</button>
+					</c:if>				
+				</sec:authorize>
+				
+								
 				<button data-oper='list' class="btn btn-danger">게시판목록</button>
 				<!-- 버튼 클릭을 처리하기 위한 form,안보이는 창 -->
 				<form id='operForm' action="modify" method="get">
@@ -106,11 +120,23 @@
 				<div class="row mt-4">
 					<div class="col-md-12 clearfix">							
 				        	<i class="fas fa-reply fa-2x"></i> Reply
+				        	
+				        	<!-- security 댓글 처리 창 적용 이전 -->
+				        	<!--  
 				        	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
 				        		New Reply
-				        	</button>			      
+				        	</button>
+				        	-->
+				        	
+				        	<!-- security 댓글 처리 창 적용 이후, 로그인 한사람의 한해서 보여줄것 -->
+				        	<sec:authorize access="isAuthenticated()">
+					        	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
+					        			New Reply
+					        	</button>
+					        </sec:authorize>			      
 				     </div>  
 				</div>
+				
 				<div class="row mt-2">
 					<div class="col-md-12">
 						<ul class="chat list-group">
@@ -124,7 +150,6 @@
 						</ul>        
 					</div>
 				</div> 
-				
 				
 				<!-- 댓글의  페이지 --> 
 				<div id='replyPage'>

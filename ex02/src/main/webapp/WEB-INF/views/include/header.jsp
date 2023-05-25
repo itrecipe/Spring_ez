@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>    
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -59,10 +61,10 @@
 			 <li class="nav-item">
 			 	<a class="nav-link" href="../home/abouts">About</a>
 			 </li>
-			 			  			  
 		</ul>
 		
-		<!-- 
+		<!--
+			모달창으로 로그인 테스트 
 		<ul class="navbar-nav ml-auto">
 			 <li class="nav-item">			
 			 	<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#homeModal">
@@ -71,6 +73,8 @@
 		 	</li>
 		</ul>		
 		 -->
+	
+		<!-- security 미적용 (로그인, 로그아웃, 회원가입)  
 		<ul class="navbar-nav ml-auto">
 			 <li class="nav-item">			 			 	
 			 	<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a> 		 	
@@ -81,6 +85,29 @@
 			<li class="nav-item">
 					<a id="memberJoin" class="nav-link" href="../member/memberJoin">회원가입</a>
 			</li>
+		</ul>
+		-->
+		
+		<!-- security 적용 (로그인, 로그아웃, 회원가입) -->
+		<ul class="navbar-nav ml-auto">
+			<sec:authorize access="isAnonymous()"> <!-- 로그인 안한 상태면 로그인 버튼이 보인다. (true) -->
+				<li class="nav-item">
+					<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a>
+				</li>
+				<li class="nav-item">
+					<a id="memberJoin" class="nav-link" href="../member/memberJoin">회원가입</a>
+				</li>
+			</sec:authorize>
+
+			<sec:authorize access="isAuthenticated"> <!-- 로그인을 한 상태라면 로그아웃 버튼을 보여준다. -->
+				<li class="nav-item">
+					<a id="memberJoin" class="nav-link" href="#"><sec:authentication property="principal.username"/></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="../member/customLogout">로그아웃</a>
+				</li>
+			
+			</sec:authorize>
 		</ul>
 	</div>
 	

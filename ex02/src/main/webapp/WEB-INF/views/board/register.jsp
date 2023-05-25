@@ -32,7 +32,7 @@
 			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
 			<nav class="navbar bg-dark navbar-dark container">
 				<!-- RWD의 화면 축소시 나타나는 메뉴 버튼(상병계급장) -->
-				<!-- d-md-none은 메뉴가 감추어지지 아노고 펼쳐지는 것 예방 -->
+				<!-- d-md-none은 메뉴가 감춰지지 않고 멋대로 펼쳐지는 것을 예방한다. -->
 				<button class="navbar-toggler d-md-none" type="button" data-toggle="collapse" 
 					data-target="#collapsibleVertical">
 					<span class="navbar-toggler-icon"></span>
@@ -58,6 +58,10 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시물 등록</h4>
 				<form action="register" method="post" id="freg" name="freg" role="form">
+					<!-- security - CSRF 토큰 설정, 토큰 정보를 숨겨서 보낸다. -->
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				
+					
 					<!-- 업로드된 파일의 정보를 숨겨서 보낼 위치 -->
 					<div class="form-group">
 						<label for="title">제목:</label>
@@ -70,13 +74,27 @@
 								name="content" rows="10" required>
 						</textarea>		
 					</div>
+					
+					<!-- 시큐리티 적용전 (그냥 작성이 가능했음)  
 					<div class="form-group">
 						<label for="writer">작성자:</label>
 						<input type="text" class="form-control" id="writer" name="writer" />		
 					</div>
+					-->
+					
+					<!-- 시큐리티 적용 후 (로그인 아이디 표시) -->
+					<div class="form-group">
+						<label for="writer">작성자:</label>
+						<input type="text" class="form-control" id="writer" name="writer"
+							value='<sec:authentication property="principal.username"/>' readonly="readonly" />		
+					</div>
+
 					<button type="submit" class="btn btn-success">작성</button>&nbsp;&nbsp;
 					<button type="reset" class="btn btn-danger">취소</button>	&nbsp;&nbsp;
 					<a id="listLink" href="list" class="btn btn-primary">목록보기</a>
+				
+				
+				
 				</form>
 				
 				<!-- 파일 첨부 창 -->				

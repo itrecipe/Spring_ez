@@ -13,6 +13,7 @@ import org.ezen.ex02.service.BoardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,13 +63,17 @@ public class BoardController {
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}
 	
+	//게시글 등록창 보여주기 메서드 (Read)
 	@GetMapping("/register")
+	@PreAuthorize("isAuthenticated") //인증 된 사람만 보여주기(시큐리티 적용 추가)
 	public void register() {
 		log.info("----registerForm");
 		//return은 register.jsp
 	}
 
+	//실제 게시글 등록 메서드 (Create)
 	@PostMapping("/register")
+	@PreAuthorize("isAuthenticated") //사전에 인증된 사람만 보여주기 (시큐리티 적용 추가)
 	public String register(BoardVO board, RedirectAttributes rttr) {
 
 		log.info("register: " + board);
