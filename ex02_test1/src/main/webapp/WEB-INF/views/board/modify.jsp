@@ -135,18 +135,23 @@ $(function(){
 		}
 		else if(operation == "list") {
 			formObj.attr("action", "list").attr("method","get");
+			
 			//페이지 정보
 			let pageNumTag = $("input[name='pageNum']").clone(); //복사해둠
 		    let amountTag = $("input[name='amount']").clone();
+			
 			//검색정보
 		    let keywordTag = $("input[name='keyword']").clone();
 		    let typeTag = $("input[name='type']").clone();
 		    
 			formObj.empty(); //formObj의 자식 엘리먼트를 모두 제거(4개포함 게시판 컬럼)
+			
 			//복사해둔 페이지 관련 정보를 다시 추가
 			formObj.append(pageNumTag); //자식으로 붙여쓰기
 		    formObj.append(amountTag);
-		    formObj.append(keywordTag);
+		    
+			//검색 처리
+			formObj.append(keywordTag);
 		    formObj.append(typeTag);	       
 		}
 		formObj.submit();
@@ -156,8 +161,6 @@ $(function(){
 */
 
 //첨부물 포함한 게시물 처리
-
-
 $(function(){
 	let formObj = $("#mform");
 	

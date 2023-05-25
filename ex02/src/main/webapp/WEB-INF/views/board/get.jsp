@@ -468,7 +468,6 @@
 	});
 </script>
 
-
 <!-- 게시판 상세보기 창에서 게시판 관련 이벤트 처리 -->
 <script>
 	$(document).ready(function() {
