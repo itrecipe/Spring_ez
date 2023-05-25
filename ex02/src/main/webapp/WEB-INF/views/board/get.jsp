@@ -229,7 +229,6 @@
 		
 		showList(1);
 		
-		
 		/*
 		function showList(page) {
 			console.log("show list " + page);
