@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -26,7 +25,7 @@
 
 <%@ include file="../include/header.jsp"%>
 
-<div class="container mt-4 mb-4" id="mainContent">
+<div class="container mt-4 mb-4 pl-0" id="mainContent">
 	<div class="row">
 		<div class="col-md-2">
 			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
@@ -67,10 +66,7 @@
 					</div>
 					<div class="form-group">
 						<label for="content">내용:</label>
-						<textarea class="form-control" id="content" name="content"
-							rows="10" readonly>
-						<c:out value="${board.content}" />
-					</textarea>
+<textarea class="form-control pl-0" id="content" name="content" rows="10" readonly><c:out value="${board.content}" /></textarea>
 					</div>
 					<div class="form-group">
 						<label for="writer">작성자:</label> <input type="text"
@@ -78,29 +74,24 @@
 							value='<c:out value="${board.writer }"/>' />
 					</div>
 				</form>
-				<!-- security 적용 전 (수정 버튼 처리)-->
+				<!-- security이전 -->
 				<!--  
 				<button type="button" data-oper='modify' class="btn btn-info">수정</button>
-				&nbsp;&nbsp;
 				-->
-				
-				<!-- security 적용 이후 (수정 버튼 처리) -->
-				<sec:authentication property="principal" var="pinfo"/>
-				<!-- pinfo는 EL안에서 변수로 사용하기 위해 principal을 지정한다 -->
-				<sec:authorize access="isAuthenticated()">
-					<c:if test="${pinfo.username eq board.writer}">
-					<button type="submit" data-oper='modify' class="btn btn-info">Modify</button>&nbsp;&nbsp;					
-					<button type="submit" data-oper='remove' class="btn btn-info">Remove</button>&nbsp;&nbsp;					
-					</c:if>
-				</sec:authorize>
+				<!-- security이후 -->
+				 <sec:authentication property="principal" var="pinfo"/>
+				 <!-- pinfo는 EL안에서 변수로 사용하기 위해 principal을 지정 -->
+				 <sec:authorize access="isAuthenticated()">
+					 	<c:if test="${pinfo.username eq board.writer}">
+					 	<button data-oper='modify' class="btn btn-info">Modify</button>
+					 	</c:if>
+				 </sec:authorize>
 				&nbsp;&nbsp;
-				<button type="submit" data-oper='list' class="btn btn-danger">게시판목록</button>
-				
+				<button data-oper='list' class="btn btn-danger">게시판목록</button>
 				<!-- 버튼 클릭을 처리하기 위한 form,안보이는 창 -->
 				<form id='operForm' action="modify" method="get">
 					<input type='hidden' id='bno' name='bno'
 						value='<c:out value="${board.bno}"/>'> 
-					
 					<!-- 페이지 정보를 추가 -->	
 					<input
 						type='hidden' name='pageNum'
@@ -108,10 +99,9 @@
 					<input
 						type='hidden' name='amount'
 						value='<c:out value="${cri.amount}"/>'>
-					
 					<!--  검색 적용 -->	
 					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
- 					<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>	
+ 						<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>	
 				</form>
 				
 				<!-- 첨부물 처리 창 -->					
@@ -124,23 +114,20 @@
 				<div class="row mt-4">
 					<div class="col-md-12 clearfix">							
 				        	<i class="fas fa-reply fa-2x"></i> Reply
-				        	
-				        	<!-- security 댓글 처리 창 적용 이전 -->
+				        	<!-- security 이전 -->
 				        	<!--  
 				        	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
 				        		New Reply
 				        	</button>
 				        	-->
-				        	
-				        	<!-- security 댓글 처리 창 적용 이후, 로그인 한사람의 한해서 보여줄것 -->
+				        	<!-- security 이후 -->	
 				        	<sec:authorize access="isAuthenticated()">
 					        	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
-					        			New Reply
+					        		New Reply
 					        	</button>
-					        </sec:authorize>			      
+					       	</sec:authorize>		      
 				     </div>  
 				</div>
-				
 				<div class="row mt-2">
 					<div class="col-md-12">
 						<ul class="chat list-group">
@@ -154,6 +141,7 @@
 						</ul>        
 					</div>
 				</div> 
+				
 				
 				<!-- 댓글의  페이지 --> 
 				<div id='replyPage'>
@@ -228,6 +216,7 @@
 		let replyUL = $(".chat");
 		
 		showList(1);
+		
 		
 		/*
 		function showList(page) {
@@ -467,6 +456,7 @@
 	    
 	});
 </script>
+
 
 <!-- 게시판 상세보기 창에서 게시판 관련 이벤트 처리 -->
 <script>

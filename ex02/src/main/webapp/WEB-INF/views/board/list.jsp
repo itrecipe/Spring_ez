@@ -19,7 +19,7 @@
 <%@include file="../include/header.jsp"%>
 
 <!-- list화면 표시 -->
-<div class="container mt-4 mb-4" id="mainContent">
+<div class="container mt-4 mb-4 pl-0" id="mainContent">
 	<div class="row">
 		<div class="col-md-2">
 			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
@@ -52,7 +52,6 @@
 					<button type="button" class="btn btn-primary float-right mb-3"
 						id="regBtn">게시물 등록</button>
 				</div>
-				
 				<!-- 검색창 -->
 				<form id='searchForm' action="list" method='get' class="mb-3">
 					<div class="input-group">
@@ -170,9 +169,11 @@
 <%@include file="../include/messageModal.jsp"%>
 <%@include file="../include/footer.jsp"%>
 <script>
-	$(document).ready(function() {
+	$(document)
+			.ready(
+					function() {
 						let result = '<c:out value="${result}"></c:out>';
-						//result는  redirect:로 URL이동시 RedirectAttributes에 저장한 속성값
+						//result는  refirect:로 URL이동시 RedirectAttributes에 저장한 속성값
 						console.log("result : " + result);
 						checkModal(result);
 
@@ -198,11 +199,19 @@
 									actionForm.submit(); //submit(),reset()은 form의 이벤트
 						});
 					    
-						$(".move").on("click", function(e) {
+						$(".move")
+								.on(
+										"click",
+										function(e) {
 											e.preventDefault();
-											actionForm.append("<input type='hidden' name='bno' value='" + $(this).attr("href") + "'>");
+											actionForm
+													.append("<input type='hidden' name='bno' value='"
+															+ $(this).attr(
+																	"href")
+															+ "'>");
 											//메서드에 의해서 구해지는 값이므로 +로 연결 해주어야 함	,뒤는 변수 선언시가 아니고 표시 이므로 보이는 대로 표시	
-											actionForm.attr("action", "get");
+											actionForm
+													.attr("action", "get");
 											actionForm.submit();
 						});
 

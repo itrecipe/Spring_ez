@@ -25,7 +25,7 @@
 
 <%@include file="../include/header.jsp"%>
 
-<div class="container mt-4 mb-4" id="mainContent" >
+<div class="container mt-4 mb-4 pl-0" id="mainContent" >
 	<div class="row">
 		<div class="col-md-2">
 			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
@@ -54,11 +54,10 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시글 수정</h4>
 				<form  id="mform" name="mform" action="modify" method="post">
-					
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<!-- 페이지 관련 정보 추가 -->
 					<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
         			<input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
-        			
         			<!-- 검색 적용 -->	
         			<input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
 					<input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>				
@@ -72,9 +71,7 @@
 					</div>
 					<div class="form-group">
 						<label for="content">내용:</label>
-						<textarea class="form-control" id="content" name="content" rows="10" >
-							<c:out value="${board.content}" />
-						</textarea>		
+<textarea class="form-control pl-0" id="content" name="content" rows="10" ><c:out value="${board.content}" /></textarea>		
 					</div>
 					<div class="form-group">
 						<label for="writer">작성자:</label>
@@ -90,8 +87,20 @@
 						<input type="text" class="form-control" id="updateDate" name="updateDate" 
 							value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${board.updateDate}" />'  readonly/>		
 					</div>
+					<!-- 시큐리티 적용전 
 					<button type="submit" data-oper='modify' class="btn btn-info">Modify</button>&nbsp;&nbsp;
   					<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>&nbsp;&nbsp;						
+					<button type="submit" data-oper='list' class="btn btn-success">List</button>
+					-->
+					
+					<!-- 시큐리티 적용후 -->
+					<sec:authentication property="principal" var="pinfo"/>
+					<sec:authorize access="isAuthenticated()">
+						<c:if test="${pinfo.username eq board.writer}">
+							<button type="submit" data-oper='modify' class="btn btn-info">Modify</button>&nbsp;&nbsp;
+  							<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>&nbsp;&nbsp;	  
+						</c:if>
+					</sec:authorize>											
 					<button type="submit" data-oper='list' class="btn btn-success">List</button>					
 				</form>
 				
@@ -137,11 +146,9 @@ $(function(){
 		}
 		else if(operation == "list") {
 			formObj.attr("action", "list").attr("method","get");
-			
 			//페이지 정보
 			let pageNumTag = $("input[name='pageNum']").clone(); //복사해둠
 		    let amountTag = $("input[name='amount']").clone();
-			
 			//검색정보
 		    let keywordTag = $("input[name='keyword']").clone();
 		    let typeTag = $("input[name='type']").clone();
@@ -307,7 +314,16 @@ $(document).ready(function(){
 $(document).ready(function(){
 	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 	let maxSize = 5242880; //5MB
-	let uploadUL = $(".uploadResult #card");	
+	let uploadUL = $(".uploadResult #card");
+	
+	//csrf용 변수 선언
+	let csrfHeaderName ="${_csrf.headerName}"; 
+	let csrfTokenValue="${_csrf.token}";
+	
+	//csrf를 ajax beforeSend로 적용
+	$(document).ajaxSend(function(e, xhr, options) { 
+        xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); 
+    });
 	
 	$("input[type='file']").change(function(e){			
 		let formData = new FormData(); //가상의 form엘리먼트 생성
@@ -361,6 +377,7 @@ $(document).ready(function(){
 			uploadUL.append("");
 			return;
 		}
+					
 				
 		$(uploadResultArr).each(function(i, obj) {
 			let str ="";

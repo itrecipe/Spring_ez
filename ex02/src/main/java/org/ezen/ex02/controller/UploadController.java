@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -185,6 +186,7 @@ public class UploadController {
 	 */
 
 	// 브라우져에서 업로드 결과를 보여주기 위해 JSON으로 첨부파일 관련 객체(AttachFileDTO) 보내기
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
@@ -354,6 +356,7 @@ public class UploadController {
 
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/deleteFile", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String type) {

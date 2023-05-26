@@ -100,6 +100,10 @@ public class BoardServiceImpl implements BoardService {
 
 		boolean modifyResult = mapper.update(board) == 1; //일반게시물은 업데이트
 		
+		if(board.getAttachList() == null) {
+			return modifyResult;
+		}
+		
 		if (modifyResult && board.getAttachList().size() > 0) {
 
 			board.getAttachList().forEach(attach -> {				

@@ -48,15 +48,17 @@
 	</beans:bean>
 	-->
 	
-	<!-- servlet제공 multipart-config 사용 -->
+	<!-- servlet제공 multipart-config사용 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</beans:bean>
 	
-	<!-- security 접근 제한 어노테이션을 적용 -->
-	<security:global-method-security
-		pre-post-annotations="enabled" secured-annotations="enabled"/>
+	<!-- security 접근 제한 어노테이션 사용 -->
+	<security:global-method-security 
+		pre-post-annotations="enabled" secured-annotations="enabled" />
 	
 	<context:component-scan base-package="org.ezen.ex02" />
+	
+	
 	
 </beans:beans>

@@ -26,13 +26,13 @@
 <%@include file="../include/header.jsp"%>
 
 <!-- register 메인화면 -->
-<div class="container mt-4 mb-4" id="mainContent" >
+<div class="container mt-4 mb-4 pl-0" id="mainContent" >
 	<div class="row">
 		<div class="col-md-2">
 			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
 			<nav class="navbar bg-dark navbar-dark container">
 				<!-- RWD의 화면 축소시 나타나는 메뉴 버튼(상병계급장) -->
-				<!-- d-md-none은 메뉴가 감춰지지 않고 멋대로 펼쳐지는 것을 예방한다. -->
+				<!-- d-md-none은 메뉴가 감추어지지 아노고 펼쳐지는 것 예방 -->
 				<button class="navbar-toggler d-md-none" type="button" data-toggle="collapse" 
 					data-target="#collapsibleVertical">
 					<span class="navbar-toggler-icon"></span>
@@ -58,11 +58,8 @@
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시물 등록</h4>
 				<form action="register" method="post" id="freg" name="freg" role="form">
-					<!-- security - CSRF 토큰 설정, 토큰 정보를 숨겨서 보낸다. -->
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				
-					
-					<!-- 업로드된 파일의 정보를 숨겨서 보낼 위치 -->
+					<!-- 토큰 정보를 숨겨서 보냄 -->
 					<div class="form-group">
 						<label for="title">제목:</label>
 						<input type="text" class="form-control" id="title" placeholder="Enter Title" 
@@ -70,31 +67,24 @@
 					</div>
 					<div class="form-group">
 						<label for="content">내용:</label>
-						<textarea class="form-control" id="content" placeholder="Enter Content" 
-								name="content" rows="10" required>
-						</textarea>		
+<textarea class="form-control" id="content" placeholder="Enter Content"	name="content" rows="10" required></textarea>		
 					</div>
-					
-					<!-- 시큐리티 적용전 (그냥 작성이 가능했음)  
+					<!--시큐리티 적용전  
 					<div class="form-group">
 						<label for="writer">작성자:</label>
 						<input type="text" class="form-control" id="writer" name="writer" />		
 					</div>
 					-->
-					
-					<!-- 시큐리티 적용 후 (로그인 아이디 표시) -->
+					<!-- 시큐리티로 로그인 아이디로 표시 -->
 					<div class="form-group">
 						<label for="writer">작성자:</label>
-						<input type="text" class="form-control" id="writer" name="writer"
-							value='<sec:authentication property="principal.username"/>' readonly="readonly" />		
+						<input type="text" class="form-control" id="writer" name="writer" 
+							value='<sec:authentication property="principal.username"/>' readonly />		
 					</div>
-
+					
 					<button type="submit" class="btn btn-success">작성</button>&nbsp;&nbsp;
 					<button type="reset" class="btn btn-danger">취소</button>	&nbsp;&nbsp;
 					<a id="listLink" href="list" class="btn btn-primary">목록보기</a>
-				
-				
-				
 				</form>
 				
 				<!-- 파일 첨부 창 -->				
@@ -126,9 +116,18 @@ $(document).ready(function(){
 	
 	let formObj = $("form[role='form']"); //게시글 작성 등록
 	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$"); //확장자가 지정된 것은 업로드 제한
-	let maxSize = 5242880; //5MB 파일 최대 크기
+	let maxSize = 5242880; //5MB 파일 최대 크기	
 	
 	let uploadUL = $(".uploadResult #card");
+	
+	//csrf용 변수 선언
+	let csrfHeaderName ="${_csrf.headerName}"; 
+	let csrfTokenValue="${_csrf.token}";
+	
+	//csrf를 ajax beforeSend로 적용
+	$(document).ajaxSend(function(e, xhr, options) { 
+        xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); 
+    }); 
 	
 	$("button[type='submit']").on("click", function(e){  //게시글작성 submit버튼
 	    
@@ -181,11 +180,11 @@ $(document).ready(function(){
 			processData: false,
 			contentType: false,
 			data: formData,
-			type: 'POST',					
-			//beforeSend: function(xhr) { 
+			type: 'POST',				    
+		    dataType : 'json', //생략해도 무방	
+		  //beforeSend: function(xhr) { 
 		    //      xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-		    //},		    
-		    dataType : 'json', //생략해도 무방		    
+		    //},	
 			success : function(result) {
 				console.log(result);
 				//List<AttachFileDTO>가 결과로 옴

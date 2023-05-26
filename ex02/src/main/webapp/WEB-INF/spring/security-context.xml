@@ -24,11 +24,10 @@
 		
 		<security:intercept-url pattern="/board/list" access="permitAll" />
 		
-		<!-- 컨트롤러에서 어노테이션으로 시큐리티 적용을 해주었기 떄문에 주석처리  
-		<security:intercept-url
-		
+		<!--어노테이션으로 처리
+		<security:intercept-url		
 			pattern="/board/register" access="hasAnyRole('ROLE_MEMBER','ROLE_MANAGER','ROLE_ADMIN')" />
-		-->
+		 -->	
 		
 		<!-- 클래스로 설정한  access-denied-handler 설정-->	
 		<security:access-denied-handler	ref="customAccessDenied" />	
@@ -51,15 +50,18 @@
 		<security:form-login login-page="/member/customLogin" authentication-success-handler-ref="customLoginSuccess"/>		 		 
 		-->
 		
+		<!-- csrf동작 -->
+		<!--  
 		<security:csrf disabled="true"/>
+		-->
 		
-		<!--로그인 상태 유지 기능 -->
-		   		
+		<!--로그인 상태 유지 기능 -->		   		
 		<security:remember-me  data-source-ref="dataSource" token-validity-seconds="3600" />
 		
+		
 		<security:logout logout-url="/member/customLogout"	
-			invalidate-session="true" delete-cookies="remember-me, JSESSIONID"/>
-	
+			invalidate-session="true" delete-cookies="remember-me,JSESSIONID"/>
+		
 	</security:http>
 	
 	<security:authentication-manager>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- 권한 없는 페이지 접근시 처리 클래스를 빈으로 설정 -->	
+	<bean id="customAccessDenied" class="org.ezen.ex02.security.CustomAccessDeniedHandler"></bean>
+	
+	<!-- 암호화처리 빈으로 등록해야 회원 강비에서도 사용 가능 -->
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
+	<!-- 사용자 DB테이블을 이용하는 처리 방식의 클래스를 빈으로 등록 -->
+	<bean id="customUserDetailsService"	class="org.ezen.ex02.security.CustomUserDetailsService"></bean>
+	
+	<security:http auto-config="true" use-expressions = "true">		
+		<!-- auto-config,use-expression은 디폹트가 모두 true로 생략해도 됨 -->	
+		<!-- use-expression true는 access속성값을 security 표현언어인 EL을 사용 -->
+		<!-- pattern속성은 요청경로를 access은 권한을 표시 -->
+		
+		<security:intercept-url pattern="/board/list" access="permitAll" />
+		
+		<!-- 컨트롤러에서 어노테이션으로 시큐리티 적용을 해주었기 떄문에 주석처리  
+		<security:intercept-url
+		
+			pattern="/board/register" access="hasAnyRole('ROLE_MEMBER','ROLE_MANAGER','ROLE_ADMIN')" />
+		-->
+		
+		<!-- 클래스로 설정한  access-denied-handler 설정-->	
+		<security:access-denied-handler	ref="customAccessDenied" />	
+		
+		<!-- error-page속성 사용법 -->
+		<!-- 
+		<security:access-denied-handler	error-page="/member/accessError" />
+		 -->
+		
+		<!-- 스프링 시큐리티 자체 제공 로그인 페이지 -->	
+		<!-- 
+		<security:form-login />	
+		 -->
+		
+		<!-- 사용자가 만드는 로그인 페이지 지정, 로그인없이 접속 시도한 페이지로 로그인 성공후 이동 -->
+		<security:form-login login-page="/member/customLogin"/>	
+		
+		<!-- 로그인 성공후 사용자가 만드는 처리 클레스를 사용하는 방식, AuthenticationSuccessHandler인터피이스를 구현한 클래스를 만들어 사용 -->
+		<!--  
+		<security:form-login login-page="/member/customLogin" authentication-success-handler-ref="customLoginSuccess"/>		 		 
+		-->
+		
+		<!-- 
+		이렇게 주석으로 막으면 disabled="false"가 되기 때문에
+		 csrf를 적용하기 위해 주석처리
+		<security:csrf disabled="true"/>
+		-->
+		
+		<!--로그인 상태 유지 기능 -->
+		   		
+		<security:remember-me  data-source-ref="dataSource" token-validity-seconds="3600" />
+		
+		<security:logout logout-url="/member/customLogout"	
+			invalidate-session="true" delete-cookies="remember-me, JSESSIONID"/>
+	
+	</security:http>
+	
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+</beans>

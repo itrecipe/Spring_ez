@@ -18,7 +18,7 @@
 
 <%@include file="../include/header.jsp"%>
 
-<div class="container mt-4 mb-4" id="mainContent">
+<div class="container mt-4 mb-4 pl-0" id="mainContent">
 	<div class="row">
 		<div class="col-md-2">
 			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>

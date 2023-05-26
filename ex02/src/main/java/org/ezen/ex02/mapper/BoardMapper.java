@@ -33,7 +33,7 @@ public interface BoardMapper {
 	// 게시글 총 갯수를 반환
 	public int getTotalCount(Criteria cri);
 
-	// 게시판의 댓글 숫자 업데이트 amount는 삭제시와 추가시 더하거나 빼줄 숫자 추가시는 1, 삭제는 -1 
+	// 게시판의 댓글 수자 업데이트 amount는 삭제시와 추가시 더하거나 빼줄 숫자 추가시는 1, 삭제는 -1 
 	public void updateReplyCnt(@Param("bno") Long bno, @Param("amount") int amount);
 
 }

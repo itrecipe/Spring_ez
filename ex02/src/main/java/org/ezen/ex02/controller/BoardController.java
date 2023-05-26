@@ -63,17 +63,17 @@ public class BoardController {
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}
 	
-	//게시글 등록창 보여주기 메서드 (Read)
+	//등록창 보여 주기
 	@GetMapping("/register")
-	@PreAuthorize("isAuthenticated") //인증 된 사람만 보여주기(시큐리티 적용 추가)
+	@PreAuthorize("isAuthenticated()")
 	public void register() {
 		log.info("----registerForm");
 		//return은 register.jsp
 	}
-
-	//실제 게시글 등록 메서드 (Create)
+	
+	//게시판 등록 작업 처리
 	@PostMapping("/register")
-	@PreAuthorize("isAuthenticated") //사전에 인증된 사람만 보여주기 (시큐리티 적용 추가)
+	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
 
 		log.info("register: " + board);
@@ -126,8 +126,8 @@ public class BoardController {
 	}
 	*/
 	
-	//페이지 정보 고려,첨부물 고려
-	
+	//페이지 정보 고려,첨부물 고려,시큐리티 미적용
+	/*
 	@PostMapping("/modify")
 	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
 		log.info("modify:" + board);
@@ -143,7 +143,28 @@ public class BoardController {
 
 		return "redirect:list";		
 	}
+	*/
 	
+	//시큐리티 적용
+	@PreAuthorize("principal.username == #board.writer") //SEC EL(표현언어)로 작성
+	@PostMapping("/modify")
+	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
+		log.info("modify:" + board);
+
+		if (service.modify(board)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		/*
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		//list로 검색조건을 넘김
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
+
+		return "redirect:list";
+		*/
+		return "redirect:list" + cri.getListLink();
+	}
 
 	/*
 	 * 페이지 정보 미고려
@@ -158,7 +179,8 @@ public class BoardController {
 	}
 	*/
 	
-	//페이지 정보 고려
+	//페이지 정보 고려,시큐리티 미적용
+	/*
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {
 
@@ -172,13 +194,42 @@ public class BoardController {
 			deleteFiles(attachList);			
 			rttr.addFlashAttribute("result", "success");
 		}
-		/*
-		rttr.addAttribute("pageNum", cri.getPageNum());
-		rttr.addAttribute("amount", cri.getAmount());
+		
+		//rttr.addAttribute("pageNum", cri.getPageNum());
+		//rttr.addAttribute("amount", cri.getAmount());
 		//list로 검색조건을 넘김
-		rttr.addAttribute("type", cri.getType());
-		rttr.addAttribute("keyword", cri.getKeyword());
-		*/
+		//rttr.addAttribute("type", cri.getType());
+		//rttr.addAttribute("keyword", cri.getKeyword());
+		
+		System.out.println("쿼리스트링 : " + cri.getListLink());
+		return "redirect:list" + cri.getListLink(); 
+		//query문자열 이므로 ?을 붙일 필요 없다,한글깨짐 염려 필요 없음		
+	}
+	*/
+	
+	//시큐리티 적용
+	@PreAuthorize("principal.username == #writer")
+	@PostMapping("/remove")
+	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr,String writer) {
+		
+		//writer는 파라메터로 오므로 처리 가능
+		log.info("remove..." + bno);
+		
+		List<BoardAttachVO> attachList = service.getAttachList(bno);
+
+		if (service.remove(bno)) {
+			
+			//폴더에 있는 파일 삭제
+			deleteFiles(attachList);			
+			rttr.addFlashAttribute("result", "success");
+		}
+		
+		//rttr.addAttribute("pageNum", cri.getPageNum());
+		//rttr.addAttribute("amount", cri.getAmount());
+		//list로 검색조건을 넘김
+		//rttr.addAttribute("type", cri.getType());
+		//rttr.addAttribute("keyword", cri.getKeyword());
+		
 		System.out.println("쿼리스트링 : " + cri.getListLink());
 		return "redirect:list" + cri.getListLink(); 
 		//query문자열 이므로 ?을 붙일 필요 없다,한글깨짐 염려 필요 없음		
