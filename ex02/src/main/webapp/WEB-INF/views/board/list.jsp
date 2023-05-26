@@ -35,16 +35,15 @@
 						<li class="nav-item"><a class="nav-link" href="#"> <i
 								class="fas fa-home" style="font-size: 30px; color: white;"></i>
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="register">게시물
-								등록</a></li>
+						<li class="nav-item"><a class="nav-link" href="register">게시물 등록</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">리스트</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">도움말</a></li>
 					</ul>
 				</div>
 			</nav>
 		</div>
-
-
+		
+		<!-- 게시글 등록창 -->
 		<div class="col-md-10">
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">게시판</h4>
@@ -52,6 +51,7 @@
 					<button type="button" class="btn btn-primary float-right mb-3"
 						id="regBtn">게시물 등록</button>
 				</div>
+				
 				<!-- 검색창 -->
 				<form id='searchForm' action="list" method='get' class="mb-3">
 					<div class="input-group">
@@ -131,6 +131,7 @@
 				<!-- table responsive-md -->
 			</div>
 			<!-- submian -->
+			
 			<!-- 페이지 표시하기 -->
 			<ul class="pagination justify-content-center" style="margin: 20px 0">
 				<c:if test="${pageMaker.prev}">
@@ -156,6 +157,7 @@
 					value='${pageMaker.cri.pageNum}'> 
 				<input type='hidden'
 					name='amount' value='${pageMaker.cri.amount}'>
+				
 				<!-- 검색후 페이지번호 버튼 클릭처리 -->	
 				<input type='hidden' name='type'
 					value='<c:out value="${ pageMaker.cri.type }"/>'> 
@@ -169,9 +171,7 @@
 <%@include file="../include/messageModal.jsp"%>
 <%@include file="../include/footer.jsp"%>
 <script>
-	$(document)
-			.ready(
-					function() {
+	$(document).ready(function() {
 						let result = '<c:out value="${result}"></c:out>';
 						//result는  refirect:로 URL이동시 RedirectAttributes에 저장한 속성값
 						console.log("result : " + result);
@@ -185,33 +185,22 @@
 						});
 
 						let actionForm = $("#actionForm");
-						$(".page-item a").on(
-								"click",
-								function(e) {
+						$(".page-item a").on("click", function(e) {
 									e.preventDefault(); //a의 원래 기능을 취소
 									console.log('page 번호 클릭');
-									actionForm
-											.find("input[name='pageNum']")
-											.val($(this).attr("href"));
+									actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 									//find(selector)메서드는 자식 엘리먼트에서 selector에 해당하는 엘리먼트를 선택 
 									//pageNum이 neme인 input의 value에 클릭한 a의 href값(페이지 번호)을 넣어줌
 									//this는 이벤트가 일어난 객체이므로 <a>가 됨
 									actionForm.submit(); //submit(),reset()은 form의 이벤트
 						});
 					    
-						$(".move")
-								.on(
-										"click",
-										function(e) {
+						$(".move").on("click", function(e) {
 											e.preventDefault();
-											actionForm
-													.append("<input type='hidden' name='bno' value='"
-															+ $(this).attr(
-																	"href")
-															+ "'>");
-											//메서드에 의해서 구해지는 값이므로 +로 연결 해주어야 함	,뒤는 변수 선언시가 아니고 표시 이므로 보이는 대로 표시	
-											actionForm
-													.attr("action", "get");
+											actionForm.append("<input type='hidden' name='bno' value='" 
+													+ $(this).attr("href") + "'>");
+											//메서드에 의해서 구해지는 값이므로 +로 연결 해주어야 한다, 뒤는 변수 선언시가 아니고 표시 이므로 보이는 대로 표시	
+											actionForm.attr("action", "get");
 											actionForm.submit();
 						});
 

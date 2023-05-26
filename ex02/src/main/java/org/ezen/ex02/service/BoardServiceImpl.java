@@ -128,6 +128,7 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.delete(bno) == 1;
 	}
 	
+	//목록보기 - 페이징 처리 전
 	/*
 	@Override
 	//목록보기(select all)
@@ -137,6 +138,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	*/	
 	
+	//목록보기 - 페이징 처리 후
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
 
@@ -145,6 +147,7 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getListWithPaging(cri);
 	}
 	
+	//게시글 총 합계 - 페이징 처리
 	@Override
 	public int getTotal(Criteria cri) {
 

@@ -39,7 +39,7 @@ public class BoardController {
 	// 서비스의 메서드를 사용하기 위해서 주입받기 위한 멤버변수
 	// 멤버변수가 하나인 생성자가 존재시 자동 주입되어 @Autowired생략(스프링 4.3부터)
 
-	/*
+	/* 페이징 처리 전 - list(R)
 	@GetMapping("/list")
 	public void list(Model model) {
 		log.info("list");
@@ -48,15 +48,17 @@ public class BoardController {
 	}
 	*/
 	
+	//페이징 처리 후 - list(R)
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
 		//cri를 자동 수집하므로 값이 없을시는 기본형 생성자가 설정하는 값으로 수집
 		log.info("list: " + cri);
 		model.addAttribute("list", service.getList(cri));
+		
 		//model.addAttribute("pageMaker", new PageDTO(cri, 123));
 		//123은 총게시글수인 total 인데 아직은 123으로 임시 처리
 		
-		//실제 게시글 갯수 
+		//실제 게시글 갯수
 		int total = service.getTotal(cri);
 		log.info("total: " + total);
 		
