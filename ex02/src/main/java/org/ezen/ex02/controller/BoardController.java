@@ -105,7 +105,7 @@ public class BoardController {
 	}
 	*/
 	
-	//리스트장에서 조회창으로 이동시 페이비 번호 유지를 위해 cri객체를 사용하고 강제로 Model에 포함
+	//리스트장에서 조회창으로 이동시 페이지의 번호 유지를 위해 cri객체를 사용하고 강제로 Model에 포함
 	@GetMapping({ "/get", "/modify" })
 	public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
         //bean규칙의 DTO객체는 자동 model에 포함
