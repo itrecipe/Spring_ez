@@ -59,6 +59,4 @@
 	
 	<context:component-scan base-package="org.ezen.ex02" />
 	
-	
-	
 </beans:beans>

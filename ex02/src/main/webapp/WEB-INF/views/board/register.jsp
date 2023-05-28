@@ -102,7 +102,8 @@
 						<!-- 업로드 파일 결과를 보여 주는 창 -->					
 						<div class='row' id='card'>
 						</div>  			
-					</div>					
+					</div>
+										
 				</div><!-- 파일 첨부 -->
 			</div><!-- submain -->
 		</div><!-- col-md-10 -->
