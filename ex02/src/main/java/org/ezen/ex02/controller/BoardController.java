@@ -209,7 +209,7 @@ public class BoardController {
 	}
 	*/
 	
-	//시큐리티 적용
+	//시큐리티 적용 remove
 	@PreAuthorize("principal.username == #writer")
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr,String writer) {
@@ -248,6 +248,7 @@ public class BoardController {
 
 	}
 	
+	//첨부파일 삭제
 	private void deleteFiles(List<BoardAttachVO> attachList) {
 
 		if (attachList == null || attachList.size() == 0) {

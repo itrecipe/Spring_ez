@@ -28,6 +28,7 @@ public interface BoardService {
 	//게시글 총 합계, 페이징을 위한 처리
 	public int getTotal(Criteria cri);
 	
+	//파일 첨부를 위한 처리
 	public List<BoardAttachVO> getAttachList(Long bno);
 
 }

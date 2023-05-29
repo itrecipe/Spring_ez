@@ -8,12 +8,12 @@
 	<!-- java의 boolean인 fileType은 문자 '0'이나 '1'로 처리(true는 '1') -->
 	<insert id="insert">
 	
-		insert into tbl_attach (uuid, uploadpath, filename,filetype, bno)
+		insert into tbl_attach (uuid, uploadpath, filename, filetype, bno)
 		values (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{bno} )
 		
 	</insert>
 	
-	<!-- 첨부 파일 하나 지우기,uuid가 PK임 -->
+	<!-- 첨부 파일 하나 지우기, uuid가 PK임 -->
 	<delete id="delete">
 
 		delete from tbl_attach where uuid = #{uuid}

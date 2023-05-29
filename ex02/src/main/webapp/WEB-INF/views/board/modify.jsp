@@ -167,8 +167,6 @@ $(function(){
 */
 
 //첨부물 포함한 게시물 처리
-
-
 $(function(){
 	let formObj = $("#mform");
 	

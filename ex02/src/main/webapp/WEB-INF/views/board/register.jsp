@@ -138,7 +138,7 @@ $(document).ready(function(){
 	    
 	    let str = "";
 	    
-	    $(".uploadResult .card  p").each(function(i, obj){
+	    $(".uploadResult .card p").each(function(i, obj){
 	      
 	      let jobj = $(obj);
 	      

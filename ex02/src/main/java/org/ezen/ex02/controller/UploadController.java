@@ -46,7 +46,7 @@ public class UploadController {
 
 	@PostMapping("/uploadFormAction")
 	public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
-		// servlet제공 업로드는 MultipartFile클래스 객체로 처리,multiple이므로 배열, 파라메터 이름은 form의 name속성
+		// servlet제공 업로드는 MultipartFile클래스 객체로 처리, multiple이므로 배열, 파라메터 이름은 form의 name속성
 		// 다를때는 @RequestParam사용
 
 		String uploadFolder = "C:/upload";
