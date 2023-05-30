@@ -116,13 +116,15 @@
 				<div class="row mt-4">
 					<div class="col-md-12 clearfix">							
 				        	<i class="fas fa-reply fa-2x"></i> Reply
+
 				        	<!-- security 이전 -->
-				        	<!--  
+				        	<!--    
 				        	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
 				        		New Reply
 				        	</button>
 				        	-->
-				        	<!-- security 이후 -->	
+				        	
+				        	<!-- security 이후 -->
 				        	<sec:authorize access="isAuthenticated()">
 					        	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
 					        		New Reply
@@ -219,12 +221,11 @@
 		
 		showList(1);
 		
-		
 		/*
 		function showList(page) {
 			console.log("show list " + page);
 			
-			replyService.getList({bno:bnoValue,page: page|| 1 }, 
+			replyService.getList({bno:bnoValue, page : page|| 1 }, 
 					function(list){  //list는 서버에서 ArrayList(배열형태,요소는 reply객체의 JSON배열)
 					//자바스크립트에서는 JS객체 처럼 사용
 					var str="";	
@@ -345,7 +346,23 @@
 	    let modalRemoveBtn = $("#modalRemoveBtn");
 	    let modalRegisterBtn = $("#modalRegisterBtn");
 	    
-	    //나가기버튼 이벤트 처리
+		//security로 댓글 처리(댓글 작성자를 로그인한 ID로 처리)
+		let replyer = null;
+		
+		// JS안에 JSP의 태그 라이브러리인 sec과 sec의 EL을 사용한다.
+		<sec:authorize access="isAuthenticated()">
+			replyer = '<sec:authentication property="principal.username"/>';
+		</sec:authorize>
+	    
+		//ajax 사용을 위한 CSRF 토큰
+		let csrfHeaderName = "${_csrf.headerName}";
+		let csrfTokenValue = "${_csrf.token}";
+		
+		$(document).ajaxSend(function(e, xhr, options){
+			xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		});
+		
+	    //나가기 버튼 이벤트 처리
 	    $("#modalCloseBtn").on("click", function(e){
    	
    			modal.modal('hide');
@@ -355,13 +372,15 @@
 		$("#addReplyBtn").on("click", function(e){
 		      
 		      modal.find("input").val(""); //input의 값을 초기화
-		      modalInputReplyDate.closest("div").hide(); //날짜 입력DOM은 감춤
-		      modal.find("button[id !='modalCloseBtn']").hide(); //나가기만 보임
 		      
-		      modalRegisterBtn.show(); //등록버튼 다시 보이게
+		      //시큐리티 적용시 댓글 작성자를 로그인한 이용자 ID(변수 replyer) 로 표시
+		      modal.find("input[name='replyer']").val(replyer)
+		      modalInputReplyDate.closest("div").hide(); //날짜 입력 DOM은 감춘다.
+		      modal.find("button[id != 'modalcloseBtn']").hide(); //나가기 외의 버튼 모두 숨긴다.
 		      
-		      $(".replyModal").modal("show");
+		      modalRegisterBtn.show(); //등록버튼 다시 보이게 처리
 		      
+		      $(".replyModal").modal("show"); //모달창 보여주기
 		 });
 	    
 	    //댓글 등록 이벤트
@@ -428,9 +447,29 @@
 	    //삭제 이벤트
 	    modalRemoveBtn.on("click", function (e){
 	    	  
-	    	  var rno = modal.data("rno");
+	    	//댓글 리스트창에서 data-rno속성에 rno 번호가 없다(이벤트가 일어난 것의 data-rno값)  
+	    	let rno = modal.data("rno");
 	    	  
-	    	  replyService.remove(rno, function(result){
+	    	console.log("RNO : " + rno);
+	    	console.log("REPLYER" + replyer); //로그인 사용자
+	    	  
+	    	if(!replyer) { //JS는 값이 없거나 0등도 flase로 처리한다.
+	    		alert("로그인 후 삭제 가능 합니다.");
+	    		modal.modal("hide");
+	    		return;
+	    	}
+	    	
+	    	let originalReplyer = modalInputReplyer.val();
+	    	console.log("Original Replyer : " + originalReplyer);
+	    	
+	    	if(replyer != originalReplyer){
+	    		alert("님이 작성한 댓글만 삭제 가능해요");
+	    		modal.modal("hide");
+	    		return;
+	    	}
+	    	
+	    	//시큐리티
+	    	replyService.remove(rno, originalReplyer, function(result){
 	    	        
 	    	      alert(result);
 	    	      modal.modal("hide");

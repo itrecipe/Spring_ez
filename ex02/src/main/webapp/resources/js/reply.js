@@ -56,6 +56,7 @@
 		});
 	}
 	
+	/* 시큐리티 적용 전 (remove)
 	function remove(rno, callback, error) {
 		$.ajax({
 			type : 'delete', //REST방식
@@ -72,7 +73,38 @@
 			}
 		});
 	}
-	
+	*/
+
+		//시큐리티 적용 후 (remove)
+		function remove(rno, replyer, callback, error) {
+		
+			console.log("------------------------");
+			console.log(JSON.stringify({rno:rno, replyer:replyer}));
+		
+		$.ajax({
+			type : 'delete', //REST방식
+			
+			url : '../replies/' + rno,
+			
+			data : JSON.stringify({rno:rno, replyer:replyer}),
+			
+			contentType : "application/json; charset=utf-8", 
+			
+			success : function(deleteResult, status, xhr) {
+				if (callback) {
+					callback(deleteResult);
+				}
+			},
+			
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+		});
+	}
+
+		
 	function update(reply, callback, error) {
 
 		console.log("RNO: " + reply.rno);

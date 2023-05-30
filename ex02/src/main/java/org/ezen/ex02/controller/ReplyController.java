@@ -9,6 +9,7 @@ import org.ezen.ex02.service.ReplyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,8 @@ public class ReplyController {
 	private ReplyService service;
 	// 멤버변수 하나이고 파라메터가 이 멤버변수를 가진 생성자가 있으므로 자동 주입
 
+	@PreAuthorize("isAuthenticated()") 
+	//로그인 한 사람만 접근할 수 있도록 시큐리티 처리
 	@PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
 	// consumes속성은 클라이언트에서 전달 받는 데이터의 MIME
 	// produces는 이메서드가 생산하는 데이터형
@@ -84,6 +87,7 @@ public class ReplyController {
 		return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
 	}
 
+	/* 시큐리티 적용 전 (remove)
 	@DeleteMapping(value = "/{rno}", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
 
@@ -92,6 +96,18 @@ public class ReplyController {
 		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
+	}
+	*/
+	
+	//시큐리티 적용 후 (remove)
+	@PreAuthorize("principal.username == #vo.replyer")
+	@DeleteMapping(value = "/{rno}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
+
+		log.info("remove: " + rno);
+
+		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, value = "/{rno}", 
