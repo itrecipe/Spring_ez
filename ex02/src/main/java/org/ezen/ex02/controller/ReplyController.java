@@ -87,7 +87,7 @@ public class ReplyController {
 		return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
 	}
 
-	/* 시큐리티 적용 전 (remove)
+	// 시큐리티 적용 전 (remove)
 	@DeleteMapping(value = "/{rno}", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
 
@@ -97,8 +97,8 @@ public class ReplyController {
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}
-	*/
 	
+	/*
 	//시큐리티 적용 후 (remove)
 	@PreAuthorize("principal.username == #vo.replyer")
 	@DeleteMapping(value = "/{rno}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
@@ -122,6 +122,6 @@ public class ReplyController {
 
 		return service.modify(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
 	}
+	*/
 }

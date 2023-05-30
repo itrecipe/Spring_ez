@@ -56,7 +56,7 @@
 		});
 	}
 	
-	/* 시큐리티 적용 전 (remove)
+	 //시큐리티 적용 전 (remove)
 	function remove(rno, callback, error) {
 		$.ajax({
 			type : 'delete', //REST방식
@@ -73,8 +73,8 @@
 			}
 		});
 	}
-	*/
 
+		/*
 		//시큐리티 적용 후 (remove)
 		function remove(rno, replyer, callback, error) {
 		
@@ -103,7 +103,7 @@
 			}
 		});
 	}
-
+	*/
 		
 	function update(reply, callback, error) {
 

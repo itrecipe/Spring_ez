@@ -73,7 +73,7 @@ public class BoardController {
 		//return은 register.jsp
 	}
 	
-	//게시판 등록 작업 처리
+	//게시판 등록 작업 처리 - 첨부파일 처리
 	@PostMapping("/register")
 	@PreAuthorize("isAuthenticated()")
 	public String register(BoardVO board, RedirectAttributes rttr) {
@@ -128,7 +128,7 @@ public class BoardController {
 	}
 	*/
 	
-	//페이지 정보 고려,첨부물 고려,시큐리티 미적용
+	//페이지 정보 고려, 첨부물 고려, 시큐리티 미적용
 	/*
 	@PostMapping("/modify")
 	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
@@ -181,7 +181,7 @@ public class BoardController {
 	}
 	*/
 	
-	//페이지 정보 고려,시큐리티 미적용
+	//페이지 정보, 첨부파일, 시큐리티 미적용
 	/*
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, Criteria cri, RedirectAttributes rttr) {

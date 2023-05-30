@@ -429,7 +429,8 @@
 	      });
 	    });
 	    
-	    //댓글 수정 이벤트
+	    /*
+	    //댓글 수정 이벤트 - 시큐리티 적용 전
 	    modalModBtn.on("click", function(e){
 	        
 	        var reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
@@ -442,6 +443,39 @@
 	          showList(pageNum);
 	        });
 	        
+	    });
+	    */
+	    
+	    //댓글 수정 이벤트 - 시큐리티 적용 후
+	      modalModBtn.on("click", function(e){
+	        
+	    	let originalReplyer = modalInputReplyer.val();
+	    	
+	        let reply = {
+	        		rno:modal.data("rno"), 
+	        		reply: modalInputReply.val()
+	        		replyer: originalReplyer
+	        };
+	        
+	        if(!replyer) {
+	        	alert("로그인 후 수정이 가능해요!");
+	        	modal.modal("hide");
+	        	return;
+	        }
+	        
+	        if(replyer != originalReplyer) {
+	        	alert("자신이 작성한 댓글만 수정이 가능하다.!");
+	        	modal.modal("hide");
+	        	return;
+	        }
+	        
+	        replyService.update(reply, function(result){
+	              
+	          alert(result);
+	          modal.modal("hide");
+	          //showList(1);
+	          showList(pageNum);
+	        });
 	    });
 	    
 	    //삭제 이벤트

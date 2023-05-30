@@ -89,7 +89,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	*/
 	
-	//첨부물 고려
+	//첨부물 고려 
 	@Transactional //두개 테이블 처라하므로 트랜젝션
 	@Override
 	public boolean modify(BoardVO board) {
@@ -115,6 +115,7 @@ public class BoardServiceImpl implements BoardService {
 		return modifyResult;
 	}
 	
+	//첨부파일 처리 후 (remove)
 	@Transactional
 	@Override
 	public boolean remove(Long bno) {
@@ -155,6 +156,7 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getTotalCount(cri);
 	}
 	
+	//첨부파일 리스트 처리
 	@Override
 	public List<BoardAttachVO> getAttachList(Long bno) {
 
@@ -162,6 +164,4 @@ public class BoardServiceImpl implements BoardService {
 
 		return attachMapper.findByBno(bno);
 	}
-	
-
 }
