@@ -176,8 +176,6 @@
 		}
 	}
 	
-	
-	
  	return {
  		add : add,
  		getList : getList,
@@ -187,5 +185,4 @@
  		displayTime : displayTime
  	};
  })();
- 
  
