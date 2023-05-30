@@ -128,7 +128,7 @@ public class BoardController {
 	}
 	*/
 	
-	//페이지 정보 고려, 첨부물 고려, 시큐리티 미적용
+	//페이지 정보 (완), 첨부물 처리(완), 시큐리티 미적용
 	/*
 	@PostMapping("/modify")
 	public String modify(BoardVO board, Criteria cri, RedirectAttributes rttr) {
@@ -157,8 +157,10 @@ public class BoardController {
 			rttr.addFlashAttribute("result", "success");
 		}
 		/*
+		//파일첨부 관련
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		
 		//list로 검색조건을 넘김
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
@@ -248,7 +250,7 @@ public class BoardController {
 
 	}
 	
-	//첨부파일 삭제
+	//첨부파일을 삭제하는 메서드
 	private void deleteFiles(List<BoardAttachVO> attachList) {
 
 		if (attachList == null || attachList.size() == 0) {

@@ -330,6 +330,7 @@ public class UploadController {
 		return result;
 	}
 
+	//다운로드 파일 메서드
 	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(String fileName) {
@@ -372,6 +373,7 @@ public class UploadController {
 
 	}
 
+	//파일 삭제 메서드
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/deleteFile", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -404,7 +406,5 @@ public class UploadController {
 		}
 
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
-
 	}
-
 }

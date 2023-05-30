@@ -267,6 +267,7 @@
 		    <version>2.3.2</version>
 		</dependency>
 		
+		<!-- 주기적 처리를 위한 Quartz-jobs 라이브러리  -->
 		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
 		<dependency>
 		    <groupId>org.quartz-scheduler</groupId>
@@ -280,17 +281,20 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
-		<!-- taglibs는 jsp에서 사용 -->
+		
+		<!-- spring-security-taglibs는 jsp에서 사용 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
