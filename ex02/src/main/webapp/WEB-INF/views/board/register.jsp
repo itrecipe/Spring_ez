@@ -83,7 +83,7 @@
 					</div>
 					
 					<button type="submit" class="btn btn-success">작성</button>&nbsp;&nbsp;
-					<button type="reset" class="btn btn-danger">취소</button>	&nbsp;&nbsp;
+					<button type="reset" class="btn btn-danger">취소</button>&nbsp;&nbsp;
 					<a id="listLink" href="list" class="btn btn-primary">목록보기</a>
 				</form>
 				
@@ -251,7 +251,7 @@ $(document).ready(function(){
 				str += "<img class='mx-auto d-block' src='../upload/display?fileName="+fileCallPath+"'>";						
 				str += "</p>";
 				str += "<h4><span class='d-block w-50 mx-auto badge badge-secondary badge-pill' data-file='"+fileCallPath+"' data-type='image'> &times; </span></h4>";				
-				str += "</div></div>";				
+				str += "</div></div>";
 			}
 			else {
 				

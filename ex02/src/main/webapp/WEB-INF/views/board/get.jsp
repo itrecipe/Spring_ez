@@ -146,7 +146,6 @@
 					</div>
 				</div> 
 				
-				
 				<!-- 댓글의  페이지 --> 
 				<div id='replyPage'>
 					
@@ -597,7 +596,6 @@ $(document).ready(function(){
 						str += "</div>";
 						str += "</div>";
 					}
-		    	  				    	  
 		      });
 		      
 		      $(".uploadResult #card").html(str);
