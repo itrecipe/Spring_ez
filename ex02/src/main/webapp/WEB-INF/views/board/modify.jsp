@@ -225,8 +225,8 @@ $(function(){
 	});
 	
 });
-
 </script>
+
 <script>
 //첨부물 list처리
 $(document).ready(function(){
