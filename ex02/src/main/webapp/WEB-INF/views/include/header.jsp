@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %> 
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>     
 <!DOCTYPE html>
 <html lang="ko">
@@ -56,40 +59,36 @@
 			 		 <a class="dropdown-item" href="#">Q&amp;A</a>
 			 	</div>
 			 </li>
-			  
-			 <li class="nav-item">
-			 	<a class="nav-link" href="../home/abouts">About</a>
+			 <li class="nav-item dropdown">
+			 	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			 	    시큐리티
+			 	</a>
+			 	<div class="dropdown-menu">
+			 		 <a class="dropdown-item" href="../member/all">All</a>
+			 		 <a class="dropdown-item" href="../member/member">Member</a>
+			 		 <a class="dropdown-item" href="../member/admin">Admin</a>
+			 		 <a class="dropdown-item" href="../member/annoMember">어노테이션M</a>
+			 		 <a class="dropdown-item" href="../member/annoAdmin">어노테이션A</a>			 		 
+			 	</div>
 			 </li>
-			 			  			  
 		</ul>
 		
-		<!-- 
-		  모달창으로 로그인 테스트
+		<!-- 시큐리티 미적용
 		<ul class="navbar-nav ml-auto">
-			 <li class="nav-item">			
+			 <li class="nav-item">			 	  			
 			 	<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#homeModal">
 			 		로그인
-			 	</button> 		 	
-		 	</li>
-		</ul>		
-		 -->
-		 <!--  security 미적용
-		<ul class="navbar-nav ml-auto">
-			 <li class="nav-item">			 			 	
+			 	</button>			 	
 			 	<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a> 		 	
 		 	</li>
 		 	<li class="nav-item">
 					<a class="nav-link" href="../member/customLogout">로그아웃</a>	
 			</li>
-			<li class="nav-item">
-					<a id="memberJoin" class="nav-link" href="../member/memberJoin">회원가입</a>
-			</li>
-		</ul>
-		 -->
-		 
-		 <!-- security적용 -->
-		 <ul class="navbar-nav ml-auto">
-		 	<sec:authorize access="isAnonymous()">  <!-- 로그인 안한 상태일시만 true -->
+		</ul>		
+		-->
+		
+		<ul class="navbar-nav ml-auto"> <!-- login,logout창은 ajax안되니 별도 창 -->
+			<sec:authorize access="isAnonymous()">  <!-- 로그인 안한 상태면 로그인 버튼 보임  -->
 				<li class="nav-item">
 					<a id="customLogin" class="nav-link" href="../member/customLogin">로그인</a>
 				</li>
@@ -105,8 +104,7 @@
 					<a class="nav-link" href="../member/customLogout">로그아웃</a>	
 				</li>
 			</sec:authorize>
-		 </ul>
-		 
+		</ul>
 	</div>
 	
 </nav>

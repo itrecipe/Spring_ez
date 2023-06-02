@@ -12,13 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service
-//@AllArgsConstructor //모든 멤버 변수를 갖는 생성자
+//@AllArgsConstructor //모든 멤버 변수를 갖는 생성자(1개시 자동 주입을 위해 사용했으나 2개로 되어 사용 안함)
 public class BoardServiceImpl implements BoardService {
 	
 	@Setter(onMethod_ = @Autowired) 
@@ -40,8 +39,6 @@ public class BoardServiceImpl implements BoardService {
 		mapper.insertSelectKey(board);
 	}
 	*/
-	
-	//BoardMapper와 BoardAttachMapper 동시 처리하므로 트랜젝션 처리
 	@Transactional
 	@Override
 	public void register(BoardVO board) {
@@ -56,11 +53,11 @@ public class BoardServiceImpl implements BoardService {
 
 		board.getAttachList().forEach(attach -> {
 
-			attach.setBno(board.getBno()); //bno가 TBL_ATTACH테이블에 필요하므로 지정 해줌
+			attach.setBno(board.getBno());
 			attachMapper.insert(attach);
 		});
 	}
-
+	
 	@Override
 	//Read
 	public BoardVO get(Long bno) {		
@@ -79,30 +76,15 @@ public class BoardServiceImpl implements BoardService {
 	}
 	*/
 	
-	/*
-	@Override
-	public boolean remove(Long bno) {
-
-		log.info("remove...." + bno);
-
-		return mapper.delete(bno) == 1;
-	}
-	*/
-	
-	//첨부물 고려 
-	@Transactional //두개 테이블 처라하므로 트랜젝션
+	@Transactional
 	@Override
 	public boolean modify(BoardVO board) {
 
 		log.info("modify......" + board);
 
-		attachMapper.deleteAll(board.getBno()); //기존 특정 게시물에 대한 첨부물은 모두 삭제
+		attachMapper.deleteAll(board.getBno());
 
-		boolean modifyResult = mapper.update(board) == 1; //일반게시물은 업데이트
-		
-		if(board.getAttachList() == null) {
-			return modifyResult;
-		}
+		boolean modifyResult = mapper.update(board) == 1;
 		
 		if (modifyResult && board.getAttachList().size() > 0) {
 
@@ -114,8 +96,16 @@ public class BoardServiceImpl implements BoardService {
 
 		return modifyResult;
 	}
-	
-	//첨부파일 처리 후 (remove)
+
+	/*
+	@Override
+	public boolean remove(Long bno) {
+
+		log.info("remove...." + bno);
+
+		return mapper.delete(bno) == 1;
+	}
+	*/
 	@Transactional
 	@Override
 	public boolean remove(Long bno) {
@@ -129,7 +119,6 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.delete(bno) == 1;
 	}
 	
-	//목록보기 - 페이징 처리 전
 	/*
 	@Override
 	//목록보기(select all)
@@ -137,9 +126,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("getList..........");
 		return mapper.getList();
 	}
-	*/	
-	
-	//목록보기 - 페이징 처리 후
+	*/
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
 
@@ -148,7 +135,6 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getListWithPaging(cri);
 	}
 	
-	//게시글 총 합계 - 페이징 처리
 	@Override
 	public int getTotal(Criteria cri) {
 
@@ -156,7 +142,6 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getTotalCount(cri);
 	}
 	
-	//첨부파일 리스트 처리
 	@Override
 	public List<BoardAttachVO> getAttachList(Long bno) {
 
@@ -164,4 +149,6 @@ public class BoardServiceImpl implements BoardService {
 
 		return attachMapper.findByBno(bno);
 	}
+	
+
 }

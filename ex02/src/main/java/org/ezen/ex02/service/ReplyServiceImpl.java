@@ -16,26 +16,21 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-//@AllArgsConstructor(멤버변수 2개로 되어 자동 주입 안되므로 제거)
+
 public class ReplyServiceImpl implements ReplyService {
 
-	// private ReplyMapper mapper;
-	// 멤버변수 하나 이고 생성자 하나의 파라메터 가지므로 자동 주입
-
-	//두개의 멤버변수를 자동 주입
 	@Setter(onMethod_ = @Autowired)
 	private ReplyMapper mapper;
-	
+	// 멤버변수 하나 이고 생성자 하나의 파라메터 가지므로 자동 주입
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper boardMapper;
-	
-	@Transactional //2개의  sql문을 트랜젝션 처리
+
+	@Transactional
 	@Override
 	public int register(ReplyVO vo) {
 
 		log.info("register......" + vo);
-		
-		//등록이므로 1을 amount로 보냄
+
 		boardMapper.updateReplyCnt(vo.getBno(), 1);
 
 		return mapper.insert(vo);

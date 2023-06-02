@@ -21,7 +21,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-@Component //일반 클래스를 빈으로 등록 처리시
+@Component
 public class FileCheckTask {
 	
 	@Setter(onMethod_ = { @Autowired })
@@ -31,16 +31,16 @@ public class FileCheckTask {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		Calendar cal = Calendar.getInstance(); //오늘 날짜 객체
+		Calendar cal = Calendar.getInstance();
 
-		cal.add(Calendar.DATE, -1); //날자에서 1을 뺀 날자
+		cal.add(Calendar.DATE, -1);
 
 		String str = sdf.format(cal.getTime());
 
 		return str.replace("-", File.separator);
 	}
 	
-	@Scheduled(cron = "0 40 11 * * *") //초 분 시간 일 월 요일  11시 40분ㅇ[ 삭제 처리
+	@Scheduled(cron = "0 0 23 * * *") //초 분 시간 일 월 요일 
 	public void checkFiles() throws Exception {
 
 		log.warn("File Check Task run.................");
@@ -76,4 +76,5 @@ public class FileCheckTask {
 
 		}
 	}
+
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>    
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,8 +10,8 @@
 <!-- RWD -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- MS -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9"/> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9" />
 
 </head>
 <body>
@@ -35,5 +35,7 @@
 		</div>
 	</div>
 </div>
+
+
 </body>
 </html>

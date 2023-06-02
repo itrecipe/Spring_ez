@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>    
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,8 +10,8 @@
 <!-- RWD -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- MS -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,IE=EmulateIE9" />
 </head>
 <body>
 
@@ -44,7 +44,6 @@
 		<div class="col-md-10">
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">파일업로드</h4>
-				<!-- 업로드는 post,enctype="multipart/form-data"가 필수,multiple은 다수개 파일 업로드 -->
 				<form action="uploadFormAction" method="post" enctype="multipart/form-data">
 					<div class="form-group">
 						<label for="upload">파일업로드:</label> 
@@ -52,10 +51,10 @@
 					</div>
 					<button type="submit" class="btn btn-success">Submit</button>
 				</form>
-			</div> <!-- submain -->
-		</div> <!-- col-md 10 -->
-	</div> <!-- row -->
-</div> <!-- mainComtent -->
+			</div>
+		</div>
+	</div>
+</div>
 
 <%@ include file="../include/footer.jsp"%>
 </body>

@@ -18,7 +18,7 @@
 
 <%@include file="../include/header.jsp"%>
 
-<div class="container mt-4 mb-4 pl-0" id="mainContent">
+<div class="container mt-4 mb-4" id="mainContent">
 	<div class="row">
 		<div class="col-md-2">
 			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
@@ -43,6 +43,7 @@
 				</div>
 			</nav>
 		</div>
+		
 		<div class="col-md-10">
 			<div id="submain">
 				<h4 class="text-center wordArtEffect text-success">회원가입</h4>
@@ -50,8 +51,7 @@
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<div class="form-group">
 						<label for="uId">아이디</label>
-						<input type="email" class="form-control" name="userid" placeholder="E-Mail주소 입력" 	
-							id="uId" required/>
+						<input type="email" class="form-control" name="userid" placeholder="E-Mail주소 입력" 	id="uId" required/>
 					</div>
 					<div class="form-group">						
 						 <button type="button" id="id_chk" class="btn btn-outline-primary">아이디중복체크</button>
@@ -59,25 +59,25 @@
 					</div>
 					<div class="form-group">
 						<label for="uPw">비밀번호</label>
-						<input type="password" class="form-control" name="userpw" id="uPw"	
-							placeholder="비밀번호 입력" required/>
+						<input type="password" class="form-control" name="userpw" id="uPw"	placeholder="비밀번호 입력" required/>
 					</div>
 					<div class="form-group">
 						<label for="uPwchk">비밀번호확인</label>
-						<input type="password" class="form-control" name="userpwChk" id="uPwChk" 
-							placeholder="비밀번호확인입력" required/>
+						<input type="password" class="form-control" name="userpwChk" id="uPwChk"	placeholder="비밀번호확인입력" required/>
 					</div>
 					<div class="form-group">
 						<label for="uName">사용자명</label>
 						<input type="text" class="form-control" name="userName" id="uName" placeholder="사용자명" required/>			
 					</div>				
 					<button type="submit" class="btn btn-success">회원가입</button>&nbsp;&nbsp;
-					<button type="reset" class="btn btn-danger">취 소</button>&nbsp;&nbsp;
-				</form>
-			</div>
-		</div>
+					<button type="reset" class="btn btn-danger">취 소</button>&nbsp;&nbsp;		
+				</form>				 
+			</div> <!-- submain -->	
+		</div> <!-- col-md-10 -->
 	</div>
+	<!-- row -->
 </div>
+<!-- mainContent -->
 
 <%@include file="../include/footer.jsp"%>
 
@@ -92,6 +92,7 @@ $(document).ready(function(){
 		}
 		
 		let userid = document.frm1.userid.value;
+		
 		
 		$.ajax({
 			url : "../member/idChk?userid=" + userid,
@@ -113,8 +114,6 @@ $(document).ready(function(){
 	$("#uPwChk").blur(function(){		
 		if(document.frm1.userpw.value != document.frm1.userpwChk.value) {
 			alert("암호가 일치하지 않습니다.");
-			document.frm1.userpw.value = "";
-			frm1.userpwChk.value = "";
 			frm1.userpw.focus();
 			return false;
 		}
@@ -128,6 +127,7 @@ $(document).ready(function(){
 		return true;
 	});
 });
+
 </script>
 </body>
 </html>

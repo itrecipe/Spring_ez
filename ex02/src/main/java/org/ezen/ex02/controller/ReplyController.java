@@ -31,8 +31,7 @@ public class ReplyController {
 	private ReplyService service;
 	// 멤버변수 하나이고 파라메터가 이 멤버변수를 가진 생성자가 있으므로 자동 주입
 
-	@PreAuthorize("isAuthenticated()") 
-	//로그인 한 사람만 접근할 수 있도록 시큐리티 처리
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
 	// consumes속성은 클라이언트에서 전달 받는 데이터의 MIME
 	// produces는 이메서드가 생산하는 데이터형
@@ -51,22 +50,11 @@ public class ReplyController {
 		// ResponseEntity<>객체를 반환(생성자가 성공시와 실패시 파라메터가 다름)
 	}
 	
-//	 public ResponseEntity<List<ReplyVO>> getList(
-//	 @PathVariable("page") int page,
-//	 @PathVariable("bno") Long bno) {
-//
-//
-//log.info("getList.................");
-//Criteria cri = new Criteria(page,10);
-//log.info(cri);
-//
-//return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
-//}
-
+	/*
 	@GetMapping(value = "/pages/{bno}/{page}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	// {bno}/{page}는 경로 아닌 값 @PathVariable로 매핑
-	// 게시글 하나에 대한 댓글들과 페이지 처리
-	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
+	// 게시글 하나에 대한 댓글들
+	public ResponseEntity<List<ReplyVO>> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
 
 		Criteria cri = new Criteria(page, 10);
 
@@ -74,10 +62,26 @@ public class ReplyController {
 
 		log.info("cri:" + cri);
 
+		return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
+	}
+	*/
+	
+	
+	@GetMapping(value = "/pages/{bno}/{page}", 
+			produces = {MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
+
+		Criteria cri = new Criteria(page, 10);
+		
+		log.info("get Reply List bno: " + bno);
+
+		log.info("cri:" + cri);			
+
 		return new ResponseEntity<>(service.getListPage(cri, bno), HttpStatus.OK);
 	}
-
-	@GetMapping(value = "/{rno}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	
+	
+	@GetMapping(value = "/{rno}", produces = { MediaType.APPLICATION_JSON_VALUE })	
 	// 지정 댓글 정보 조회
 	public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno) {
 
@@ -86,10 +90,11 @@ public class ReplyController {
 
 		return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
 	}
-
-	// 시큐리티 적용 전 (remove)
+	
+	
 	@DeleteMapping(value = "/{rno}", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
+	@PreAuthorize("isAuthenticated()")	
+	public ResponseEntity<String> remove(@PathVariable("rno") Long rno)  {
 
 		log.info("remove: " + rno);
 
@@ -98,18 +103,23 @@ public class ReplyController {
 
 	}
 	
+	
 	/*
-	//시큐리티 적용 후 (remove)
-	@PreAuthorize("principal.username == #vo.replyer")
-	@DeleteMapping(value = "/{rno}", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> remove(@PathVariable("rno") Long rno) {
+	//@PreAuthorize("principal.username == #vo.replyer")
+	@DeleteMapping(value = "/{rno}", consumes = "application/json" ,produces = { MediaType.TEXT_PLAIN_VALUE })
+	@PreAuthorize("isAuthenticated()")
+	//@RequestMapping(method = {RequestMethod.DELETE}, value = "/{rno}", 
+	//consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno)  {
 
 		log.info("remove: " + rno);
 
 		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	}
 
+	}
+	 */
+	@PreAuthorize("principal.username == #vo.replyer")
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, value = "/{rno}", 
 			consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE })
 	//rno값과 json으로 된 ReplyVO멤버변수 값이 옴 
@@ -122,6 +132,8 @@ public class ReplyController {
 
 		return service.modify(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
 	}
-	*/
+	
+	
 }

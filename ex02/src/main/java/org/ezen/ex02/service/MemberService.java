@@ -4,7 +4,8 @@ import org.ezen.ex02.domain.MemberVO;
 
 public interface MemberService {
 	
-	public String joinIdCheck(String userid); //아이디 체크
+	public String joinIdCheck(String userid);
 	
-	public int joinRegister(MemberVO vo); //회원 가입
+	public int joinRegister(MemberVO vo);
+
 }

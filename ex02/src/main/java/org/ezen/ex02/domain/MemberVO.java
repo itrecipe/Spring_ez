@@ -12,9 +12,9 @@ public class MemberVO {
 	private String userpw;
 	private String userName; //사용자 이름
 	private boolean enabled;
+
 	private Date regDate;
 	private Date updateDate;
-	
-	private List<AuthVO> authList; //권한은 userid와 1:n이므로 list처리
+	private List<AuthVO> authList;
 
 }

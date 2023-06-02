@@ -18,5 +18,5 @@ public class BoardVO {
 	
 	private int replyCnt;
 	
-	private List<BoardAttachVO> attachList; //게시판 특정 게시글에 첨부되는 첨부파일 리스트
+	private List<BoardAttachVO> attachList;
 }

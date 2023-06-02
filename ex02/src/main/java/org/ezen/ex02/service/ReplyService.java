@@ -20,9 +20,8 @@ public interface ReplyService {
 	//mapper의 delete
 	public int remove(Long rno);
 
-    //mapper의 getList
+    //mapper의 getListWithPaging
 	public List<ReplyVO> getList(Criteria cri, Long bno);
 	
-	//list와 페이지 정보를 같이 보냄
 	public ReplyPageDTO getListPage(Criteria cri, Long bno);
 }

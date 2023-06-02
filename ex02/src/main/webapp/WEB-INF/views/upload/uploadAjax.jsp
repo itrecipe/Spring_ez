@@ -91,6 +91,14 @@ $(document).ready(function(){
 	let cloneObj = $(".uploadDiv").clone(); //입력하기 전상태의 DOM을 복사 
 	let uploadResult = $(".uploadResult #card");
 	
+	let csrfHeaderName ="${_csrf.headerName}"; 
+	let csrfTokenValue="${_csrf.token}";
+	
+	//beforeSend대신 사용
+	$(document).ajaxSend(function(e, xhr, options) { 
+        xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); 
+    }); 
+	
 	$("#uploadBtn").on("click", function(e){
 		let formData = new FormData();
 		//core객체 FormData, 비어있는  <form>태그 엘리먼트의 DOM
@@ -111,6 +119,9 @@ $(document).ready(function(){
 			contentType : false, //필수
 			data : formData,
 			type : 'POST', //필수
+			//beforeSend: function(xhr) {
+		    //      xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+		    //},
 			success : function(result) { //result는 성공시 서버로 부터 받는 데이터
 				console.log(result);
 				//alert(result);

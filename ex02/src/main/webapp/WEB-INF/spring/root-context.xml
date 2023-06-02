@@ -11,9 +11,9 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+		http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx.xsd">
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- Root Context: defines shared resources visible to all other web components -->	
 	
 	<!-- root-context.xml에서 bean으로 등록하면 스프링의 bean이 됨 -->
 	<!-- hikari로  JDBC설정 -->
@@ -52,8 +52,8 @@
 	
 	<context:component-scan
 		base-package="org.ezen.ex02"></context:component-scan>
-		
-	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>	
 	
 	<task:annotation-driven />
 		

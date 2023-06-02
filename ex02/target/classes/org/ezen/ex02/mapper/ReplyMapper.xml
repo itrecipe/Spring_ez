@@ -75,4 +75,6 @@
 		select count(rno) from tbl_reply where bno = #{bno}
 		]]>
 	</select>
+	
+	
 </mapper>  

@@ -41,235 +41,141 @@ public class UploadController {
 	public void uploadForm() {
 
 		log.info("upload form");
-		// views의 upload폴더에 uploadForm.jsp로 이동
+		// views폴더 바로 밑에 uploadForm.jsp로 이동
 	}
 
 	@PostMapping("/uploadFormAction")
 	public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
-		// servlet제공 업로드는 MultipartFile클래스 객체로 처리, multiple이므로 배열, 파라메터 이름은 form의 name속성
-		// 다를때는 @RequestParam사용
 
 		String uploadFolder = "C:/upload";
-
-		for (MultipartFile multipartFile : uploadFile) {
-			log.info("-------------------------------------");
-			log.info("Upload File Name: " + multipartFile.getOriginalFilename()); // 파일 이름
-			log.info("Upload File Size: " + multipartFile.getSize()); // 파일 크기
-
-			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
-			// 경로와 파일이름을 사용하는 File객체 생성
-
-			try {
-				multipartFile.transferTo(saveFile); // 해당 경로에 file객체 저장
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
-		}
-	}
-
-	@GetMapping("/uploadAjax")
-	public void uploadAjax() {
-
-		log.info("upload ajax");
-	}
-
-	/* uploadAjaxPost
-	 @PostMapping("/uploadAjaxAction")
-	 @ResponseBody public String uploadAjaxPost(MultipartFile[] uploadFile) {
-	  
-		 log.info("update ajax post.........");
-	  
-		  String uploadFolder = "C:/upload";
-		  
-		  for (MultipartFile multipartFile : uploadFile) {
-			  log.info("-------------------------------------");
-			  log.info("Upload File Name: " + multipartFile.getOriginalFilename());
-			  log.info("Upload File Size: " + multipartFile.getSize());
-	  
-		   String uploadFileName = multipartFile.getOriginalFilename();
-	  
-		   System.out.println("파일이름" + uploadFileName );
-	  
-		  uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
-	  
-		  log.info("only file name: " + uploadFileName);
-	  
-		  File saveFile = new File(uploadFolder, uploadFileName);
-	  
-		  try {
-			  multipartFile.transferTo(saveFile); 
-			  } catch(Exception e) {
-				  log.error(e.getMessage()); 
-			  } 
-		  }
-		  return "success"; 
-		  }
-	 */
-	  
-	  /* uploadAjaxPost - 1
-	  @PostMapping("/uploadAjaxAction")
-	  @ResponseBody public String uploadAjaxPost(MultipartFile[] uploadFile) {
-	  
-		  log.info("update ajax post.........");
-		  
-		  String uploadFolder = "C:/upload";
-		  
-	  //날짜별로된 폴더를 이용한 경로 File uploadPath = new File(uploadFolder, getFolder());
-	  if (uploadPath.exists() == false) {
-		  uploadPath.mkdirs(); //File객체의 경로를 이용하여 폴더로 만듬 
-	  }
-	  
-	  for (MultipartFile multipartFile : uploadFile) {
-		  log.info("-------------------------------------");
-		  log.info("Upload File Name: " + multipartFile.getOriginalFilename());
-		  log.info("Upload File Size: " + multipartFile.getSize());
-		  
-		  String uploadFileName = multipartFile.getOriginalFilename();
-		  
-		  System.out.println("파일이름" + uploadFileName );
-		  
-		  //순수 파일 이름 uploadFileName =
-		  uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
-	  
-	  	  log.info("only file name: " + uploadFileName);
-	  
-		  UUID uuid = UUID.randomUUID(); //임의의 UUID객체 만들기 uploadFileName =
-		  uuid.toString() + "_" + uploadFileName;
-	  
-		  //File saveFile = new File(uploadFolder, uploadFileName); File saveFile = new
-		  File(uploadPath, uploadFileName); //날짜 형식 경로
-	  
-		  try { 
-			  multipartFile.transferTo(saveFile); //원본 파일 저장 
-			  
-		  } catch(Exception e) {
-			  log.error(e.getMessage()); 
-		  } 
-	  		} 
-	  		return "success"; 
-		  }
-		  */
-	 
-	  /*
-	  //uploadAjaxPost - 2 / 섬네일 만들기
-	  @PostMapping("/uploadAjaxAction")
-	  
-	  @ResponseBody public String uploadAjaxPost(MultipartFile[] uploadFile) {
-	  
-	  log.info("update ajax post.........");
-	  
-	  String uploadFolder = "C:/upload";
-	  
-	  //날짜별로된 폴더를 이용한 경로 File uploadPath = new File(uploadFolder, getFolder());
-	  if (uploadPath.exists() == false) { 
-		  uploadPath.mkdirs(); //File객체의 경로를 이용하여 폴더로 만듬 
-	  }
-	  
-	  for (MultipartFile multipartFile : uploadFile) {
-		  log.info("-------------------------------------");
-		  log.info("Upload File Name: " + multipartFile.getOriginalFilename());
-		  log.info("Upload File Size: " + multipartFile.getSize());
-	  
-		  String uploadFileName = multipartFile.getOriginalFilename();
-	  
-		  System.out.println("파일이름" + uploadFileName );
-	  
-	  //순수 파일 이름 uploadFileName =
-	  uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
-	  
-	  	log.info("only file name: " + uploadFileName);
-	  
-		  UUID uuid = UUID.randomUUID(); //임의의 UUID객체 만들기 uploadFileName =
-		  uuid.toString() + "_" + uploadFileName;
-	  
-	  //File saveFile = new File(uploadFolder, uploadFileName); File saveFile = new
-	  File(uploadPath, uploadFileName); //날짜 형식 경로
-	  
-	  try { 
-		  multipartFile.transferTo(saveFile); //원본 파일 저장
-	  
-	  //이미지 파일인지 체크 if (checkImageType(saveFile)) { FileOutputStream thumbnail =
-	  new FileOutputStream(new File(uploadPath, "s_" + uploadFileName)); //섬네일 이름의 출력 스트림을 만듬 
-	  Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100,100); //출력스트림에 저장된 thumbnail부터 읽어와 크기 100 x 100의 섬네일 파일 생성
-		  thumbnail.close(); 
-	  } 
-	  } catch(Exception e) { 
-		  log.error(e.getMessage()); 
-	  } 
-	  }
-	  return "success"; 
-	  }
-	*/
-	
-	// 브라우져에서 업로드 결과를 보여주기 위해 JSON으로 첨부파일 관련 객체(AttachFileDTO) 보내기
-	@PreAuthorize("isAuthenticated()")
-	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
-
-		log.info("update ajax post.........");
-
-		List<AttachFileDTO> list = new ArrayList<>();
-
-		String uploadFolder = "C:/upload";
-
-		String uploadFolderPath = getFolder();
-		// 날짜별로된 폴더를 이용한 경로
-		File uploadPath = new File(uploadFolder, uploadFolderPath);
-
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs(); // File객체의 경로를 이용하여 폴더로 만듬
-		}
 
 		for (MultipartFile multipartFile : uploadFile) {
 			log.info("-------------------------------------");
 			log.info("Upload File Name: " + multipartFile.getOriginalFilename());
 			log.info("Upload File Size: " + multipartFile.getSize());
 
+			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
+
+			try {
+				multipartFile.transferTo(saveFile);
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		}
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/uploadAjax")
+	public void uploadAjax() {
+
+		log.info("upload ajax");
+	}
+
+	/*
+	 * @PostMapping("/uploadAjaxAction") public void uploadAjaxPost(MultipartFile[]
+	 * uploadFile) {
+	 * 
+	 * log.info("update ajax post.........");
+	 * 
+	 * String uploadFolder = "C:/upload";
+	 * 
+	 * File uploadPath = new File(uploadFolder, getFolder());
+	 * log.info("upload path: " + uploadPath);
+	 * 
+	 * if (uploadPath.exists() == false) { uploadPath.mkdirs(); //YYYY/MM/DD폴더 만들기 }
+	 * 
+	 * for (MultipartFile multipartFile : uploadFile) {
+	 * log.info("-------------------------------------");
+	 * log.info("Upload File Name: " + multipartFile.getOriginalFilename());
+	 * log.info("Upload File Size: " + multipartFile.getSize());
+	 * 
+	 * String uploadFileName = multipartFile.getOriginalFilename(); // IE has file
+	 * path uploadFileName =
+	 * uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
+	 * 
+	 * log.info("only file name: " + uploadFileName);
+	 * 
+	 * UUID uuid = UUID.randomUUID();
+	 * 
+	 * uploadFileName = uuid.toString() + "_" + uploadFileName;
+	 * 
+	 * //File saveFile = new File(uploadFolder, uploadFileName); File saveFile = new
+	 * File(uploadPath, uploadFileName);
+	 * 
+	 * try {
+	 * 
+	 * multipartFile.transferTo(saveFile);
+	 * 
+	 * if (checkImageType(saveFile)) {
+	 * 
+	 * FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" +
+	 * uploadFileName)); //uploadFileName의 파일을 대상으로 하는 출력 스트림
+	 * 
+	 * Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100,
+	 * 100); //thumbnail 출력 파일을 대상으로 하는 입력스트림의 데이터로 thumbnail이미지를 크기 100,100으로 만듬
+	 * 
+	 * thumbnail.close(); } } catch (Exception e) { log.error(e.getMessage()); } } }
+	 */
+	
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
+
+		List<AttachFileDTO> list = new ArrayList<>();
+		String uploadFolder = "C:/upload";
+
+		String uploadFolderPath = getFolder();
+		// make folder --------
+		File uploadPath = new File(uploadFolder, uploadFolderPath);
+
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		// make yyyy/MM/dd folder
+
+		for (MultipartFile multipartFile : uploadFile) {
+
 			AttachFileDTO attachDTO = new AttachFileDTO();
 
 			String uploadFileName = multipartFile.getOriginalFilename();
 
-			System.out.println("파일이름" + uploadFileName);
-
-			// 순수 파일 이름
+			// IE has file path
 			uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("/") + 1);
-
 			log.info("only file name: " + uploadFileName);
-
 			attachDTO.setFileName(uploadFileName);
 
 			UUID uuid = UUID.randomUUID();
-			// 임의의 UUID객체 만들기
+
 			uploadFileName = uuid.toString() + "_" + uploadFileName;
 
-			// File saveFile = new File(uploadFolder, uploadFileName);
-			File saveFile = new File(uploadPath, uploadFileName); // 날짜 형식 경로
-
 			try {
-				multipartFile.transferTo(saveFile); // 원본 파일 저장
+				File saveFile = new File(uploadPath, uploadFileName);
+				multipartFile.transferTo(saveFile);
 
 				attachDTO.setUuid(uuid.toString());
 				attachDTO.setUploadPath(uploadFolderPath);
 
-				// 이미지 파일인지 체크
+				// check image type file
 				if (checkImageType(saveFile)) {
 
 					attachDTO.setImage(true);
 
 					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-					// 섬네일 이름의 출력 스트림을 만듬
+
 					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
-					// 출력스트림에 저장된 thumbnail부터 읽어와 크기 100 x 100의 섬네일 파일 생성
+
 					thumbnail.close();
 				}
 
+				// add to List
 				list.add(attachDTO);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
-		}
 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} // end for
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
@@ -279,9 +185,9 @@ public class UploadController {
 
 		Date date = new Date();
 
-		String str = sdf.format(date); // 날자를 yyyy-MM-dd형식의 문자열로 변환
+		String str = sdf.format(date);
 
-		return str.replace("-", File.separator); // 파일구분자로 -문자를 변경
+		return str.replace("-", File.separator);
 	}
 
 	private boolean checkImageType(File file) {
@@ -304,8 +210,6 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<byte[]> getFile(String fileName) {
 
-		// 실제 이미지 데이터를 바이트 배열로 보냄(외부 경로에 있는 파일에는 직접 접근이 불가능해서 바이트 배열로 데이터를 보냄)
-		// fileName은 전체 경로 보냄(YYYY/MM/DD/S_UUID/이름
 		log.info("fileName: " + fileName);
 
 		File file = new File("c:/upload/" + fileName);
@@ -330,7 +234,6 @@ public class UploadController {
 		return result;
 	}
 
-	//다운로드 파일 메서드
 	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(String fileName) {
@@ -372,22 +275,21 @@ public class UploadController {
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 
 	}
-
-	//파일 삭제 메서드
+	
 	@PreAuthorize("isAuthenticated()")
-	@PostMapping(value = "/deleteFile", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/deleteFile", produces = MediaType.APPLICATION_JSON_VALUE)	
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String type) {
-		// ajax로 객체형으로 보낸 데이터는 객체 속성명으로 받으면 됨
+
 		log.info("deleteFile: " + fileName);
 
 		File file = null;
 
 		try {
 			file = new File("c:/upload/" + URLDecoder.decode(fileName, "UTF-8"));
-			// file = new File("c:/upload/" + fileName);
+			//file = new File("c:/upload/" + fileName);
 
-			file.delete(); // thumbnail이나 일반 파일 지움
+			file.delete();
 
 			if (type.equals("image")) {
 
@@ -397,7 +299,7 @@ public class UploadController {
 
 				file = new File(largeFileName);
 
-				file.delete(); // 원본 파일 삭제
+				file.delete();
 			}
 
 		} catch (Exception e) {
@@ -406,5 +308,7 @@ public class UploadController {
 		}
 
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+
 	}
+
 }

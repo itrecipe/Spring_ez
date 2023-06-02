@@ -39,14 +39,15 @@
  	}
  	
  	function getList(param, callback, error) {
-
-		var bno = param.bno;
-		var page = param.page || 1; //1은 디폴트값으로 값이 없을시 1로 설정
+		
+		let bno = param.bno;
+		let page = param.page || 1; //1은 디폴트값으로 값이 없을시 1로 설정
 		
 		$.getJSON("../replies/pages/" + bno + "/" + page, //요청경로
 				function(data) { //성공으로 받은 데이터(JSON문자열)
 					if (callback) {
-						callback(data);
+					   callback(data); 				   
+					   						
 					}
 				})
 		.fail(function(xhr, status, err) {
@@ -56,10 +57,10 @@
 		});
 	}
 	
-	 //시큐리티 적용 전 (remove)
+	
 	function remove(rno, callback, error) {
 		$.ajax({
-			type : 'delete', //REST방식
+			type : 'delete',
 			url : '../replies/' + rno,
 			success : function(deleteResult, status, xhr) {
 				if (callback) {
@@ -73,38 +74,37 @@
 			}
 		});
 	}
-
-		/*
-		//시큐리티 적용 후 (remove)
-		function remove(rno, replyer, callback, error) {
-		
-			console.log("------------------------");
-			console.log(JSON.stringify({rno:rno, replyer:replyer}));
-		
-		$.ajax({
-			type : 'delete', //REST방식
-			
-			url : '../replies/' + rno,
-			
-			data : JSON.stringify({rno:rno, replyer:replyer}),
-			
-			contentType : "application/json; charset=utf-8", 
-			
-			success : function(deleteResult, status, xhr) {
-				if (callback) {
-					callback(deleteResult);
-				}
-			},
-			
-			error : function(xhr, status, er) {
-				if (error) {
-					error(er);
-				}
-			}
-		});
-	}
-	*/
-		
+	
+	
+	/*
+	 function remove(rno, replyer, callback, error) {
+		  
+		alert(replyer); 
+		console.log("--------------------------------------");  
+		console.log(JSON.stringify({rno:rno, replyer:replyer}));  
+		    
+	    $.ajax({
+	      type : 'delete',
+	      url : '../replies/' + rno,
+	      
+	      data:  JSON.stringify({rno:rno, replyer:replyer}),	      
+	      
+	      contentType : "application/json; charset=utf-8",
+	      
+	      success : function(deleteResult, status, xhr) {
+	        if (callback) {	        
+	          callback(deleteResult);
+	        }
+	      },
+	      error : function(xhr, status, er) {
+	        if (error) {
+	          error(er);
+	        }
+	      }
+	    });
+	  }
+	  */
+	  
 	function update(reply, callback, error) {
 
 		console.log("RNO: " + reply.rno);
@@ -176,6 +176,8 @@
 		}
 	}
 	
+	
+	
  	return {
  		add : add,
  		getList : getList,
@@ -185,4 +187,5 @@
  		displayTime : displayTime
  	};
  })();
+ 
  

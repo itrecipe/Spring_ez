@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<div class="modal fade replyModal" id="myReplyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="replyModal modal fade" id="myReplyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			 <div class="modal-header">

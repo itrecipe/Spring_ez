@@ -26,7 +26,7 @@
 <%@include file="../include/header.jsp"%>
 
 <!-- register 메인화면 -->
-<div class="container mt-4 mb-4 pl-0" id="mainContent" >
+<div class="container mt-4 mb-4" id="mainContent" >
 	<div class="row">
 		<div class="col-md-2">
 			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
@@ -59,7 +59,6 @@
 				<h4 class="text-center wordArtEffect text-success">게시물 등록</h4>
 				<form action="register" method="post" id="freg" name="freg" role="form">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-					<!-- 토큰 정보를 숨겨서 보냄 -->
 					<div class="form-group">
 						<label for="title">제목:</label>
 						<input type="text" class="form-control" id="title" placeholder="Enter Title" 
@@ -67,70 +66,62 @@
 					</div>
 					<div class="form-group">
 						<label for="content">내용:</label>
-<textarea class="form-control" id="content" placeholder="Enter Content"	name="content" rows="10" required></textarea>		
+						<textarea class="form-control" id="content" placeholder="Enter Content" 
+								name="content" rows="10" required></textarea>		
 					</div>
-					<!--시큐리티 적용전  
-					<div class="form-group">
-						<label for="writer">작성자:</label>
-						<input type="text" class="form-control" id="writer" name="writer" />		
-					</div>
-					-->
-					<!-- 시큐리티로 로그인 아이디로 표시 -->
 					<div class="form-group">
 						<label for="writer">작성자:</label>
 						<input type="text" class="form-control" id="writer" name="writer" 
 							value='<sec:authentication property="principal.username"/>' readonly />		
 					</div>
-					
 					<button type="submit" class="btn btn-success">작성</button>&nbsp;&nbsp;
-					<button type="reset" class="btn btn-danger">취소</button>&nbsp;&nbsp;
+					<button type="reset" class="btn btn-danger">취소</button>	&nbsp;&nbsp;
 					<a id="listLink" href="list" class="btn btn-primary">목록보기</a>
 				</form>
 				
-				<!-- 파일 첨부 창 -->				
+				<!-- 첨부파일 부분 -->
 				<div class="attach mt-4">
 					<h5 class="text-center wordArtEffect text-success mb-5">파일업로드(Ajax)</h5>
 					<div class="row">						
 						<div class="form-group uploadDiv col-md-12">
 							<label for="upload">&nbsp;&nbsp;&nbsp;&nbsp;파일업로드:</label>
-							<input type="file" class="form-control" id="upload" name="uploadFile" multiple /> 
-							<!-- submit버튼없이 change이벤트로 처리 -->
+							<input type="file" class="form-control" id="upload" name="uploadFile" multiple /> <!-- submit버튼없이 change이벤트로 처리 -->
 						</div>
 					</div>	
 						
-					<div class='uploadResult mt-3'>
-						<!-- 업로드 파일 결과를 보여 주는 창 -->					
+					<div class='uploadResult mt-3'>					
 						<div class='row' id='card'>
 						</div>  			
-					</div>
-										
-				</div><!-- 파일 첨부 -->
-			</div><!-- submain -->
-		</div><!-- col-md-10 -->
-	</div> <!-- row -->
-</div><!-- mainContent -->
+					</div>															
+					
+				</div>
+				
+			</div> <!--submain  -->
+		</div> <!-- col-md-10 -->
+	</div> <!--row  -->
+</div> <!-- maincontent -->
+
+<%@ include file="../include/imageModal.jsp"%>
 
 <%@include file="../include/footer.jsp"%>
 
 <script>
 $(document).ready(function(){
 	
-	let formObj = $("form[role='form']"); //게시글 작성 등록
-	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$"); //확장자가 지정된 것은 업로드 제한
-	let maxSize = 5242880; //5MB 파일 최대 크기	
+	let formObj = $("form[role='form']");
+	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	let maxSize = 5242880; //5MB
 	
 	let uploadUL = $(".uploadResult #card");
 	
-	//csrf용 변수 선언
 	let csrfHeaderName ="${_csrf.headerName}"; 
 	let csrfTokenValue="${_csrf.token}";
 	
-	//csrf를 ajax beforeSend로 적용
 	$(document).ajaxSend(function(e, xhr, options) { 
         xhr.setRequestHeader(csrfHeaderName, csrfTokenValue); 
     }); 
 	
-	$("button[type='submit']").on("click", function(e){  //게시글작성 submit버튼
+	$("button[type='submit']").on("click", function(e){
 	    
 	    e.preventDefault();
 	    
@@ -138,7 +129,7 @@ $(document).ready(function(){
 	    
 	    let str = "";
 	    
-	    $(".uploadResult .card p").each(function(i, obj){
+	    $(".uploadResult .card  p").each(function(i, obj){
 	      
 	      let jobj = $(obj);
 	      
@@ -146,7 +137,7 @@ $(document).ready(function(){
 	      console.log("-------------------------");
 	      console.log(jobj.data("filename"));
 	      
-	      //List<BoardAttachVO> attachList;멤버변수로 수집됨
+	      
 	      str += "<input type='hidden' name='attachList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
 	      str += "<input type='hidden' name='attachList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
 	      str += "<input type='hidden' name='attachList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
@@ -181,14 +172,13 @@ $(document).ready(function(){
 			processData: false,
 			contentType: false,
 			data: formData,
-			type: 'POST',				    
-		    dataType : 'json', //생략해도 무방	
-		  //beforeSend: function(xhr) { 
+			type: 'POST',					
+			//beforeSend: function(xhr) { 
 		    //      xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-		    //},	
+		    //},		    
+		    dataType : 'json', //생략해도 무방		    
 			success : function(result) {
 				console.log(result);
-				//List<AttachFileDTO>가 결과로 옴
 				showUploadResult(result);
 				$("#upload").val(""); //파일 입력창 초기화
 			},
@@ -201,7 +191,7 @@ $(document).ready(function(){
 	$(".uploadResult").on("click", "span", function(e) { // 삭제 x클릭
 		console.log("delete file");
 		      
-	    let targetFile = $(this).data("file"); //삭제 파일 경로
+	    let targetFile = $(this).data("file");
 		let type = $(this).data("type");
 		
 		let targetLi = $(this).closest(".card");
@@ -243,15 +233,23 @@ $(document).ready(function(){
 			let str ="";
 			if(obj.image) {
 				
-				let fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);				
+				let fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
+				
 				str += "<div class='card col-md-3'>";
 				str += "<div class='card-body'>";
 				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName + "'" ;
-				str +=  "data-path='"+obj.uploadPath +"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>";						
-				str += "<img class='mx-auto d-block' src='../upload/display?fileName="+fileCallPath+"'>";						
+				str +=  "data-path='"+obj.uploadPath +"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>";
+				//str += "<div>";
+				//str += "<span>"+ obj.fileName+"</span><br/>";				
+				str += "<img class='mx-auto d-block' src='../upload/display?fileName="+fileCallPath+"'>";
+				//str += "<button type='button' data-file='"+fileCallPath+"'";
+				//str += "data-type='image' class='btn'><i class='fa fa-times'></i></button><br/>";
+				//str += "</div>";				
 				str += "</p>";
-				str += "<h4><span class='d-block w-50 mx-auto badge badge-secondary badge-pill' data-file='"+fileCallPath+"' data-type='image'> &times; </span></h4>";				
-				str += "</div></div>";
+				str += "<h4><span class='d-block w-50 mx-auto badge badge-secondary badge-pill' data-file='"+fileCallPath+"' data-type='image'> &times; </span></h4>";
+				//str += "<p class='regAttach' class='mr-2 d-none' data-path='"+obj.uploadPath+"'";
+				//str +=  "data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>"; //form에 넣기 위함
+				str += "</div></div>";				
 			}
 			else {
 				
@@ -261,9 +259,17 @@ $(document).ready(function(){
 				str += "<div class='card-body'>";	
 				str += "<p class='mx-auto' style='width:90%;' title='"+ obj.fileName + "'" ;
 				str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' >";
-				str += "<img class='mx-auto d-block' src='../images/attach.png' >";				
+				//str += "<div><span> "+ obj.fileName+"</span><br/>";
+				//str += "<button type='button' data-file='"+fileCallPath+"' data-type='file' class='btn' >" ;				
+				//str += "<i class='fa fa-paperclip fa-2x' aria-hidden='true'>&nbsp;&nbsp;</i>";
+				//str += "<i class='fa fa-times'></i></button>";
+				str += "<img class='mx-auto d-block' src='../images/attach.png' >";
+				//str += "</button>";				
+				//str += "</div>";
 				str += "</p>";
 				str += "<h4><span class='d-block w-50 mx-auto badge badge-secondary badge-pill' data-file='"+fileCallPath+"' data-type='file'> &times; </span></h4>";
+				//str += "<p class='regAttach' class='mr-2 d-none' data-path='"+obj.uploadPath+"'"; //form에 넣기 위함
+				//str +=  "data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'>";
 				str += "</div></div>";		
 								
 			}
@@ -271,6 +277,7 @@ $(document).ready(function(){
 			uploadUL.append(str);
 		});		
 	}
+	
 });
 </script>
 </body>

@@ -32,35 +32,36 @@ public class MemberServiceImpl implements MemberService {
 		}
 		else {
 			result = "failed";
-		}
+		}			
 		
 		return result;
 	}
 
-	@Override
+		
+	
 	@Transactional
+	@Override
 	public int joinRegister(MemberVO vo) {
 		
 		String userid = vo.getUserid();
 		
-		String userpw = vo.getUserpw(); //평문 비밀번호
+		String userpw = vo.getUserpw();
 		
-		String bcriptPw = passwordEncoder.encode(userpw); //비밀번호 암호화
+		String bcriptPw = passwordEncoder.encode(userpw);
 		
-		vo.setUserpw(bcriptPw); //vo객체의 userpw를 엄호화된 것으로 변경
+		vo.setUserpw(bcriptPw);
 		
 		AuthVO auth = new AuthVO();
 		
 		auth.setAuth("ROLE_MEMBER");
 		auth.setUserid(userid);			
 		
-		//tbl_member테이블에 insert
 		mapper.memberJoin(vo);
 		
-		//tbl_auth에 insert
 		int result = mapper.memberAuth(auth);
 		
 		return result;
+		
 	}
 
 }

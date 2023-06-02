@@ -26,15 +26,14 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
 		</init-param>
-		<load-on-startup>1</load-on-startup>
+		<load-on-startup>1</load-on-startup> 
 		<!-- 톰캣서버 실행시 미리 서블렛을 초기화 해준다 -->
 		
-		<!-- upload처리 -->
 		<multipart-config>
 			<location>C:/upload/temp</location>
-			<max-file-size>20971520</max-file-size> <!--1MB * 20 파일 하나 최대 크기 -->
-			<max-request-size>41943040</max-request-size><!-- 40MB 동시 업로드 최대 크기-->
-			<file-size-threshold>20971520</file-size-threshold> <!-- 20MB 메모리 저장 최대 크기 초과시 temp에 임시 저장-->
+			<max-file-size>20971520</max-file-size> <!--1MB * 20 -->
+			<max-request-size>41943040</max-request-size><!-- 40MB -->
+			<file-size-threshold>20971520</file-size-threshold> <!-- 20MB -->
 		</multipart-config>
 	</servlet>
 		
@@ -53,13 +52,17 @@
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
+		<init-param> <!-- json 한글 -->
+			<param-name>forceEncoding</param-name>  
+			<param-value>true</param-value>
+		</init-param>
 	</filter>
+	
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
-	<!-- security filter,한글 처리 필터 밑에다 해주어야 한글 안깨짐 -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -68,5 +71,6 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping>	
+	
 </web-app>

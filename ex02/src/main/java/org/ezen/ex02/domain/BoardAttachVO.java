@@ -3,13 +3,13 @@ package org.ezen.ex02.domain;
 import lombok.Data;
 
 @Data
-//TBL_ATTACH테이블과 매핑되는 VO클래스
 public class BoardAttachVO {
-	
+
 	private String uuid;
-	private String uploadPath; // YYYY/MM/DD
+	private String uploadPath;
 	private String fileName;
-	private boolean fileType; //image는 true
+	private boolean fileType;
 
 	private Long bno;
+
 }
