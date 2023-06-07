@@ -34,7 +34,7 @@ public class ReplyController {
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
 	// consumes속성은 클라이언트에서 전달 받는 데이터의 MIME
-	// produces는 이메서드가 생산하는 데이터형
+	// produces는 이 메서드가 생산하는 데이터형
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
 		// ResponseEntity는 값과 상태를 갖이 보냄
 		// @RequestBody는 전달받은 json문자열을 자바의 객체로 변환
@@ -65,7 +65,6 @@ public class ReplyController {
 		return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
 	}
 	*/
-	
 	
 	@GetMapping(value = "/pages/{bno}/{page}", 
 			produces = {MediaType.APPLICATION_JSON_VALUE })
@@ -100,7 +99,6 @@ public class ReplyController {
 
 		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
 	}
 	
 	
