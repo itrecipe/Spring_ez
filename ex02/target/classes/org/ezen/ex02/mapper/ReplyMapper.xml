@@ -50,7 +50,6 @@
 	 -->
 	 
 	 <!-- 댓글에 페이지 적용 -->
-	 
 	 <select id="getListWithPaging" resultType="org.ezen.ex02.domain.ReplyVO">
 
 	  <![CDATA[

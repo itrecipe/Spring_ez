@@ -8,7 +8,7 @@
 		insert into tbl_attach (uuid, uploadpath, filename,
 		filetype, bno)
 		values (#{uuid}, #{uploadPath}, #{fileName},
-		#{fileType}, #{bno} )
+		#{fileType}, #{bno})
 	</insert>
 
 	<delete id="delete">
