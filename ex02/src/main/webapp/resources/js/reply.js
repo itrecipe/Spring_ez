@@ -176,8 +176,6 @@
 		}
 	}
 	
-	
-	
  	return {
  		add : add,
  		getList : getList,

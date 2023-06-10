@@ -279,8 +279,6 @@
 				     
 				     replyUL.html(str);
 				     
-				   
-				     
 				     showReplyPage(replyCnt);
 			 
 			   });//replyService.getList()
