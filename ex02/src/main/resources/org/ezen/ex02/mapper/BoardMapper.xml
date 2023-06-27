@@ -26,7 +26,7 @@
 		</trim>
 	</sql>
 	
-	<!-- CDATA는 sql문안에서 키워드나 부호 등을 사용 할수 있도록 id속성은 BoardMapper인터페이스의 추상메서드 이름 -->
+	<!-- CDATA는 sql문안에서 키워드나 부호 등을 사용 할수 있도록 해주는것, id속성은 BoardMapper인터페이스의 추상메서드 이름 -->
 	<select id="getList" resultType="org.ezen.ex02.domain.BoardVO">
 	<![CDATA[select * from tbl_board where bno > 0 ORDER BY BNO DESC]]>
 	</select>
@@ -126,7 +126,7 @@
 	</insert>
 	<!-- 
 	PK인 BNO값을 사전에 알필요가 있는 경우 
-	selectKey 마이바티스어노테이션(태그)를 사용하여 bno값을  select하여 BoardVO의 
+	selectKey 마이바티스어노테이션(태그)를 사용하여 bno값을 select하여 BoardVO의 
 	bno속성에 매핑
 	-->
 	<insert id="insertSelectKey">
@@ -180,6 +180,5 @@
 	<update id="updateReplyCnt">
 	    update tbl_board set replycnt = replycnt + #{amount} where bno = #{bno}
 	</update>
-	
 	
 </mapper>  

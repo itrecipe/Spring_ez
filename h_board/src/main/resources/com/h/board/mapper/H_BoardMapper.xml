@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.h.board.mapper.H_BoardMapper">
+ 
+ <select id="getList" resultType="com.h.board.domain.H_BoardVO">
+ 	<![CDATA[select * from h_board where bno > 0 order by bno desc]]>
+ </select>
+
+ <insert id="insert">
+ 	insert into h_board(bno, title, content, writer, phone)
+ 	values(seq_h_board.nextval, #{title}, #{content}, #{writer}, #{phone})
+ </insert>
+ 
+ <select id="read" resultType="com.h.board.domain.H_BoardVO">
+ 	select * from h_board where bno = ${bno}
+ </select>
+ 
+ <update id="update">
+ 	update h_board
+ 	set title = #{title},
+ 		content = #{content},
+ 		writer = #{writer},
+ 		phone = #{phone},
+ 		updatedate = sysdate
+ 	where bno = #{bno}
+ </update>
+ 
+ <delete id="delete">
+ 	delete form h_board where bno = #{bno}
+ </delete> 
+ 
+ </mapper>

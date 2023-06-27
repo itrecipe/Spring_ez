@@ -17,7 +17,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service
-//@AllArgsConstructor //모든 멤버 변수를 갖는 생성자(1개시 자동 주입을 위해 사용했으나 2개로 되어 사용 안함)
+//@AllArgsConstructor //모든 멤버 변수를 갖는 생성자(1개시 자동 주입을 위해 사용했으나 3개를 사용하게 되어 사용 안함)
 public class BoardServiceImpl implements BoardService {
 	
 	@Setter(onMethod_ = @Autowired) 
