@@ -13,8 +13,17 @@
  	values(seq_h_board.nextval, #{title}, #{content}, #{writer}, #{phone})
  </insert>
  
+ <insert id="insertSelectKey">
+	<selectKey keyProperty="bno" order="BEFORE" resultType="Long">
+		select seq_board.nextval from dual	
+	</selectKey>
+ 	
+ 	insert into h_board(bno, title, content, writer, phone)
+ 	values(seq_h_board.nextval, #{title}, #{content}, #{writer}, #{phone})
+ </insert>
+ 
  <select id="read" resultType="com.h.board.domain.H_BoardVO">
- 	select * from h_board where bno = ${bno}
+ 	select * from h_board where bno = #{bno}
  </select>
  
  <update id="update">

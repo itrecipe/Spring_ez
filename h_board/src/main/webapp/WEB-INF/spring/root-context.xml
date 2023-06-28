@@ -48,7 +48,7 @@
 	<tx:annotation-driven />
 	
 	<!-- mybatis사용시는 별도로 scan -->
-	<mybatis-spring:scan base-package="com.h.board" />
+	<mybatis-spring:scan base-package="com.h.board.mapper" />
 	
 	<context:component-scan
 		base-package="com.h.board"></context:component-scan>

@@ -44,7 +44,6 @@
 				</nav>
 			</div>
 
-
 			<div class="col-md-10">
 				<div id="submain">
 					<h4 class="text-center wordArtEffect text-success">게시판</h4>

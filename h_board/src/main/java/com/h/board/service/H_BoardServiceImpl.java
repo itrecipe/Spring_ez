@@ -18,36 +18,42 @@ import lombok.extern.log4j.Log4j;
 
 public class H_BoardServiceImpl implements H_BoardService {
 
-	@Setter(onMethod_= @Autowired)
 	private H_BoardMapper mapper;
 	
+	//목록보기
 	@Override
 	public List<H_BoardVO> getList() {
-		return null;
+		log.info("getList 호출");
+		return mapper.getList();
 	}
 
 	@Override
 	public void register(H_BoardVO board) {
-		// TODO Auto-generated method stub
-
+		log.info("register 호출!" + board);
+		
+		mapper.insertSelectKey(board);
 	}
 
 	@Override
 	public H_BoardVO get(Long bno) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("get 호출!" + bno);
+		
+		return mapper.read(bno);
 	}
 
 	@Override
 	public boolean modify(H_BoardVO board) {
-		// TODO Auto-generated method stub
-		return false;
+
+		log.info("modify 호출!" + board);
+		
+		return mapper.update(board) == 1;
 	}
 
 	@Override
 	public boolean remove(Long bno) {
-		// TODO Auto-generated method stub
-		return false;
+		log.info("remove 호출!" + bno);
+
+		return mapper.delete(bno) == 1;
 	}
 
 }
