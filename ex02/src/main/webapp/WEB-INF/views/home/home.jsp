@@ -15,9 +15,7 @@
 
 </head>
 <body>
-
-<%@ include file="../include/header.jsp"%>
-
+	<%@ include file="../include/header.jsp"%>
 
 <div class="container mt-4" id="mainContent">
 	<div class="row">

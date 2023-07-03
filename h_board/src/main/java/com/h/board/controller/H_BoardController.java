@@ -31,17 +31,17 @@ public class H_BoardController {
 		model.addAttribute("list", service.getList());
 	}
 	
-	//게시글 조회
+	//게시글 조회, 수정
 	@GetMapping({"/get", "/modify"})
 	public void get(@RequestParam("bno") Long bno, Model model) {
-		log.info("get 호출!");
-		model.addAttribute("board", service.get(bno));
+		log.info("get & modify 호출!");
+		model.addAttribute("h_board", service.get(bno));
 	}
 	
 	//게시글 등록 폼
-	@GetMapping("/registerForm")
-	public void registerForm() {
-		log.info("registerForm 호출!");
+	@GetMapping("/register")
+	public void register() {
+		log.info("register 호출!");
 	}
 	
 	//게시글 등록 처리
@@ -58,7 +58,7 @@ public class H_BoardController {
 	//게시글 수정
 	@PostMapping("/modify")
 	public String moddify(H_BoardVO board, RedirectAttributes rttr) {
-		log.info("modify : " + board);
+		log.info("modify 호출! " + board);
 			if(service.modify(board)) {
 				rttr.addFlashAttribute("result", "success");
 			}
@@ -67,5 +67,13 @@ public class H_BoardController {
 	}
 	
 	//게시글 삭제
+	@PostMapping("/remove")
+	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
+		log.info("remove 호출!" + bno);
+			if(service.remove(bno)) {
+				rttr.addFlashAttribute("result", "success");
+			}
+			return "redirect:list";
+	}
 	
 }

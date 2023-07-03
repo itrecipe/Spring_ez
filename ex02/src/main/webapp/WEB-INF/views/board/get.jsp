@@ -116,9 +116,9 @@
 						<div class="col-md-12 clearfix">							
 					        	<i class="fas fa-reply fa-2x"></i> Reply
 					        	<sec:authorize access="isAuthenticated()">
-					        	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
-					        		New Reply
-					        	</button>
+						        	<button id='addReplyBtn' class='btn btn-outline-primary float-right'>
+						        		New Reply
+						        	</button>
 					        	</sec:authorize>			      
 					     </div>  
 					</div>
@@ -210,7 +210,6 @@
 			let replyUL = $(".chat");
 			
 			showList(1);
-			
 			
 			/*
 			function showList(page) {

@@ -5,23 +5,13 @@
 <!DOCTYPE html>
 <html lang="ko">
 
-    <body id="page-top">
-        <!-- Navigation-->
  	<%@include file="../include/header.jsp"%>
+    
+        <!-- Navigation-->
  
-        <!-- Masthead-->
-        <header class="masthead">
-            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
-                <div class="d-flex justify-content-center">
-                    <div class="text-center">
-                        <h1 class="mx-auto my-0 text-uppercase">H_BOARD PROJECT!</h1>
-                        <h2 class="text-white-50 mx-auto mt-2 mb-5">게시판 만들기</h2>
-                        <a class="btn btn-primary" href="#about">Get Started</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- About-->
+        <!-- Masthead -->
+		                
+        <!-- About -->
         <section class="about-section text-center" id="about">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -37,10 +27,12 @@
                 <img class="img-fluid" src="/resources/assets/img/ipad.png" alt="..." />
             </div>
         </section>
-        <!-- Projects-->
+        
+        <!-- Projects -->  
         <section class="projects-section bg-light" id="projects">
             <div class="container px-4 px-lg-5">
-                <!-- Featured Project Row-->
+		
+                <!-- Featured Project Row -->
                 <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                     <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="/resources/assets/img/bg-masthead.jpg" alt="..." /></div>
                     <div class="col-xl-4 col-lg-5">
@@ -50,7 +42,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Project One Row-->
+               
+                <!-- Project One Row --> 
                 <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
                     <div class="col-lg-6"><img class="img-fluid" src="/resources/assets/img/demo-image-01.jpg" alt="..." /></div>
                     <div class="col-lg-6">
@@ -64,7 +57,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Project Two Row-->
+                
+                <!-- Project Two Row -->
                 <div class="row gx-0 justify-content-center">
                     <div class="col-lg-6"><img class="img-fluid" src="/resources/assets/img/demo-image-02.jpg" alt="..." /></div>
                     <div class="col-lg-6 order-lg-first">
