@@ -77,10 +77,11 @@
 						</div>
 					</form>
 					
-					<!-- 
+					<!-- 시큐리티 처리 전 게시글 수정
 					<button type="button" data-oper='modify' class="btn btn-info">수정</button>
 					 -->
-					 
+					
+					 <!-- 시큐리티 처리 후 게시글 수정 -->
 					 <sec:authentication property="principal" var="pinfo"/>
 					 <sec:authorize access="isAuthenticated()">
 					 	<c:if test="${pinfo.username eq board.writer}">
@@ -89,10 +90,12 @@
 					 </sec:authorize>					 
 					&nbsp;&nbsp;
 					<button data-oper='list' class="btn btn-danger">게시판목록</button>
+					
 					<!-- 버튼 클릭을 처리하기 위한 form,안보이는 창 -->
 					<form id='operForm' action="modify" method="get">
 						<input type='hidden' id='bno' name='bno'
 							value='<c:out value="${board.bno}"/>'> 
+						
 						<!-- 페이지 정보를 추가 -->	
 						<input
 							type='hidden' name='pageNum'
@@ -100,6 +103,7 @@
 						<input
 							type='hidden' name='amount'
 							value='<c:out value="${cri.amount}"/>'>
+						
 						<!--  검색 적용 -->	
 						<input type='hidden' name='keyword' value='<c:out value="${cri.keyword}"/>'>
   						<input type='hidden' name='type' value='<c:out value="${cri.type}"/>'>	

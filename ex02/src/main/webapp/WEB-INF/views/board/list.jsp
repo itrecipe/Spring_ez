@@ -127,7 +127,7 @@
 					<!-- table responsive-md -->
 				</div>
 				<!-- submian -->
-				<!-- 페이지 표시하기 -->
+				<!-- 페이징 처리하기 -->
 				<ul class="pagination justify-content-center" style="margin: 20px 0">
 					<c:if test="${pageMaker.prev}">
 						<li class="page-item"><a class="page-link"
@@ -165,9 +165,7 @@
 	<%@include file="../include/messageModal.jsp"%>
 	<%@include file="../include/footer.jsp"%>
 	<script>
-		$(document)
-				.ready(
-						function() {
+		$(document).ready(function() {
 							let result = '<c:out value="${result}"></c:out>';
 							//result는  refirect:로 URL이동시 RedirectAttributes에 저장한 속성값
 							console.log("result : " + result);
@@ -176,10 +174,12 @@
 							history.replaceState({}, null, null);
 							//현재의 히스토리를 전부 비워 줍니다.
 
+							//게시글 등록 버튼 처리
 							$("#regBtn").on("click", function() {
 								self.location = "register";
 							});
 
+							//페이징 처리
 							let actionForm = $("#actionForm");
 							$(".page-item a").on(
 									"click",
@@ -195,22 +195,16 @@
 										actionForm.submit(); //submit(),reset()은 form의 이벤트
 							});
 						    
-							$(".move")
-									.on(
-											"click",
-											function(e) {
+							$(".move").on("click",function(e) {
 												e.preventDefault();
-												actionForm
-														.append("<input type='hidden' name='bno' value='"
-																+ $(this).attr(
-																		"href")
+												actionForm.append("<input type='hidden' name='bno' value='" + $(this).attr("href")
 																+ "'>");
 												//메서드에 의해서 구해지는 값이므로 +로 연결 해주어야 함	,뒤는 변수 선언시가 아니고 표시 이므로 보이는 대로 표시	
-												actionForm
-														.attr("action", "get");
+												actionForm.attr("action", "get");
 												actionForm.submit();
 							});
 
+							//모달 이벤트 처리
 							function checkModal(result) {
 								if (result == "") {
 									return;
@@ -228,12 +222,11 @@
 
 								$("#messageModal").modal("show");
 						}						
-						
+
+						//검색 처리
 						let searchForm = $("#searchForm");
 						
-						$("#searchForm #search").on(
-							"click",
-							function(e) {
+						$("#searchForm #search").on("click", function(e) {
 			
 								if (!searchForm.find("option:selected").val()) {
 									alert("검색종류를 선택하세요");

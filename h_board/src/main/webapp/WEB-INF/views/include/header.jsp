@@ -62,5 +62,12 @@
 <!-- Core theme JS-->
      <script src="/resources/js/scripts.js"></script>
      <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+<!-- JQuery import 
+Uncaught ReferenceError: $ is nUncaught ReferenceError: $ is not definedot defined
+게시글 등록 버튼 처리를 할때 제이쿼리를 로드할 수 없어서 위 에러가 났었다.
+아래 코드를 추가해서 import를 시켜준 후 해결 되었다.
+-->
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </body>
 </html>

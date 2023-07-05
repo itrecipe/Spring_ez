@@ -19,7 +19,7 @@
 	</selectKey>
  	
  	insert into h_board(bno, title, content, writer, phone)
- 	values(seq_h_board.nextval, #{title}, #{content}, #{writer}, #{phone})
+ 	values(#{bno}, #{title}, #{content}, #{writer}, #{phone})
  </insert>
  
  <select id="read" resultType="com.h.board.domain.H_BoardVO">
@@ -37,7 +37,7 @@
  </update>
  
  <delete id="delete">
- 	delete form h_board where bno = #{bno}
+ 	delete from h_board where bno = #{bno}
  </delete> 
  
  </mapper>

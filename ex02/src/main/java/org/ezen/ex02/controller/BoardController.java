@@ -39,7 +39,7 @@ public class BoardController {
 	// 서비스의 메서드를 사용하기 위해서 주입받기 위한 멤버변수
 	// 멤버변수가 하나인 생성자가 존재시 자동 주입되어 @Autowired생략(스프링 4.3부터)
 
-	/*
+	/* 게시글 리스트 보기(페이징 처리 전)
 	  @GetMapping("/list") 
 	  public void list(Model model) {
 	   	log.info("list");
@@ -48,6 +48,7 @@ public class BoardController {
 	  }
 	 */
 
+	//게시글 리스트 보기(페이징 처리 후)
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model) {
 		// cri를 자동 수집하므로 값이 없을시는 기본형 생성자가 설정하는 값으로 수집

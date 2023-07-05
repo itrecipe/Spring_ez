@@ -32,7 +32,7 @@
 			<h4 class="wordArtEffect text-success pl-4">메뉴</h4>
 			<nav class="navbar bg-dark navbar-dark container">
 				<!-- RWD의 화면 축소시 나타나는 메뉴 버튼(상병계급장) -->
-				<!-- d-md-none은 메뉴가 감추어지지 아노고 펼쳐지는 것 예방 -->
+				<!-- d-md-none은 메뉴가 감춰지지 않고 펼쳐지는 것을 예방 한다. -->
 				<button class="navbar-toggler d-md-none" type="button" data-toggle="collapse" 
 					data-target="#collapsibleVertical">
 					<span class="navbar-toggler-icon"></span>
@@ -88,7 +88,8 @@
 							<input type="file" class="form-control" id="upload" name="uploadFile" multiple /> <!-- submit버튼없이 change이벤트로 처리 -->
 						</div>
 					</div>	
-						
+					
+					<!-- 파일 업로드 결과창 -->	
 					<div class='uploadResult mt-3'>					
 						<div class='row' id='card'>
 						</div>  			
@@ -108,7 +109,7 @@
 <script>
 $(document).ready(function(){
 	
-	let formObj = $("form[role='form']");
+	let formObj = $("form[role='form']"); //게시글 등록 및 처리(해당 코드 1줄로 등록 처리 가능)
 	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 	let maxSize = 5242880; //5MB
 	

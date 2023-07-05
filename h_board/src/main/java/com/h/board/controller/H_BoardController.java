@@ -40,8 +40,8 @@ public class H_BoardController {
 	
 	//게시글 등록 폼
 	@GetMapping("/register")
-	public void register() {
-		log.info("register 호출!");
+	public void registerForm() {
+		log.info("registerForm 호출!");
 	}
 	
 	//게시글 등록 처리
@@ -57,7 +57,7 @@ public class H_BoardController {
 	
 	//게시글 수정
 	@PostMapping("/modify")
-	public String moddify(H_BoardVO board, RedirectAttributes rttr) {
+	public String modify(H_BoardVO board, RedirectAttributes rttr) {
 		log.info("modify 호출! " + board);
 			if(service.modify(board)) {
 				rttr.addFlashAttribute("result", "success");
