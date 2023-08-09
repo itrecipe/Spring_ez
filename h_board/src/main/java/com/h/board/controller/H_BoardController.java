@@ -51,7 +51,6 @@ public class H_BoardController {
 
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getBno());
-		
 		return "redirect:list";
 	}
 	
@@ -62,7 +61,6 @@ public class H_BoardController {
 			if(service.modify(board)) {
 				rttr.addFlashAttribute("result", "success");
 			}
-			
 			return "redirect:list";
 	}
 	
@@ -75,5 +73,4 @@ public class H_BoardController {
 			}
 			return "redirect:list";
 	}
-	
 }

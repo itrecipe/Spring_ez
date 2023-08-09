@@ -117,6 +117,7 @@ public class ReplyController {
 
 	}
 	 */
+	
 	@PreAuthorize("principal.username == #vo.replyer")
 	@RequestMapping(method = { RequestMethod.PUT,RequestMethod.PATCH }, value = "/{rno}", 
 			consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE })
