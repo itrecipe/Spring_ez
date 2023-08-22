@@ -28,7 +28,7 @@
 	
 	<!-- CDATA는 sql문안에서 키워드나 부호 등을 사용 할수 있도록 해주는것, id속성은 BoardMapper인터페이스의 추상메서드 이름 -->
 	<select id="getList" resultType="org.ezen.ex02.domain.BoardVO">
-	<![CDATA[select * from tbl_board where bno > 0 ORDER BY BNO DESC]]>
+		<![CDATA[select * from tbl_board where bno > 0 ORDER BY BNO DESC]]>
 	</select>
 	
 	<!-- page 처리가 포함된 sql -->

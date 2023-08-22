@@ -39,6 +39,7 @@ public class BoardServiceImpl implements BoardService {
 		mapper.insertSelectKey(board);
 	}
 	*/
+	
 	@Transactional
 	@Override
 	public void register(BoardVO board) {
@@ -127,6 +128,7 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.getList();
 	}
 	*/
+	
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
 

@@ -111,7 +111,7 @@ public class BoardController {
 	/*
 	 * 페이지를 고려 하지 않은 get
 	 * 
-	 * @GetMapping({"/get","/modify"}) //요청의 파라메터도 동일하고 Model에 실어주는 데이터도 동일시는 배열 형태로
+	 * @GetMapping({"/get","/modify"}) //요청의 파라메터도 동일하고 Model에 실어주는 데이터도 동일시는 배열 형태로 작성
 	 * Mapping public void get(@RequestParam("bno") Long bno, Model model) {
 	 * log.info("get"); model.addAttribute("board", service.get(bno)); }
 	 */
