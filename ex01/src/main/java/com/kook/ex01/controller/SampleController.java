@@ -1,9 +1,7 @@
 package com.kook.ex01.controller;
 
-
 import java.util.ArrayList;
-
-import org.apache.catalina.tribes.util.Arrays;
+import java.util.Arrays;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
